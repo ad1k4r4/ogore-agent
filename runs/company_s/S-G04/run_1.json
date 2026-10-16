@@ -1,0 +1,589 @@
+{
+ "pipeline_version": "1.0.0",
+ "settings": {
+  "model": "claude-opus-5",
+  "effort": "high",
+  "max_tokens": 32000,
+  "embed_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "embed_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "top_k": 4
+ },
+ "kb_sha256": "f1fac045967a3996a6198e0a43fd5a0fc73237a243d0952fad861289bad5d423",
+ "query": {
+  "query_id": "S-G04",
+  "goal": {
+   "id": "G04",
+   "text": "Cold-chain products kept within their temperature range"
+  },
+  "parent": {
+   "id": "G01",
+   "text": "Regulated order-to-delivery controlled and secure"
+  },
+  "domain": "pharmaceutical distribution to hospitals",
+  "organization_type": "medium-sized distributor with an order portal and an LLM-based ordering assistant",
+  "kpis": [
+   {
+    "id": "G04-K1",
+    "text": "Cold-chain shipments with a continuous temperature log (100%)"
+   },
+   {
+    "id": "G04-K2",
+    "text": "Temperature excursion alerts acknowledged (within 30 minutes)"
+   },
+   {
+    "id": "G04-K3",
+    "text": "Goods with an excursion released without a quality decision (0)"
+   }
+  ],
+  "actors_in_scope": [
+   "Hospital Buyer",
+   "Sales Administrator",
+   "Responsible Pharmacist",
+   "Quality Assurance Officer",
+   "IT Security Officer",
+   "Data Protection Officer",
+   "AI Product Owner"
+  ],
+  "beliefs": [
+   "Vaccines and insulin need 2 to 8 degrees Celsius"
+  ],
+  "constraints": [
+   "Only the Quality Assurance Officer may release goods after an excursion"
+  ]
+ },
+ "retrieved": [
+  {
+   "chunk_id": "SKB-02/G2",
+   "score": 0.6971
+  },
+  {
+   "chunk_id": "SKB-07/G2",
+   "score": 0.4181
+  },
+  {
+   "chunk_id": "SKB-01/G2",
+   "score": 0.3658
+  },
+  {
+   "chunk_id": "SKB-06/G1",
+   "score": 0.3481
+  }
+ ],
+ "recording": "a079ffe061b11d24e9f2",
+ "response_id": "msg_011Cg657cHn1Q1Hw91fygP2V",
+ "model_served": "claude-opus-5",
+ "usage": {
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "inference_geo": "global",
+  "input_tokens": 2661,
+  "output_tokens": 5607,
+  "output_tokens_details": {
+   "thinking_tokens": 933
+  },
+  "service_tier": "standard",
+  "speed": "standard"
+ },
+ "output": {
+  "ranked_patterns": [
+   {
+    "pattern_id": "SKB-02/G2",
+    "relevance": "Highest relevance (0.6971): it is the same problem class - detecting and handling temperature excursions in a temperature-controlled supply chain. Its KPI pair (continuous temperature log 100%; excursion alerts acknowledged within 30 minutes) matches G04-K1 and G04-K2 almost literally, its tasks (stream logger readings, alert on excursion, quarantine pending release decision), resources (data loggers, monitoring dashboard) and its constraint 'goods with an unresolved excursion cannot be released' map directly onto G04-K3 and the query constraint that only the Quality Assurance Officer may release. Its conflict resolution (automatic release for minor excursions) must be tightened for the pharmaceutical query, where the constraint admits no automatic release."
+   },
+   {
+    "pattern_id": "SKB-07/G2",
+    "relevance": "Second (0.4181): same regulated pharmaceutical setting (hospital pharmacy, medicine handling). It contributes batch/expiry capture at receipt - the data backbone that lets a cold-chain excursion be traced to specific batches - the regulatory belief that batch records are mandatory, the pharmacy stock module as a resource, and the quarantine-release control vested in a pharmacist role, which is adapted here to the Responsible Pharmacist and the Quality Assurance Officer."
+   },
+   {
+    "pattern_id": "SKB-01/G2",
+    "relevance": "Third (0.3658): same organization type (medium-sized distributor, order-to-cash) and provides the order/confirmation layer that G04 must plug into - the order management module (here the order portal), the Sales Administrator and Customer (here Hospital Buyer) actors, and the 'confirmed order cannot be edited without a change request' style of locking a transaction, adapted into blocking dispatch of an excursion-affected shipment."
+   },
+   {
+    "pattern_id": "SKB-06/G1",
+    "relevance": "Fourth (0.3481): lowest relevance because it addresses stock accuracy rather than temperature, but it supplies two reusable mechanisms: post every movement on scan (adapted to scanning cold-chain handovers so the log is continuous) and the rule that adjustments need a named controller's approval, which reinforces the approval-gated release required by G04-K3."
+   }
+  ],
+  "elements": [
+   {
+    "element_type": "Task",
+    "text": "Stream readings from the shipment's temperature data logger to the cold-chain monitoring service continuously from pick-up to hospital hand-over",
+    "linked_to": "G04-K1",
+    "source_pattern_id": "SKB-02/G2",
+    "justification": "Direct reuse of 'Stream logger readings to the monitoring service'; it is the mechanism that produces the continuous log demanded by G04-K1 for 100% of cold-chain shipments."
+   },
+   {
+    "element_type": "Task",
+    "text": "Scan each cold-chain handover (loading, transfer, hospital receipt) so the temperature log has no unmonitored gap",
+    "linked_to": "G04-K1",
+    "source_pattern_id": "SKB-06/G1",
+    "justification": "Adapts 'Post every goods movement on scan' from stock movements to custody handovers, closing the gaps that would make a log discontinuous and break G04-K1."
+   },
+   {
+    "element_type": "Task",
+    "text": "Record batch, expiry and cold-chain storage class (2 to 8 degrees Celsius) for every pharmaceutical item at receipt",
+    "linked_to": "G04-K1",
+    "source_pattern_id": "SKB-07/G2",
+    "justification": "Adapts 'Record batch and expiry at receipt'; without the batch and storage-class reference the monitoring service cannot know which shipments require a log nor which batches an excursion affects."
+   },
+   {
+    "element_type": "Task",
+    "text": "Raise an excursion alert to the Responsible Pharmacist and the Quality Assurance Officer when a reading leaves the 2 to 8 degrees Celsius range",
+    "linked_to": "G04-K2",
+    "source_pattern_id": "SKB-02/G2",
+    "justification": "Adapts 'Alert the duty supervisor on an excursion' to the query's actor set and to the belief that vaccines and insulin need 2 to 8 degrees Celsius."
+   },
+   {
+    "element_type": "Task",
+    "text": "Require explicit acknowledgement of each excursion alert and escalate to the Quality Assurance Officer's deputy if it is not acknowledged within the agreed response time",
+    "linked_to": "G04-K2",
+    "source_pattern_id": "SKB-02/G2",
+    "justification": "Operationalises the pattern KPI 'excursion alerts acknowledged' into an escalation mechanism so that G04-K2's 30-minute acknowledgement target is actively enforced rather than only measured."
+   },
+   {
+    "element_type": "Task",
+    "text": "Quarantine the affected batches automatically on excursion and keep them blocked until a quality decision is recorded",
+    "linked_to": "G04-K3",
+    "source_pattern_id": "SKB-02/G2",
+    "justification": "Direct reuse of 'Quarantine affected goods pending a release decision'; it is the control that makes zero unreviewed releases (G04-K3) achievable by default rather than by discipline."
+   },
+   {
+    "element_type": "Task",
+    "text": "Block dispatch and delivery-note printing in the order portal for any order line linked to a quarantined batch",
+    "linked_to": "G04-K3",
+    "source_pattern_id": "SKB-01/G2",
+    "justification": "Adapts the order-locking logic of 'a confirmed order cannot be edited without a change request' to the dispatch step, so the order-to-cash flow cannot bypass the quality hold required by the query constraint."
+   },
+   {
+    "element_type": "Task",
+    "text": "Record the Quality Assurance Officer's release or rejection decision with identity, timestamp, temperature evidence and reason in an audit trail",
+    "linked_to": "G04-K3",
+    "source_pattern_id": "SKB-06/G1",
+    "justification": "Adapts the named-approver rule for stock adjustments into a traceable approval record, giving the evidence needed to prove that G04-K3 equals zero."
+   },
+   {
+    "element_type": "Task",
+    "text": "Make the LLM-based ordering assistant display the cold-chain storage class and current quarantine status of an item, and forbid it from confirming availability or release for quarantined batches",
+    "linked_to": "G04-K3",
+    "source_pattern_id": "UNGROUNDED",
+    "justification": "No retrieved pattern covers an AI ordering assistant; the task is added so the assistant cannot become a path around the Quality Assurance Officer's exclusive release authority."
+   },
+   {
+    "element_type": "Task",
+    "text": "Report to the Hospital Buyer any shipment delayed or rejected because of an excursion, with the replacement plan",
+    "linked_to": "G04",
+    "source_pattern_id": "SKB-01/G2",
+    "justification": "Adapts 'Confirm order to customer' to excursion handling so that quality holds remain visible in the customer relationship instead of appearing as silent late deliveries."
+   },
+   {
+    "element_type": "Resource",
+    "text": "Temperature data loggers in every cold-chain shipper and in the cold rooms",
+    "linked_to": "G04-K1",
+    "source_pattern_id": "SKB-02/G2",
+    "justification": "Direct reuse of the pattern resource 'Temperature data loggers'; it is the source of the continuous log measured by G04-K1."
+   },
+   {
+    "element_type": "Resource",
+    "text": "Cold-chain monitoring dashboard with excursion alert and acknowledgement queue",
+    "linked_to": "G04-K2",
+    "source_pattern_id": "SKB-02/G2",
+    "justification": "Direct reuse of 'Monitoring dashboard', extended with the acknowledgement queue that makes the 30-minute target of G04-K2 observable."
+   },
+   {
+    "element_type": "Resource",
+    "text": "Stock and batch module holding batch, expiry, storage class and quarantine status",
+    "linked_to": "G04-K3",
+    "source_pattern_id": "SKB-07/G2",
+    "justification": "Adapts the 'Pharmacy stock module' to the distributor; it is the system of record where the quarantine flag blocks release and where the zero-unreviewed-release KPI is evaluated."
+   },
+   {
+    "element_type": "Resource",
+    "text": "Order portal and its dispatch interface, including the LLM ordering assistant channel",
+    "linked_to": "G04-K3",
+    "source_pattern_id": "SKB-01/G2",
+    "justification": "Adapts the 'Order management module'; it is the component that must honour the quarantine block for both human and assistant-initiated orders."
+   },
+   {
+    "element_type": "Actor",
+    "text": "Quality Assurance Officer",
+    "linked_to": "G04-K3",
+    "source_pattern_id": "SKB-02/G2",
+    "justification": "Adapts the pattern's Quality Manager, who owns the release decision; the query constraint names the Quality Assurance Officer as the only role allowed to release goods after an excursion."
+   },
+   {
+    "element_type": "Actor",
+    "text": "Responsible Pharmacist",
+    "linked_to": "G04-K2",
+    "source_pattern_id": "SKB-07/G2",
+    "justification": "Adapts the 'Pharmacist in Charge' as the first responder who acknowledges the alert and assesses product impact, supporting G04-K2 without taking over the release authority."
+   },
+   {
+    "element_type": "Actor",
+    "text": "Sales Administrator",
+    "linked_to": "G04",
+    "source_pattern_id": "SKB-01/G2",
+    "justification": "Reused from the order-to-cash pattern as the role that reschedules or substitutes held order lines and informs the customer once a shipment is quarantined."
+   },
+   {
+    "element_type": "Actor",
+    "text": "Hospital Buyer",
+    "linked_to": "G04",
+    "source_pattern_id": "SKB-01/G2",
+    "justification": "Adapts the pattern actor 'Customer'; the buyer receives the cold-chain status and the excursion notification and must not receive goods that lack a quality decision."
+   },
+   {
+    "element_type": "Actor",
+    "text": "AI Product Owner",
+    "linked_to": "G04-K3",
+    "source_pattern_id": "UNGROUNDED",
+    "justification": "Not present in any retrieved pattern; accountable for ensuring the ordering assistant's answers and guardrails reflect quarantine status and never imply release."
+   },
+   {
+    "element_type": "Belief",
+    "text": "Vaccines and insulin must be kept between 2 and 8 degrees Celsius",
+    "linked_to": "G04",
+    "source_pattern_id": "UNGROUNDED",
+    "justification": "Taken from the query beliefs rather than from a pattern; it defines the specified range against which excursions are computed for all elements of G04."
+   },
+   {
+    "element_type": "Belief",
+    "text": "Loggers record at a fixed short interval (every five minutes), so a missing interval counts as a gap in the log",
+    "linked_to": "G04-K1",
+    "source_pattern_id": "SKB-02/G2",
+    "justification": "Direct reuse of the pattern belief 'Loggers record every five minutes'; it gives an operational definition of 'continuous' for G04-K1."
+   },
+   {
+    "element_type": "Belief",
+    "text": "Regulation requires a batch record for every medicine, so temperature evidence must be retained per batch",
+    "linked_to": "G04-K3",
+    "source_pattern_id": "SKB-07/G2",
+    "justification": "Adapts the regulatory belief of the pharmacy pattern; it justifies retaining excursion and decision records as regulated evidence under the parent goal G01."
+   },
+   {
+    "element_type": "Constraint",
+    "text": "Only the Quality Assurance Officer may release goods after a temperature excursion",
+    "linked_to": "G04-K3",
+    "source_pattern_id": "SKB-02/G2",
+    "justification": "Adapts the pattern's quality-release control to the query constraint; the SKB-02 tolerance for automatic release of minor excursions is deliberately removed because the query admits no exception."
+   },
+   {
+    "element_type": "Constraint",
+    "text": "Goods with an unresolved excursion cannot be picked, dispatched or invoiced",
+    "linked_to": "G04-K3",
+    "source_pattern_id": "SKB-02/G2",
+    "justification": "Direct reuse of 'Goods with an unresolved excursion cannot be released', extended to the downstream order steps so the zero target of G04-K3 cannot be breached through the portal."
+   },
+   {
+    "element_type": "Constraint",
+    "text": "A cold-chain shipment may not leave the warehouse without an active logger paired to its shipment record",
+    "linked_to": "G04-K1",
+    "source_pattern_id": "SKB-06/G1",
+    "justification": "Adapts the 'post every movement on scan' discipline into a dispatch precondition, making the 100% log coverage of G04-K1 structurally enforced."
+   },
+   {
+    "element_type": "Constraint",
+    "text": "The LLM ordering assistant may inform about cold-chain status but may never acknowledge an alert or authorise a release",
+    "linked_to": "G04-K2",
+    "source_pattern_id": "UNGROUNDED",
+    "justification": "No pattern addresses AI-mediated ordering; the constraint preserves human accountability for acknowledgement (G04-K2) and release, consistent with the query constraint."
+   }
+  ],
+  "rational_statement": "G04 serves the parent goal G01 'Regulated order-to-delivery controlled and secure' by making the physical integrity of regulated medicines an auditable part of the order-to-delivery chain: continuous logging and handover scanning on paired loggers produce the evidence demanded by G04-K1; alerting the Responsible Pharmacist and Quality Assurance Officer with an escalating acknowledgement queue turns that evidence into a timely human response measured by G04-K2; and automatic quarantine, dispatch blocking in the order portal and an auditable decision record keep the exclusive release authority of the Quality Assurance Officer intact, which is exactly what keeps G04-K3 at zero. Because the ordering assistant and the portal are explicitly barred from acknowledging alerts or releasing quarantined batches, the control cannot be bypassed by the automated channel, so a shipment reaches a Hospital Buyer only when its 2 to 8 degrees Celsius history is complete or a documented quality decision exists - delivering the 'controlled and secure' property the parent goal requires."
+ },
+ "validation": [
+  {
+   "n": 1,
+   "element_type": "Task",
+   "text": "Stream readings from the shipment's temperature data logger to the cold-chain monitoring service continuously from pick-up to hospital hand-over",
+   "linked_to": "G04-K1",
+   "source_pattern_id": "SKB-02/G2",
+   "justification": "Direct reuse of 'Stream logger readings to the monitoring service'; it is the mechanism that produces the continuous log demanded by G04-K1 for 100% of cold-chain shipments.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 2,
+   "element_type": "Task",
+   "text": "Scan each cold-chain handover (loading, transfer, hospital receipt) so the temperature log has no unmonitored gap",
+   "linked_to": "G04-K1",
+   "source_pattern_id": "SKB-06/G1",
+   "justification": "Adapts 'Post every goods movement on scan' from stock movements to custody handovers, closing the gaps that would make a log discontinuous and break G04-K1.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 3,
+   "element_type": "Task",
+   "text": "Record batch, expiry and cold-chain storage class (2 to 8 degrees Celsius) for every pharmaceutical item at receipt",
+   "linked_to": "G04-K1",
+   "source_pattern_id": "SKB-07/G2",
+   "justification": "Adapts 'Record batch and expiry at receipt'; without the batch and storage-class reference the monitoring service cannot know which shipments require a log nor which batches an excursion affects.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 4,
+   "element_type": "Task",
+   "text": "Raise an excursion alert to the Responsible Pharmacist and the Quality Assurance Officer when a reading leaves the 2 to 8 degrees Celsius range",
+   "linked_to": "G04-K2",
+   "source_pattern_id": "SKB-02/G2",
+   "justification": "Adapts 'Alert the duty supervisor on an excursion' to the query's actor set and to the belief that vaccines and insulin need 2 to 8 degrees Celsius.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 5,
+   "element_type": "Task",
+   "text": "Require explicit acknowledgement of each excursion alert and escalate to the Quality Assurance Officer's deputy if it is not acknowledged within the agreed response time",
+   "linked_to": "G04-K2",
+   "source_pattern_id": "SKB-02/G2",
+   "justification": "Operationalises the pattern KPI 'excursion alerts acknowledged' into an escalation mechanism so that G04-K2's 30-minute acknowledgement target is actively enforced rather than only measured.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 6,
+   "element_type": "Task",
+   "text": "Quarantine the affected batches automatically on excursion and keep them blocked until a quality decision is recorded",
+   "linked_to": "G04-K3",
+   "source_pattern_id": "SKB-02/G2",
+   "justification": "Direct reuse of 'Quarantine affected goods pending a release decision'; it is the control that makes zero unreviewed releases (G04-K3) achievable by default rather than by discipline.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 7,
+   "element_type": "Task",
+   "text": "Block dispatch and delivery-note printing in the order portal for any order line linked to a quarantined batch",
+   "linked_to": "G04-K3",
+   "source_pattern_id": "SKB-01/G2",
+   "justification": "Adapts the order-locking logic of 'a confirmed order cannot be edited without a change request' to the dispatch step, so the order-to-cash flow cannot bypass the quality hold required by the query constraint.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 8,
+   "element_type": "Task",
+   "text": "Record the Quality Assurance Officer's release or rejection decision with identity, timestamp, temperature evidence and reason in an audit trail",
+   "linked_to": "G04-K3",
+   "source_pattern_id": "SKB-06/G1",
+   "justification": "Adapts the named-approver rule for stock adjustments into a traceable approval record, giving the evidence needed to prove that G04-K3 equals zero.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 9,
+   "element_type": "Task",
+   "text": "Make the LLM-based ordering assistant display the cold-chain storage class and current quarantine status of an item, and forbid it from confirming availability or release for quarantined batches",
+   "linked_to": "G04-K3",
+   "source_pattern_id": "UNGROUNDED",
+   "justification": "No retrieved pattern covers an AI ordering assistant; the task is added so the assistant cannot become a path around the Quality Assurance Officer's exclusive release authority.",
+   "status": "flagged",
+   "issues": "",
+   "flags": "UNGROUNDED"
+  },
+  {
+   "n": 10,
+   "element_type": "Task",
+   "text": "Report to the Hospital Buyer any shipment delayed or rejected because of an excursion, with the replacement plan",
+   "linked_to": "G04",
+   "source_pattern_id": "SKB-01/G2",
+   "justification": "Adapts 'Confirm order to customer' to excursion handling so that quality holds remain visible in the customer relationship instead of appearing as silent late deliveries.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 11,
+   "element_type": "Resource",
+   "text": "Temperature data loggers in every cold-chain shipper and in the cold rooms",
+   "linked_to": "G04-K1",
+   "source_pattern_id": "SKB-02/G2",
+   "justification": "Direct reuse of the pattern resource 'Temperature data loggers'; it is the source of the continuous log measured by G04-K1.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 12,
+   "element_type": "Resource",
+   "text": "Cold-chain monitoring dashboard with excursion alert and acknowledgement queue",
+   "linked_to": "G04-K2",
+   "source_pattern_id": "SKB-02/G2",
+   "justification": "Direct reuse of 'Monitoring dashboard', extended with the acknowledgement queue that makes the 30-minute target of G04-K2 observable.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 13,
+   "element_type": "Resource",
+   "text": "Stock and batch module holding batch, expiry, storage class and quarantine status",
+   "linked_to": "G04-K3",
+   "source_pattern_id": "SKB-07/G2",
+   "justification": "Adapts the 'Pharmacy stock module' to the distributor; it is the system of record where the quarantine flag blocks release and where the zero-unreviewed-release KPI is evaluated.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 14,
+   "element_type": "Resource",
+   "text": "Order portal and its dispatch interface, including the LLM ordering assistant channel",
+   "linked_to": "G04-K3",
+   "source_pattern_id": "SKB-01/G2",
+   "justification": "Adapts the 'Order management module'; it is the component that must honour the quarantine block for both human and assistant-initiated orders.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 15,
+   "element_type": "Actor",
+   "text": "Quality Assurance Officer",
+   "linked_to": "G04-K3",
+   "source_pattern_id": "SKB-02/G2",
+   "justification": "Adapts the pattern's Quality Manager, who owns the release decision; the query constraint names the Quality Assurance Officer as the only role allowed to release goods after an excursion.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 16,
+   "element_type": "Actor",
+   "text": "Responsible Pharmacist",
+   "linked_to": "G04-K2",
+   "source_pattern_id": "SKB-07/G2",
+   "justification": "Adapts the 'Pharmacist in Charge' as the first responder who acknowledges the alert and assesses product impact, supporting G04-K2 without taking over the release authority.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 17,
+   "element_type": "Actor",
+   "text": "Sales Administrator",
+   "linked_to": "G04",
+   "source_pattern_id": "SKB-01/G2",
+   "justification": "Reused from the order-to-cash pattern as the role that reschedules or substitutes held order lines and informs the customer once a shipment is quarantined.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 18,
+   "element_type": "Actor",
+   "text": "Hospital Buyer",
+   "linked_to": "G04",
+   "source_pattern_id": "SKB-01/G2",
+   "justification": "Adapts the pattern actor 'Customer'; the buyer receives the cold-chain status and the excursion notification and must not receive goods that lack a quality decision.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 19,
+   "element_type": "Actor",
+   "text": "AI Product Owner",
+   "linked_to": "G04-K3",
+   "source_pattern_id": "UNGROUNDED",
+   "justification": "Not present in any retrieved pattern; accountable for ensuring the ordering assistant's answers and guardrails reflect quarantine status and never imply release.",
+   "status": "flagged",
+   "issues": "",
+   "flags": "UNGROUNDED"
+  },
+  {
+   "n": 20,
+   "element_type": "Belief",
+   "text": "Vaccines and insulin must be kept between 2 and 8 degrees Celsius",
+   "linked_to": "G04",
+   "source_pattern_id": "UNGROUNDED",
+   "justification": "Taken from the query beliefs rather than from a pattern; it defines the specified range against which excursions are computed for all elements of G04.",
+   "status": "flagged",
+   "issues": "",
+   "flags": "UNGROUNDED"
+  },
+  {
+   "n": 21,
+   "element_type": "Belief",
+   "text": "Loggers record at a fixed short interval (every five minutes), so a missing interval counts as a gap in the log",
+   "linked_to": "G04-K1",
+   "source_pattern_id": "SKB-02/G2",
+   "justification": "Direct reuse of the pattern belief 'Loggers record every five minutes'; it gives an operational definition of 'continuous' for G04-K1.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 22,
+   "element_type": "Belief",
+   "text": "Regulation requires a batch record for every medicine, so temperature evidence must be retained per batch",
+   "linked_to": "G04-K3",
+   "source_pattern_id": "SKB-07/G2",
+   "justification": "Adapts the regulatory belief of the pharmacy pattern; it justifies retaining excursion and decision records as regulated evidence under the parent goal G01.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 23,
+   "element_type": "Constraint",
+   "text": "Only the Quality Assurance Officer may release goods after a temperature excursion",
+   "linked_to": "G04-K3",
+   "source_pattern_id": "SKB-02/G2",
+   "justification": "Adapts the pattern's quality-release control to the query constraint; the SKB-02 tolerance for automatic release of minor excursions is deliberately removed because the query admits no exception.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 24,
+   "element_type": "Constraint",
+   "text": "Goods with an unresolved excursion cannot be picked, dispatched or invoiced",
+   "linked_to": "G04-K3",
+   "source_pattern_id": "SKB-02/G2",
+   "justification": "Direct reuse of 'Goods with an unresolved excursion cannot be released', extended to the downstream order steps so the zero target of G04-K3 cannot be breached through the portal.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 25,
+   "element_type": "Constraint",
+   "text": "A cold-chain shipment may not leave the warehouse without an active logger paired to its shipment record",
+   "linked_to": "G04-K1",
+   "source_pattern_id": "SKB-06/G1",
+   "justification": "Adapts the 'post every movement on scan' discipline into a dispatch precondition, making the 100% log coverage of G04-K1 structurally enforced.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 26,
+   "element_type": "Constraint",
+   "text": "The LLM ordering assistant may inform about cold-chain status but may never acknowledge an alert or authorise a release",
+   "linked_to": "G04-K2",
+   "source_pattern_id": "UNGROUNDED",
+   "justification": "No pattern addresses AI-mediated ordering; the constraint preserves human accountability for acknowledgement (G04-K2) and release, consistent with the query constraint.",
+   "status": "flagged",
+   "issues": "",
+   "flags": "UNGROUNDED"
+  }
+ ],
+ "summary": {
+  "passed": 22,
+  "flagged": 4,
+  "rejected": 0
+ }
+}

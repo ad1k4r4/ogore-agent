@@ -1,0 +1,57 @@
+{
+ "pattern_id": "SKB-09",
+ "organization_type": "cloud software provider (synthetic)",
+ "business_domain": "cloud service security; threat assessment and incident response",
+ "organization_goal": "operate a trustworthy cloud service",
+ "it_goals": [
+  {
+   "goal_id": "G1",
+   "text": "Cloud threats assessed and mitigated",
+   "parent_id": null,
+   "decomposition": "AND",
+   "kpis": [
+    {
+     "id": "G1-K1",
+     "text": "Services with a threat model reviewed in the last 12 months",
+     "target": "100%"
+    },
+    {
+     "id": "G1-K2",
+     "text": "Critical vulnerabilities remediated",
+     "target": "within 7 days"
+    }
+   ],
+   "tasks": [
+    "Maintain a threat model per service",
+    "Scan dependencies and infrastructure for vulnerabilities",
+    "Run incident response exercises"
+   ],
+   "resources": [
+    "Threat model repository",
+    "Vulnerability scanner"
+   ],
+   "actors": [
+    "Security Architect",
+    "Service Owner"
+   ],
+   "beliefs": [
+    "Shared responsibility: the provider secures the platform, the customer its configuration"
+   ],
+   "constraints": [
+    "Customer data stays in the contracted region"
+   ]
+  }
+ ],
+ "contribution_values": [],
+ "rational_statements": [
+  {
+   "goal_id": "G1",
+   "text": "A reviewed threat model per service is the input that makes remediation priorities defensible."
+  }
+ ],
+ "conflicts_and_resolutions": [],
+ "validation": {
+  "validated_by": "synthetic (authors)",
+  "date": "2026-10-16"
+ }
+}

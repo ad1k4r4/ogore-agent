@@ -1,0 +1,603 @@
+{
+ "pipeline_version": "1.0.0",
+ "settings": {
+  "model": "claude-opus-5",
+  "effort": "high",
+  "max_tokens": 32000,
+  "embed_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "embed_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "top_k": 4
+ },
+ "kb_sha256": "f1fac045967a3996a6198e0a43fd5a0fc73237a243d0952fad861289bad5d423",
+ "query": {
+  "query_id": "S-G03",
+  "goal": {
+   "id": "G03",
+   "text": "Batch and expiry traceable to each hospital"
+  },
+  "parent": {
+   "id": "G01",
+   "text": "Regulated order-to-delivery controlled and secure"
+  },
+  "domain": "pharmaceutical distribution to hospitals",
+  "organization_type": "medium-sized distributor with an order portal and an LLM-based ordering assistant",
+  "kpis": [
+   {
+    "id": "G03-K1",
+    "text": "Shipped lines with batch number and expiry date recorded (100%)"
+   },
+   {
+    "id": "G03-K2",
+    "text": "Time to list every hospital that received a recalled batch (under 2 hours)"
+   }
+  ],
+  "actors_in_scope": [
+   "Hospital Buyer",
+   "Sales Administrator",
+   "Responsible Pharmacist",
+   "Quality Assurance Officer",
+   "IT Security Officer",
+   "Data Protection Officer",
+   "AI Product Owner"
+  ],
+  "beliefs": [
+   "Good distribution practice requires batch records for every medicine"
+  ],
+  "constraints": [
+   "A line without batch and expiry cannot be shipped"
+  ]
+ },
+ "retrieved": [
+  {
+   "chunk_id": "SKB-07/G2",
+   "score": 0.7171
+  },
+  {
+   "chunk_id": "SKB-01/G2",
+   "score": 0.5187
+  },
+  {
+   "chunk_id": "SKB-01/G3",
+   "score": 0.4972
+  },
+  {
+   "chunk_id": "SKB-02/G2",
+   "score": 0.47
+  }
+ ],
+ "recording": "ffab4085d3fbbd76830b",
+ "response_id": "msg_011Cg651rX7qv7rdWCaT3nHE",
+ "model_served": "claude-opus-5",
+ "usage": {
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "inference_geo": "global",
+  "input_tokens": 2821,
+  "output_tokens": 6404,
+  "output_tokens_details": {
+   "thinking_tokens": 1598
+  },
+  "service_tier": "standard",
+  "speed": "standard"
+ },
+ "output": {
+  "ranked_patterns": [
+   {
+    "pattern_id": "SKB-01/G3",
+    "relevance": "Most relevant structurally: its IT goal 'Lot numbers traceable from receipt to customer' mirrors G03 almost one-to-one, and both of its KPIs map directly onto the query KPIs (shipped lines with lot number 100% -> G03-K1; time to list customers of a recalled lot -> G03-K2, tightened from 4h to 2h). Its tasks (scan at receipt, record on each picked line, recall trace report), its constraint 'a line without a lot number cannot be shipped' and its Quality Officer actor transfer to pharmaceutical distribution with batch+expiry replacing lot."
+   },
+   {
+    "pattern_id": "SKB-07/G2",
+    "relevance": "Highest textual similarity and the only pattern from a regulated medicine domain: it supplies the expiry dimension that SKB-01/G3 lacks (record batch and expiry at receipt, FEFO picking, expiry horizon reporting), the belief 'Regulation requires batch records for every medicine' which matches the query belief on good distribution practice, and the constraint that only a pharmacist may release quarantined medicines, adapted here to the Responsible Pharmacist."
+   },
+   {
+    "pattern_id": "SKB-01/G2",
+    "relevance": "Relevant as the sibling order-entry goal from the same order-to-cash pattern: it contributes the Sales Administrator and Customer actors (adapted to Hospital Buyer), the order management module as the system of record where batch allocation is attached, the constraint on changing confirmed orders, and above all the recorded conflict resolution (confirm at entry, scan lots at picking) that keeps batch/expiry capture from degrading order confirmation time under the parent goal."
+   },
+   {
+    "pattern_id": "SKB-02/G2",
+    "relevance": "Least directly aligned (it targets temperature excursions, not identification data), but it is the only pattern that models the handling branch after a problem is detected: quarantine pending a release decision, a named quality role owning that decision, and a constraint forbidding release while unresolved. These are reused to make a recall triggered by G03-K2 end in a controlled block-and-release outcome rather than only a list of hospitals."
+   }
+  ],
+  "elements": [
+   {
+    "element_type": "Task",
+    "text": "Scan batch number and expiry date at goods receipt and bind them to the received stock record",
+    "linked_to": "G03-K1",
+    "source_pattern_id": "SKB-01/G3 + SKB-07/G2",
+    "justification": "Combines 'Scan lot number at goods receipt' (SKB-01/G3) with 'Record batch and expiry at receipt' (SKB-07/G2); capturing both identifiers at the earliest point is the precondition for 100% recorded shipped lines and respects the belief that every medicine needs a batch record."
+   },
+   {
+    "element_type": "Task",
+    "text": "Record batch number and expiry date on every picked line before shipment confirmation",
+    "linked_to": "G03-K1",
+    "source_pattern_id": "SKB-01/G3",
+    "justification": "Direct adaptation of 'Record lot number on each picked line'; extended with expiry because the query KPI G03-K1 requires both attributes on 100% of shipped lines."
+   },
+   {
+    "element_type": "Task",
+    "text": "Block dispatch of any order line whose batch number or expiry date is missing or does not match the stock record",
+    "linked_to": "G03-K1",
+    "source_pattern_id": "SKB-01/G3",
+    "justification": "Operationalises the pattern constraint 'a line without a lot number cannot be shipped' and the query constraint, turning it into an enforceable system check that protects the 100% target."
+   },
+   {
+    "element_type": "Task",
+    "text": "Allocate stock to hospital orders by earliest expiry first (FEFO) and flag lines whose remaining shelf life is below the hospital's accepted minimum",
+    "linked_to": "G03",
+    "source_pattern_id": "SKB-07/G2",
+    "justification": "Adapted from 'Suggest picking by earliest expiry'; FEFO allocation makes the recorded expiry data actionable and keeps expired or near-expired medicines out of hospital deliveries."
+   },
+   {
+    "element_type": "Task",
+    "text": "Run a recall trace query that lists every hospital, order and shipped line for a given batch number",
+    "linked_to": "G03-K2",
+    "source_pattern_id": "SKB-01/G3",
+    "justification": "Direct adaptation of 'Run recall trace report'; the report is the mechanism that makes the under-2-hour KPI a database query instead of a manual reconstruction."
+   },
+   {
+    "element_type": "Task",
+    "text": "Quarantine remaining stock of a recalled or suspect batch and hold it pending a documented release decision",
+    "linked_to": "G03-K2",
+    "source_pattern_id": "SKB-02/G2 + SKB-07/G2",
+    "justification": "Adapted from 'Quarantine affected goods pending a release decision' (SKB-02/G2) and the pharmacist release control (SKB-07/G2), so a trace result ends in a controlled disposition rather than only a list."
+   },
+   {
+    "element_type": "Task",
+    "text": "Report batches held in stock or already shipped that expire within 90 days to the Quality Assurance Officer",
+    "linked_to": "G03",
+    "source_pattern_id": "SKB-07/G2",
+    "justification": "Adapted from 'Report items expiring within 90 days'; turns captured expiry data into preventive action consistent with good distribution practice."
+   },
+   {
+    "element_type": "Task",
+    "text": "Validate any batch or product reference proposed by the LLM-based ordering assistant against batch master data and reject unmatched references before the order line is created",
+    "linked_to": "G03-K1",
+    "source_pattern_id": "UNGROUNDED",
+    "justification": "No retrieved pattern covers an LLM ordering assistant; the check is required so that assistant-generated lines cannot introduce batch or expiry values that break G03-K1 or the shipping constraint."
+   },
+   {
+    "element_type": "Task",
+    "text": "Confirm the hospital order at entry and capture batch and expiry at picking, so confirmation time is unaffected by scanning",
+    "linked_to": "G03",
+    "source_pattern_id": "SKB-01/G2",
+    "justification": "Reuses the recorded conflict resolution in SKB-01/G2 (lot scanning slows picking and delays confirmation) so traceability work does not degrade the order-to-delivery performance expected by parent goal G01."
+   },
+   {
+    "element_type": "Resource",
+    "text": "Batch and expiry master data (batch number, expiry date, product, supplier, received quantity)",
+    "linked_to": "G03",
+    "source_pattern_id": "SKB-01/G3 + SKB-07/G2",
+    "justification": "Adapted from 'Lot master data' (SKB-01/G3), extended with the expiry attribute from the pharmacy stock module (SKB-07/G2); it is the single reference both KPIs are computed against."
+   },
+   {
+    "element_type": "Resource",
+    "text": "Barcode or 2D-code scanners at receipt and picking stations",
+    "linked_to": "G03-K1",
+    "source_pattern_id": "SKB-01/G3",
+    "justification": "Direct reuse of 'Barcode scanners'; scanning rather than keying is what makes 100% recorded batch and expiry realistic at picking speed."
+   },
+   {
+    "element_type": "Resource",
+    "text": "Warehouse stock module with batch- and expiry-level inventory tracking",
+    "linked_to": "G03",
+    "source_pattern_id": "SKB-07/G2",
+    "justification": "Adapted from 'Pharmacy stock module'; batch-level inventory is needed to hold expiry per batch, support FEFO and quarantine a specific batch."
+   },
+   {
+    "element_type": "Resource",
+    "text": "Order management module and order portal holding the hospital-to-shipped-line link",
+    "linked_to": "G03-K2",
+    "source_pattern_id": "SKB-01/G2",
+    "justification": "Adapted from 'Order management module'; the hospital/order/line linkage stored here is what the recall trace joins to batch data to answer G03-K2."
+   },
+   {
+    "element_type": "Resource",
+    "text": "Recall trace report with batch-to-hospital query and exportable audit log",
+    "linked_to": "G03-K2",
+    "source_pattern_id": "SKB-01/G3",
+    "justification": "The pattern task 'Run recall trace report' presupposes a reporting artefact; it is made explicit as a resource because the 2-hour KPI is measured on its response."
+   },
+   {
+    "element_type": "Actor",
+    "text": "Sales Administrator",
+    "linked_to": "G03-K1",
+    "source_pattern_id": "SKB-01/G2",
+    "justification": "Pattern actor reused unchanged; records and confirms hospital order lines to which batch allocation is later attached, and handles change requests on confirmed lines."
+   },
+   {
+    "element_type": "Actor",
+    "text": "Responsible Pharmacist",
+    "linked_to": "G03-K2",
+    "source_pattern_id": "SKB-07/G2",
+    "justification": "Adapted from 'Pharmacist in Charge'; is the only role entitled to release quarantined batches after a recall trace, as required by the pattern constraint and by good distribution practice."
+   },
+   {
+    "element_type": "Actor",
+    "text": "Quality Assurance Officer",
+    "linked_to": "G03-K2",
+    "source_pattern_id": "SKB-01/G3 + SKB-02/G2",
+    "justification": "Adapted from the Quality Officer (SKB-01/G3) and Quality Manager (SKB-02/G2); owns the recall trace execution, the quarantine decision file and the expiry-horizon review."
+   },
+   {
+    "element_type": "Actor",
+    "text": "Hospital Buyer",
+    "linked_to": "G03-K2",
+    "source_pattern_id": "SKB-01/G2",
+    "justification": "Adapted from the 'Customer' actor; is the recipient identified by the trace and the party notified of a recalled batch, which is why the hospital-line link must be kept complete."
+   },
+   {
+    "element_type": "Actor",
+    "text": "AI Product Owner",
+    "linked_to": "G03-K1",
+    "source_pattern_id": "UNGROUNDED",
+    "justification": "Not present in any retrieved pattern; accountable for the ordering assistant's validation behaviour so that assistant-created lines never bypass batch and expiry capture."
+   },
+   {
+    "element_type": "Actor",
+    "text": "Data Protection Officer",
+    "linked_to": "G03-K2",
+    "source_pattern_id": "UNGROUNDED",
+    "justification": "Not present in any retrieved pattern; recall trace output contains hospital customer data, so its disclosure scope needs an accountable owner under the parent goal's security concern."
+   },
+   {
+    "element_type": "Belief",
+    "text": "Good distribution practice requires a batch record for every medicine shipped",
+    "linked_to": "G03",
+    "source_pattern_id": "SKB-07/G2",
+    "justification": "Stated in the query and matching the pattern belief 'Regulation requires batch records for every medicine'; it justifies why G03-K1 is set at 100% rather than a tolerance."
+   },
+   {
+    "element_type": "Belief",
+    "text": "Suppliers print a readable batch number and expiry date on every carton delivered",
+    "linked_to": "G03-K1",
+    "source_pattern_id": "SKB-01/G3",
+    "justification": "Adapted from 'Suppliers print lot numbers on every carton'; scanning at receipt only yields 100% coverage if this holds, so it is recorded as an explicit assumption."
+   },
+   {
+    "element_type": "Belief",
+    "text": "Batch and expiry values proposed by the LLM ordering assistant are suggestions and are not authoritative until matched against batch master data",
+    "linked_to": "G03-K1",
+    "source_pattern_id": "UNGROUNDED",
+    "justification": "Specific to the organization's LLM-based assistant; no retrieved pattern addresses generated data, and the belief is needed to justify the validation task."
+   },
+   {
+    "element_type": "Constraint",
+    "text": "A line without a recorded batch number and expiry date cannot be shipped",
+    "linked_to": "G03-K1",
+    "source_pattern_id": "SKB-01/G3",
+    "justification": "Query constraint, identical in form to the pattern constraint 'a line without a lot number cannot be shipped'; it is the hard rule that guarantees the 100% target."
+   },
+   {
+    "element_type": "Constraint",
+    "text": "Only the Responsible Pharmacist may release a quarantined batch; a batch with an unresolved recall or quality hold cannot be shipped",
+    "linked_to": "G03-K2",
+    "source_pattern_id": "SKB-07/G2 + SKB-02/G2",
+    "justification": "Merges 'Only a pharmacist may release quarantined medicines' (SKB-07/G2) with 'Goods with an unresolved excursion cannot be released' (SKB-02/G2), adapted to recall holds."
+   },
+   {
+    "element_type": "Constraint",
+    "text": "Batch allocation on a confirmed order line cannot be changed without a recorded change request",
+    "linked_to": "G03",
+    "source_pattern_id": "SKB-01/G2",
+    "justification": "Adapted from 'A confirmed order cannot be edited without a change request'; prevents silent re-allocation that would break the hospital-to-batch audit trail used by G03-K2."
+   },
+   {
+    "element_type": "Constraint",
+    "text": "Recall trace output containing hospital identities may be disclosed only to the Responsible Pharmacist, Quality Assurance Officer and authorised recipients, and every access is logged",
+    "linked_to": "G03-K2",
+    "source_pattern_id": "UNGROUNDED",
+    "justification": "No retrieved pattern addresses data protection; required because the parent goal G01 demands that the regulated order-to-delivery chain also be secure."
+   }
+  ],
+  "rational_statement": "Capturing batch number and expiry at goods receipt and re-confirming them on every picked line, with dispatch blocked when either is missing, makes G03-K1 a by-product of normal receipt and picking work rather than a separate compliance effort, while the shared batch and expiry master data turns the recall question behind G03-K2 into a single query over the order portal's hospital-to-line link instead of a manual document search, so the under-2-hour target is met and the result can be acted on immediately through quarantine and a Responsible Pharmacist release decision; because batch and expiry are scanned at picking while the hospital order is confirmed at entry, this traceability adds no delay to order confirmation, and because trace output is access-restricted and logged, G03 supports both halves of parent goal G01 'Regulated order-to-delivery controlled and secure' - regulatory control through complete, FEFO-consistent batch records validated even when lines originate from the LLM ordering assistant, and security through governed disclosure of the hospital data that traceability necessarily exposes."
+ },
+ "validation": [
+  {
+   "n": 1,
+   "element_type": "Task",
+   "text": "Scan batch number and expiry date at goods receipt and bind them to the received stock record",
+   "linked_to": "G03-K1",
+   "source_pattern_id": "SKB-01/G3 + SKB-07/G2",
+   "justification": "Combines 'Scan lot number at goods receipt' (SKB-01/G3) with 'Record batch and expiry at receipt' (SKB-07/G2); capturing both identifiers at the earliest point is the precondition for 100% recorded shipped lines and respects the belief that every medicine needs a batch record.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 2,
+   "element_type": "Task",
+   "text": "Record batch number and expiry date on every picked line before shipment confirmation",
+   "linked_to": "G03-K1",
+   "source_pattern_id": "SKB-01/G3",
+   "justification": "Direct adaptation of 'Record lot number on each picked line'; extended with expiry because the query KPI G03-K1 requires both attributes on 100% of shipped lines.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 3,
+   "element_type": "Task",
+   "text": "Block dispatch of any order line whose batch number or expiry date is missing or does not match the stock record",
+   "linked_to": "G03-K1",
+   "source_pattern_id": "SKB-01/G3",
+   "justification": "Operationalises the pattern constraint 'a line without a lot number cannot be shipped' and the query constraint, turning it into an enforceable system check that protects the 100% target.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 4,
+   "element_type": "Task",
+   "text": "Allocate stock to hospital orders by earliest expiry first (FEFO) and flag lines whose remaining shelf life is below the hospital's accepted minimum",
+   "linked_to": "G03",
+   "source_pattern_id": "SKB-07/G2",
+   "justification": "Adapted from 'Suggest picking by earliest expiry'; FEFO allocation makes the recorded expiry data actionable and keeps expired or near-expired medicines out of hospital deliveries.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 5,
+   "element_type": "Task",
+   "text": "Run a recall trace query that lists every hospital, order and shipped line for a given batch number",
+   "linked_to": "G03-K2",
+   "source_pattern_id": "SKB-01/G3",
+   "justification": "Direct adaptation of 'Run recall trace report'; the report is the mechanism that makes the under-2-hour KPI a database query instead of a manual reconstruction.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 6,
+   "element_type": "Task",
+   "text": "Quarantine remaining stock of a recalled or suspect batch and hold it pending a documented release decision",
+   "linked_to": "G03-K2",
+   "source_pattern_id": "SKB-02/G2 + SKB-07/G2",
+   "justification": "Adapted from 'Quarantine affected goods pending a release decision' (SKB-02/G2) and the pharmacist release control (SKB-07/G2), so a trace result ends in a controlled disposition rather than only a list.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 7,
+   "element_type": "Task",
+   "text": "Report batches held in stock or already shipped that expire within 90 days to the Quality Assurance Officer",
+   "linked_to": "G03",
+   "source_pattern_id": "SKB-07/G2",
+   "justification": "Adapted from 'Report items expiring within 90 days'; turns captured expiry data into preventive action consistent with good distribution practice.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 8,
+   "element_type": "Task",
+   "text": "Validate any batch or product reference proposed by the LLM-based ordering assistant against batch master data and reject unmatched references before the order line is created",
+   "linked_to": "G03-K1",
+   "source_pattern_id": "UNGROUNDED",
+   "justification": "No retrieved pattern covers an LLM ordering assistant; the check is required so that assistant-generated lines cannot introduce batch or expiry values that break G03-K1 or the shipping constraint.",
+   "status": "flagged",
+   "issues": "",
+   "flags": "UNGROUNDED"
+  },
+  {
+   "n": 9,
+   "element_type": "Task",
+   "text": "Confirm the hospital order at entry and capture batch and expiry at picking, so confirmation time is unaffected by scanning",
+   "linked_to": "G03",
+   "source_pattern_id": "SKB-01/G2",
+   "justification": "Reuses the recorded conflict resolution in SKB-01/G2 (lot scanning slows picking and delays confirmation) so traceability work does not degrade the order-to-delivery performance expected by parent goal G01.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 10,
+   "element_type": "Resource",
+   "text": "Batch and expiry master data (batch number, expiry date, product, supplier, received quantity)",
+   "linked_to": "G03",
+   "source_pattern_id": "SKB-01/G3 + SKB-07/G2",
+   "justification": "Adapted from 'Lot master data' (SKB-01/G3), extended with the expiry attribute from the pharmacy stock module (SKB-07/G2); it is the single reference both KPIs are computed against.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 11,
+   "element_type": "Resource",
+   "text": "Barcode or 2D-code scanners at receipt and picking stations",
+   "linked_to": "G03-K1",
+   "source_pattern_id": "SKB-01/G3",
+   "justification": "Direct reuse of 'Barcode scanners'; scanning rather than keying is what makes 100% recorded batch and expiry realistic at picking speed.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 12,
+   "element_type": "Resource",
+   "text": "Warehouse stock module with batch- and expiry-level inventory tracking",
+   "linked_to": "G03",
+   "source_pattern_id": "SKB-07/G2",
+   "justification": "Adapted from 'Pharmacy stock module'; batch-level inventory is needed to hold expiry per batch, support FEFO and quarantine a specific batch.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 13,
+   "element_type": "Resource",
+   "text": "Order management module and order portal holding the hospital-to-shipped-line link",
+   "linked_to": "G03-K2",
+   "source_pattern_id": "SKB-01/G2",
+   "justification": "Adapted from 'Order management module'; the hospital/order/line linkage stored here is what the recall trace joins to batch data to answer G03-K2.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 14,
+   "element_type": "Resource",
+   "text": "Recall trace report with batch-to-hospital query and exportable audit log",
+   "linked_to": "G03-K2",
+   "source_pattern_id": "SKB-01/G3",
+   "justification": "The pattern task 'Run recall trace report' presupposes a reporting artefact; it is made explicit as a resource because the 2-hour KPI is measured on its response.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 15,
+   "element_type": "Actor",
+   "text": "Sales Administrator",
+   "linked_to": "G03-K1",
+   "source_pattern_id": "SKB-01/G2",
+   "justification": "Pattern actor reused unchanged; records and confirms hospital order lines to which batch allocation is later attached, and handles change requests on confirmed lines.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 16,
+   "element_type": "Actor",
+   "text": "Responsible Pharmacist",
+   "linked_to": "G03-K2",
+   "source_pattern_id": "SKB-07/G2",
+   "justification": "Adapted from 'Pharmacist in Charge'; is the only role entitled to release quarantined batches after a recall trace, as required by the pattern constraint and by good distribution practice.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 17,
+   "element_type": "Actor",
+   "text": "Quality Assurance Officer",
+   "linked_to": "G03-K2",
+   "source_pattern_id": "SKB-01/G3 + SKB-02/G2",
+   "justification": "Adapted from the Quality Officer (SKB-01/G3) and Quality Manager (SKB-02/G2); owns the recall trace execution, the quarantine decision file and the expiry-horizon review.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 18,
+   "element_type": "Actor",
+   "text": "Hospital Buyer",
+   "linked_to": "G03-K2",
+   "source_pattern_id": "SKB-01/G2",
+   "justification": "Adapted from the 'Customer' actor; is the recipient identified by the trace and the party notified of a recalled batch, which is why the hospital-line link must be kept complete.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 19,
+   "element_type": "Actor",
+   "text": "AI Product Owner",
+   "linked_to": "G03-K1",
+   "source_pattern_id": "UNGROUNDED",
+   "justification": "Not present in any retrieved pattern; accountable for the ordering assistant's validation behaviour so that assistant-created lines never bypass batch and expiry capture.",
+   "status": "flagged",
+   "issues": "",
+   "flags": "UNGROUNDED"
+  },
+  {
+   "n": 20,
+   "element_type": "Actor",
+   "text": "Data Protection Officer",
+   "linked_to": "G03-K2",
+   "source_pattern_id": "UNGROUNDED",
+   "justification": "Not present in any retrieved pattern; recall trace output contains hospital customer data, so its disclosure scope needs an accountable owner under the parent goal's security concern.",
+   "status": "flagged",
+   "issues": "",
+   "flags": "UNGROUNDED"
+  },
+  {
+   "n": 21,
+   "element_type": "Belief",
+   "text": "Good distribution practice requires a batch record for every medicine shipped",
+   "linked_to": "G03",
+   "source_pattern_id": "SKB-07/G2",
+   "justification": "Stated in the query and matching the pattern belief 'Regulation requires batch records for every medicine'; it justifies why G03-K1 is set at 100% rather than a tolerance.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 22,
+   "element_type": "Belief",
+   "text": "Suppliers print a readable batch number and expiry date on every carton delivered",
+   "linked_to": "G03-K1",
+   "source_pattern_id": "SKB-01/G3",
+   "justification": "Adapted from 'Suppliers print lot numbers on every carton'; scanning at receipt only yields 100% coverage if this holds, so it is recorded as an explicit assumption.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 23,
+   "element_type": "Belief",
+   "text": "Batch and expiry values proposed by the LLM ordering assistant are suggestions and are not authoritative until matched against batch master data",
+   "linked_to": "G03-K1",
+   "source_pattern_id": "UNGROUNDED",
+   "justification": "Specific to the organization's LLM-based assistant; no retrieved pattern addresses generated data, and the belief is needed to justify the validation task.",
+   "status": "flagged",
+   "issues": "",
+   "flags": "UNGROUNDED"
+  },
+  {
+   "n": 24,
+   "element_type": "Constraint",
+   "text": "A line without a recorded batch number and expiry date cannot be shipped",
+   "linked_to": "G03-K1",
+   "source_pattern_id": "SKB-01/G3",
+   "justification": "Query constraint, identical in form to the pattern constraint 'a line without a lot number cannot be shipped'; it is the hard rule that guarantees the 100% target.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 25,
+   "element_type": "Constraint",
+   "text": "Only the Responsible Pharmacist may release a quarantined batch; a batch with an unresolved recall or quality hold cannot be shipped",
+   "linked_to": "G03-K2",
+   "source_pattern_id": "SKB-07/G2 + SKB-02/G2",
+   "justification": "Merges 'Only a pharmacist may release quarantined medicines' (SKB-07/G2) with 'Goods with an unresolved excursion cannot be released' (SKB-02/G2), adapted to recall holds.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 26,
+   "element_type": "Constraint",
+   "text": "Batch allocation on a confirmed order line cannot be changed without a recorded change request",
+   "linked_to": "G03",
+   "source_pattern_id": "SKB-01/G2",
+   "justification": "Adapted from 'A confirmed order cannot be edited without a change request'; prevents silent re-allocation that would break the hospital-to-batch audit trail used by G03-K2.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 27,
+   "element_type": "Constraint",
+   "text": "Recall trace output containing hospital identities may be disclosed only to the Responsible Pharmacist, Quality Assurance Officer and authorised recipients, and every access is logged",
+   "linked_to": "G03-K2",
+   "source_pattern_id": "UNGROUNDED",
+   "justification": "No retrieved pattern addresses data protection; required because the parent goal G01 demands that the regulated order-to-delivery chain also be secure.",
+   "status": "flagged",
+   "issues": "",
+   "flags": "UNGROUNDED"
+  }
+ ],
+ "summary": {
+  "passed": 22,
+  "flagged": 5,
+  "rejected": 0
+ }
+}

@@ -1,0 +1,47 @@
+{
+ "query_id": "S-G07",
+ "goal": {
+  "id": "G07",
+  "text": "Ordering assistant governed as an AI system"
+ },
+ "parent": {
+  "id": "G01",
+  "text": "Regulated order-to-delivery controlled and secure"
+ },
+ "domain": "pharmaceutical distribution to hospitals",
+ "organization_type": "medium-sized distributor with an order portal and an LLM-based ordering assistant",
+ "kpis": [
+  {
+   "id": "G07-K1",
+   "text": "Assistant answers that cite an approved source (100%)"
+  },
+  {
+   "id": "G07-K2",
+   "text": "Hospital-specific prices disclosed to another hospital in the monthly audit (0)"
+  },
+  {
+   "id": "G07-K3",
+   "text": "Answers rated correct in the monthly evaluation (>= 95%)"
+  },
+  {
+   "id": "G07-K4",
+   "text": "Model and prompt changes approved before release (100%)"
+  }
+ ],
+ "actors_in_scope": [
+  "Hospital Buyer",
+  "Sales Administrator",
+  "Responsible Pharmacist",
+  "Quality Assurance Officer",
+  "IT Security Officer",
+  "Data Protection Officer",
+  "AI Product Owner"
+ ],
+ "beliefs": [
+  "The assistant runs on an external model provider"
+ ],
+ "constraints": [
+  "The assistant cannot place or change an order without the buyer's confirmation",
+  "Patient identifiers are not sent to the language model provider"
+ ]
+}

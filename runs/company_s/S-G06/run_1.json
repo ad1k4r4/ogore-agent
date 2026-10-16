@@ -1,0 +1,607 @@
+{
+ "pipeline_version": "1.0.0",
+ "settings": {
+  "model": "claude-opus-5",
+  "effort": "high",
+  "max_tokens": 32000,
+  "embed_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "embed_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "top_k": 4
+ },
+ "kb_sha256": "f1fac045967a3996a6198e0a43fd5a0fc73237a243d0952fad861289bad5d423",
+ "query": {
+  "query_id": "S-G06",
+  "goal": {
+   "id": "G06",
+   "text": "Personal data of hospital staff and named patients protected"
+  },
+  "parent": {
+   "id": "G01",
+   "text": "Regulated order-to-delivery controlled and secure"
+  },
+  "domain": "pharmaceutical distribution to hospitals",
+  "organization_type": "medium-sized distributor with an order portal and an LLM-based ordering assistant",
+  "kpis": [
+   {
+    "id": "G06-K1",
+    "text": "Personal data fields classified with a documented purpose (100%)"
+   },
+   {
+    "id": "G06-K2",
+    "text": "Patient identifiers stored outside named-patient order records (0)"
+   },
+   {
+    "id": "G06-K3",
+    "text": "Data subject requests closed (within the legal deadline)"
+   }
+  ],
+  "actors_in_scope": [
+   "Hospital Buyer",
+   "Sales Administrator",
+   "Responsible Pharmacist",
+   "Quality Assurance Officer",
+   "IT Security Officer",
+   "Data Protection Officer",
+   "AI Product Owner"
+  ],
+  "beliefs": [
+   "Named-patient orders contain a patient name and medical record number"
+  ],
+  "constraints": [
+   "Patient identifiers are not sent to the language model provider"
+  ]
+ },
+ "retrieved": [
+  {
+   "chunk_id": "SKB-03/G3",
+   "score": 0.5518
+  },
+  {
+   "chunk_id": "SKB-03/G2",
+   "score": 0.5471
+  },
+  {
+   "chunk_id": "SKB-07/G2",
+   "score": 0.5245
+  },
+  {
+   "chunk_id": "SKB-05/G3",
+   "score": 0.5116
+  }
+ ],
+ "recording": "1c75e80adeba8f581cb0",
+ "response_id": "msg_011Cg65fhavDnZ88e7j27nzS",
+ "model_served": "claude-opus-5",
+ "usage": {
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "inference_geo": "global",
+  "input_tokens": 2545,
+  "output_tokens": 5359,
+  "output_tokens_details": {
+   "thinking_tokens": 997
+  },
+  "service_tier": "standard",
+  "speed": "standard"
+ },
+ "output": {
+  "ranked_patterns": [
+   {
+    "pattern_id": "SKB-03/G2",
+    "relevance": "Most relevant: its IT goal 'Personal data minimized and classified' maps almost one-to-one onto G06-K1 (fields classified with a documented purpose, 100%) and G06-K2 (no patient identifiers outside named-patient order records). Its data inventory, purpose/retention per field, masking of non-production data, and the retention constraint transfer directly to a distributor that processes hospital staff and named-patient data."
+   },
+   {
+    "pattern_id": "SKB-03/G3",
+    "relevance": "Second: 'Data subject requests fulfilled' is the direct source for G06-K3 (requests closed within the legal deadline). Its register-and-verify task, export/erase task, request register resource and identity-verification constraint are reusable; the Customer Service Agent role is adapted to the Sales Administrator and the DPO role is kept."
+   },
+   {
+    "pattern_id": "SKB-05/G3",
+    "relevance": "Third: it governs an LLM-based assistant with retrieval and already carries the constraint that customer personal data is not sent to the model provider, which matches the query constraint on patient identifiers and the LLM-based ordering assistant. Its change register, AI risk register, AI Product Owner and Risk Officer practices are adapted to keep assistant changes attributable and identifier-free."
+   },
+   {
+    "pattern_id": "SKB-07/G2",
+    "relevance": "Fourth and weakest for privacy content, but relevant for domain fit: it is a hospital pharmacy pattern whose 'record at receipt' discipline and 'only a pharmacist may release' constraint justify keeping legally required named-patient records and restricting who may access or release them in a pharmaceutical distributor."
+   }
+  ],
+  "elements": [
+   {
+    "element_type": "Task",
+    "text": "Maintain a data inventory recording, for every personal data field of hospital staff and named patients in the order portal and the ordering assistant, its purpose, legal basis and retention period",
+    "linked_to": "G06-K1",
+    "source_pattern_id": "SKB-03/G2",
+    "justification": "Direct adaptation of 'Maintain a data inventory with purpose and retention per field'; classification with a documented purpose is exactly what G06-K1 measures at 100%."
+   },
+   {
+    "element_type": "Task",
+    "text": "Classify each personal data field as staff contact data or patient identifier and flag fields without a documented purpose for deletion or purpose assignment",
+    "linked_to": "G06-K1",
+    "source_pattern_id": "SKB-03/G2",
+    "justification": "Adapted from the pattern's classification practice and its 'fields without a documented purpose = 0' KPI, specialised to the two data categories present in this distributor."
+   },
+   {
+    "element_type": "Task",
+    "text": "Scan portal databases, exports, reports and log files for patient names and medical record numbers outside named-patient order records and remove or relocate the findings",
+    "linked_to": "G06-K2",
+    "source_pattern_id": "SKB-03/G2",
+    "justification": "Adaptation of data minimization to the query belief that named-patient orders carry a patient name and medical record number; it is the operational evidence for the zero target of G06-K2."
+   },
+   {
+    "element_type": "Task",
+    "text": "Mask or pseudonymise patient identifiers and staff personal data in test, training and analytics environments",
+    "linked_to": "G06-K2",
+    "source_pattern_id": "SKB-03/G2",
+    "justification": "Direct reuse of 'Mask personal data in non-production systems'; non-production copies are the most common source of identifiers stored outside named-patient order records."
+   },
+   {
+    "element_type": "Task",
+    "text": "Filter patient identifiers out of prompts, retrieval context and logs of the LLM-based ordering assistant before any call to the model provider",
+    "linked_to": "G06-K2",
+    "source_pattern_id": "SKB-05/G3",
+    "justification": "Adapted from the pattern's constraint on not sending customer personal data to the model provider; it enforces the query constraint and prevents identifiers from being copied into assistant stores."
+   },
+   {
+    "element_type": "Task",
+    "text": "Keep a model and prompt change register for the ordering assistant and review each change for personal data exposure before release",
+    "linked_to": "G06",
+    "source_pattern_id": "SKB-05/G3",
+    "justification": "Reuse of 'Keep a model and prompt change register'; it makes every assistant change attributable so that the identifier filter cannot be silently removed."
+   },
+   {
+    "element_type": "Task",
+    "text": "Register and verify the identity of each data subject request from hospital staff or patients and record its legal deadline",
+    "linked_to": "G06-K3",
+    "source_pattern_id": "SKB-03/G3",
+    "justification": "Direct adaptation of 'Register and verify each data subject request'; registration with a deadline is the precondition for measuring G06-K3."
+   },
+   {
+    "element_type": "Task",
+    "text": "Export, correct or erase the requester's personal data across the portal, the assistant stores and backups, and close the request within the legal deadline",
+    "linked_to": "G06-K3",
+    "source_pattern_id": "SKB-03/G3",
+    "justification": "Adaptation of 'Export or erase the customer's data', extended to the assistant stores because this organisation also processes data through an LLM-based assistant."
+   },
+   {
+    "element_type": "Task",
+    "text": "Review the privacy risk assessment of the order portal and the ordering assistant with the Data Protection Officer and the IT Security Officer at planned intervals",
+    "linked_to": "G06",
+    "source_pattern_id": "SKB-05/G3",
+    "justification": "Adapted from 'Review the AI risk assessment with the risk committee'; periodic review keeps classification, minimization and request handling aligned with changing processing."
+   },
+   {
+    "element_type": "Resource",
+    "text": "Personal data inventory of the order portal and the ordering assistant",
+    "linked_to": "G06-K1",
+    "source_pattern_id": "SKB-03/G2",
+    "justification": "Reuse of the pattern resource 'Data inventory'; it is the record from which the 100% classification KPI is computed."
+   },
+   {
+    "element_type": "Resource",
+    "text": "Masking and pseudonymisation tool for non-production data copies",
+    "linked_to": "G06-K2",
+    "source_pattern_id": "SKB-03/G2",
+    "justification": "Reuse of the pattern resource 'Masking tool', needed to keep identifiers out of environments other than named-patient order records."
+   },
+   {
+    "element_type": "Resource",
+    "text": "Data subject request register with verification evidence and deadline tracking",
+    "linked_to": "G06-K3",
+    "source_pattern_id": "SKB-03/G3",
+    "justification": "Reuse of the pattern resource 'Request register', the source of evidence that requests were closed within the legal deadline."
+   },
+   {
+    "element_type": "Resource",
+    "text": "Model and prompt change register of the ordering assistant",
+    "linked_to": "G06",
+    "source_pattern_id": "SKB-05/G3",
+    "justification": "Reuse of the pattern resource 'Change register', adapted to the ordering assistant so that identifier-filtering configuration changes are traceable."
+   },
+   {
+    "element_type": "Resource",
+    "text": "Privacy and AI risk register covering the order portal and the ordering assistant",
+    "linked_to": "G06",
+    "source_pattern_id": "SKB-05/G3",
+    "justification": "Adaptation of the pattern resource 'AI risk register' to the combined portal and assistant processing of this distributor."
+   },
+   {
+    "element_type": "Actor",
+    "text": "Data Protection Officer",
+    "linked_to": "G06",
+    "source_pattern_id": "SKB-03/G2",
+    "justification": "Present in both SKB-03 goals and in the query actor list; owns the inventory, the classification decisions and the request handling."
+   },
+   {
+    "element_type": "Actor",
+    "text": "IT Security Officer",
+    "linked_to": "G06-K2",
+    "source_pattern_id": "SKB-03/G2",
+    "justification": "Adaptation of the pattern actor 'System Owner' to the actor list in scope; responsible for masking, scanning and access control over stores holding identifiers."
+   },
+   {
+    "element_type": "Actor",
+    "text": "Sales Administrator",
+    "linked_to": "G06-K3",
+    "source_pattern_id": "SKB-03/G3",
+    "justification": "Adaptation of the pattern actor 'Customer Service Agent' to this organisation; first point of contact who registers requests and verifies the requester."
+   },
+   {
+    "element_type": "Actor",
+    "text": "AI Product Owner",
+    "linked_to": "G06",
+    "source_pattern_id": "SKB-05/G3",
+    "justification": "Reused from the LLM governance pattern and present in the query actor list; accountable for the assistant's prompts, retrieval scope and change register."
+   },
+   {
+    "element_type": "Actor",
+    "text": "Responsible Pharmacist",
+    "linked_to": "G06-K2",
+    "source_pattern_id": "SKB-07/G2",
+    "justification": "Adaptation of 'Pharmacist in Charge'; in a pharmaceutical distributor the pharmacist decides which named-patient data must legally be kept in the order record and may authorise its disclosure."
+   },
+   {
+    "element_type": "Actor",
+    "text": "Quality Assurance Officer",
+    "linked_to": "G06-K1",
+    "source_pattern_id": "SKB-07/G2",
+    "justification": "Adapted from the regulated-records responsibility in the hospital pharmacy pattern; verifies that classification and retention entries are documented and auditable."
+   },
+   {
+    "element_type": "Belief",
+    "text": "Named-patient orders contain a patient name and medical record number",
+    "linked_to": "G06-K2",
+    "source_pattern_id": "UNGROUNDED",
+    "justification": "Stated in the query; it is the reason G06-K2 targets zero identifiers outside named-patient order records and why the assistant must be filtered."
+   },
+   {
+    "element_type": "Belief",
+    "text": "Hospital customers and their patients expect personal data to be used only for fulfilling and documenting their orders",
+    "linked_to": "G06-K1",
+    "source_pattern_id": "SKB-03/G2",
+    "justification": "Adaptation of 'Customers expect data to be used only for their orders'; it motivates documenting a purpose for every field."
+   },
+   {
+    "element_type": "Belief",
+    "text": "Regulation requires traceable records of named-patient supplies, so these records cannot simply be deleted",
+    "linked_to": "G06-K3",
+    "source_pattern_id": "SKB-07/G2",
+    "justification": "Adaptation of 'Regulation requires batch records for every medicine'; it explains why some erasure requests are answered by restriction rather than deletion."
+   },
+   {
+    "element_type": "Constraint",
+    "text": "Patient identifiers are not sent to the language model provider, neither in prompts nor in retrieval context or logs",
+    "linked_to": "G06-K2",
+    "source_pattern_id": "SKB-05/G3",
+    "justification": "The query constraint, expressed with the scope of the pattern constraint on data sent to the model provider."
+   },
+   {
+    "element_type": "Constraint",
+    "text": "Personal data of hospital staff and patients is retained no longer than its documented purpose and legal retention period require",
+    "linked_to": "G06-K1",
+    "source_pattern_id": "SKB-03/G2",
+    "justification": "Direct reuse of the pattern's retention constraint, bound to the documented purpose that G06-K1 measures."
+   },
+   {
+    "element_type": "Constraint",
+    "text": "The identity of the data subject is verified before any personal data is released or erased",
+    "linked_to": "G06-K3",
+    "source_pattern_id": "SKB-03/G3",
+    "justification": "Direct reuse of the pattern constraint; it prevents request handling from becoming a disclosure channel."
+   },
+   {
+    "element_type": "Constraint",
+    "text": "Patient identifiers are stored only inside named-patient order records and are accessible only to roles authorised by the Responsible Pharmacist",
+    "linked_to": "G06-K2",
+    "source_pattern_id": "SKB-07/G2",
+    "justification": "Adaptation of 'Only a pharmacist may release quarantined medicines' to data release, enforcing the zero target of G06-K2 through access restriction."
+   }
+  ],
+  "rational_statement": "G06 serves the parent goal G01 'Regulated order-to-delivery controlled and secure' because a regulated order-to-delivery chain for hospitals unavoidably processes staff contact data and, for named-patient supplies, patient names and medical record numbers; control over that data is part of controlling the order flow. Following SKB-03/G2, classification with a documented purpose is treated as the precondition for every other privacy control and is therefore measured at 100% in G06-K1 through the data inventory maintained by the Data Protection Officer and verified by the Quality Assurance Officer. Minimization tasks (scanning, masking, restricting identifiers to named-patient order records under the Responsible Pharmacist's authority) and the identifier filter and change register for the LLM-based ordering assistant, adapted from SKB-05/G3, together make the zero target of G06-K2 achievable while honouring the constraint that patient identifiers never reach the model provider. The register-verify-fulfil chain from SKB-03/G3 makes G06-K3 measurable within the legal deadline without creating a new disclosure risk, since identity is verified first and regulated named-patient supply records are restricted rather than deleted. Because identifiers stay in known, purpose-documented, access-controlled places, order-to-delivery data can be audited and traced for G01 without the portal or the assistant becoming an uncontrolled source of personal data exposure."
+ },
+ "validation": [
+  {
+   "n": 1,
+   "element_type": "Task",
+   "text": "Maintain a data inventory recording, for every personal data field of hospital staff and named patients in the order portal and the ordering assistant, its purpose, legal basis and retention period",
+   "linked_to": "G06-K1",
+   "source_pattern_id": "SKB-03/G2",
+   "justification": "Direct adaptation of 'Maintain a data inventory with purpose and retention per field'; classification with a documented purpose is exactly what G06-K1 measures at 100%.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 2,
+   "element_type": "Task",
+   "text": "Classify each personal data field as staff contact data or patient identifier and flag fields without a documented purpose for deletion or purpose assignment",
+   "linked_to": "G06-K1",
+   "source_pattern_id": "SKB-03/G2",
+   "justification": "Adapted from the pattern's classification practice and its 'fields without a documented purpose = 0' KPI, specialised to the two data categories present in this distributor.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 3,
+   "element_type": "Task",
+   "text": "Scan portal databases, exports, reports and log files for patient names and medical record numbers outside named-patient order records and remove or relocate the findings",
+   "linked_to": "G06-K2",
+   "source_pattern_id": "SKB-03/G2",
+   "justification": "Adaptation of data minimization to the query belief that named-patient orders carry a patient name and medical record number; it is the operational evidence for the zero target of G06-K2.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 4,
+   "element_type": "Task",
+   "text": "Mask or pseudonymise patient identifiers and staff personal data in test, training and analytics environments",
+   "linked_to": "G06-K2",
+   "source_pattern_id": "SKB-03/G2",
+   "justification": "Direct reuse of 'Mask personal data in non-production systems'; non-production copies are the most common source of identifiers stored outside named-patient order records.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 5,
+   "element_type": "Task",
+   "text": "Filter patient identifiers out of prompts, retrieval context and logs of the LLM-based ordering assistant before any call to the model provider",
+   "linked_to": "G06-K2",
+   "source_pattern_id": "SKB-05/G3",
+   "justification": "Adapted from the pattern's constraint on not sending customer personal data to the model provider; it enforces the query constraint and prevents identifiers from being copied into assistant stores.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 6,
+   "element_type": "Task",
+   "text": "Keep a model and prompt change register for the ordering assistant and review each change for personal data exposure before release",
+   "linked_to": "G06",
+   "source_pattern_id": "SKB-05/G3",
+   "justification": "Reuse of 'Keep a model and prompt change register'; it makes every assistant change attributable so that the identifier filter cannot be silently removed.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 7,
+   "element_type": "Task",
+   "text": "Register and verify the identity of each data subject request from hospital staff or patients and record its legal deadline",
+   "linked_to": "G06-K3",
+   "source_pattern_id": "SKB-03/G3",
+   "justification": "Direct adaptation of 'Register and verify each data subject request'; registration with a deadline is the precondition for measuring G06-K3.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 8,
+   "element_type": "Task",
+   "text": "Export, correct or erase the requester's personal data across the portal, the assistant stores and backups, and close the request within the legal deadline",
+   "linked_to": "G06-K3",
+   "source_pattern_id": "SKB-03/G3",
+   "justification": "Adaptation of 'Export or erase the customer's data', extended to the assistant stores because this organisation also processes data through an LLM-based assistant.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 9,
+   "element_type": "Task",
+   "text": "Review the privacy risk assessment of the order portal and the ordering assistant with the Data Protection Officer and the IT Security Officer at planned intervals",
+   "linked_to": "G06",
+   "source_pattern_id": "SKB-05/G3",
+   "justification": "Adapted from 'Review the AI risk assessment with the risk committee'; periodic review keeps classification, minimization and request handling aligned with changing processing.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 10,
+   "element_type": "Resource",
+   "text": "Personal data inventory of the order portal and the ordering assistant",
+   "linked_to": "G06-K1",
+   "source_pattern_id": "SKB-03/G2",
+   "justification": "Reuse of the pattern resource 'Data inventory'; it is the record from which the 100% classification KPI is computed.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 11,
+   "element_type": "Resource",
+   "text": "Masking and pseudonymisation tool for non-production data copies",
+   "linked_to": "G06-K2",
+   "source_pattern_id": "SKB-03/G2",
+   "justification": "Reuse of the pattern resource 'Masking tool', needed to keep identifiers out of environments other than named-patient order records.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 12,
+   "element_type": "Resource",
+   "text": "Data subject request register with verification evidence and deadline tracking",
+   "linked_to": "G06-K3",
+   "source_pattern_id": "SKB-03/G3",
+   "justification": "Reuse of the pattern resource 'Request register', the source of evidence that requests were closed within the legal deadline.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 13,
+   "element_type": "Resource",
+   "text": "Model and prompt change register of the ordering assistant",
+   "linked_to": "G06",
+   "source_pattern_id": "SKB-05/G3",
+   "justification": "Reuse of the pattern resource 'Change register', adapted to the ordering assistant so that identifier-filtering configuration changes are traceable.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 14,
+   "element_type": "Resource",
+   "text": "Privacy and AI risk register covering the order portal and the ordering assistant",
+   "linked_to": "G06",
+   "source_pattern_id": "SKB-05/G3",
+   "justification": "Adaptation of the pattern resource 'AI risk register' to the combined portal and assistant processing of this distributor.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 15,
+   "element_type": "Actor",
+   "text": "Data Protection Officer",
+   "linked_to": "G06",
+   "source_pattern_id": "SKB-03/G2",
+   "justification": "Present in both SKB-03 goals and in the query actor list; owns the inventory, the classification decisions and the request handling.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 16,
+   "element_type": "Actor",
+   "text": "IT Security Officer",
+   "linked_to": "G06-K2",
+   "source_pattern_id": "SKB-03/G2",
+   "justification": "Adaptation of the pattern actor 'System Owner' to the actor list in scope; responsible for masking, scanning and access control over stores holding identifiers.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 17,
+   "element_type": "Actor",
+   "text": "Sales Administrator",
+   "linked_to": "G06-K3",
+   "source_pattern_id": "SKB-03/G3",
+   "justification": "Adaptation of the pattern actor 'Customer Service Agent' to this organisation; first point of contact who registers requests and verifies the requester.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 18,
+   "element_type": "Actor",
+   "text": "AI Product Owner",
+   "linked_to": "G06",
+   "source_pattern_id": "SKB-05/G3",
+   "justification": "Reused from the LLM governance pattern and present in the query actor list; accountable for the assistant's prompts, retrieval scope and change register.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 19,
+   "element_type": "Actor",
+   "text": "Responsible Pharmacist",
+   "linked_to": "G06-K2",
+   "source_pattern_id": "SKB-07/G2",
+   "justification": "Adaptation of 'Pharmacist in Charge'; in a pharmaceutical distributor the pharmacist decides which named-patient data must legally be kept in the order record and may authorise its disclosure.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 20,
+   "element_type": "Actor",
+   "text": "Quality Assurance Officer",
+   "linked_to": "G06-K1",
+   "source_pattern_id": "SKB-07/G2",
+   "justification": "Adapted from the regulated-records responsibility in the hospital pharmacy pattern; verifies that classification and retention entries are documented and auditable.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 21,
+   "element_type": "Belief",
+   "text": "Named-patient orders contain a patient name and medical record number",
+   "linked_to": "G06-K2",
+   "source_pattern_id": "UNGROUNDED",
+   "justification": "Stated in the query; it is the reason G06-K2 targets zero identifiers outside named-patient order records and why the assistant must be filtered.",
+   "status": "flagged",
+   "issues": "",
+   "flags": "UNGROUNDED"
+  },
+  {
+   "n": 22,
+   "element_type": "Belief",
+   "text": "Hospital customers and their patients expect personal data to be used only for fulfilling and documenting their orders",
+   "linked_to": "G06-K1",
+   "source_pattern_id": "SKB-03/G2",
+   "justification": "Adaptation of 'Customers expect data to be used only for their orders'; it motivates documenting a purpose for every field.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 23,
+   "element_type": "Belief",
+   "text": "Regulation requires traceable records of named-patient supplies, so these records cannot simply be deleted",
+   "linked_to": "G06-K3",
+   "source_pattern_id": "SKB-07/G2",
+   "justification": "Adaptation of 'Regulation requires batch records for every medicine'; it explains why some erasure requests are answered by restriction rather than deletion.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 24,
+   "element_type": "Constraint",
+   "text": "Patient identifiers are not sent to the language model provider, neither in prompts nor in retrieval context or logs",
+   "linked_to": "G06-K2",
+   "source_pattern_id": "SKB-05/G3",
+   "justification": "The query constraint, expressed with the scope of the pattern constraint on data sent to the model provider.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 25,
+   "element_type": "Constraint",
+   "text": "Personal data of hospital staff and patients is retained no longer than its documented purpose and legal retention period require",
+   "linked_to": "G06-K1",
+   "source_pattern_id": "SKB-03/G2",
+   "justification": "Direct reuse of the pattern's retention constraint, bound to the documented purpose that G06-K1 measures.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 26,
+   "element_type": "Constraint",
+   "text": "The identity of the data subject is verified before any personal data is released or erased",
+   "linked_to": "G06-K3",
+   "source_pattern_id": "SKB-03/G3",
+   "justification": "Direct reuse of the pattern constraint; it prevents request handling from becoming a disclosure channel.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 27,
+   "element_type": "Constraint",
+   "text": "Patient identifiers are stored only inside named-patient order records and are accessible only to roles authorised by the Responsible Pharmacist",
+   "linked_to": "G06-K2",
+   "source_pattern_id": "SKB-07/G2",
+   "justification": "Adaptation of 'Only a pharmacist may release quarantined medicines' to data release, enforcing the zero target of G06-K2 through access restriction.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  }
+ ],
+ "summary": {
+  "passed": 26,
+  "flagged": 1,
+  "rejected": 0
+ }
+}

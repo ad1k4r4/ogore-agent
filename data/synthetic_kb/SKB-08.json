@@ -1,0 +1,48 @@
+{
+ "pattern_id": "SKB-08",
+ "organization_type": "manufacturing company (synthetic)",
+ "business_domain": "procurement; supplier invoice matching",
+ "organization_goal": "pay suppliers correctly and on time",
+ "it_goals": [
+  {
+   "goal_id": "G1",
+   "text": "Supplier invoices matched before payment",
+   "parent_id": null,
+   "decomposition": "AND",
+   "kpis": [
+    {
+     "id": "G1-K1",
+     "text": "Invoices three-way matched",
+     "target": "100%"
+    },
+    {
+     "id": "G1-K2",
+     "text": "Invoices paid on due date",
+     "target": "98%"
+    }
+   ],
+   "tasks": [
+    "Match invoice, purchase order, and goods receipt",
+    "Hold mismatched invoices for review"
+   ],
+   "resources": [
+    "Accounts payable module"
+   ],
+   "actors": [
+    "Accounts Payable Clerk",
+    "Purchasing Officer"
+   ],
+   "beliefs": [],
+   "constraints": [
+    "Payment runs need a second approver"
+   ]
+  }
+ ],
+ "contribution_values": [],
+ "rational_statements": [],
+ "conflicts_and_resolutions": [],
+ "validation": {
+  "validated_by": "synthetic (authors)",
+  "date": "2026-10-16"
+ }
+}

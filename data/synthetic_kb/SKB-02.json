@@ -1,0 +1,89 @@
+{
+ "pattern_id": "SKB-02",
+ "organization_type": "cold-chain logistics provider for frozen food (synthetic)",
+ "business_domain": "temperature-controlled warehousing and transport",
+ "organization_goal": "keep every temperature-controlled shipment within its specified range",
+ "it_goals": [
+  {
+   "goal_id": "G1",
+   "text": "Temperature compliance assured",
+   "parent_id": null,
+   "decomposition": "AND",
+   "kpis": [
+    {
+     "id": "G1-K1",
+     "text": "Shipments within range for the whole journey",
+     "target": "99%"
+    }
+   ],
+   "tasks": [],
+   "resources": [],
+   "actors": [],
+   "beliefs": [],
+   "constraints": []
+  },
+  {
+   "goal_id": "G2",
+   "text": "Temperature excursions detected and handled",
+   "parent_id": "G1",
+   "decomposition": "AND",
+   "kpis": [
+    {
+     "id": "G2-K1",
+     "text": "Cold shipments with a continuous temperature log",
+     "target": "100%"
+    },
+    {
+     "id": "G2-K2",
+     "text": "Excursion alerts acknowledged",
+     "target": "within 30 minutes"
+    }
+   ],
+   "tasks": [
+    "Stream logger readings to the monitoring service",
+    "Alert the duty supervisor on an excursion",
+    "Quarantine affected goods pending a release decision"
+   ],
+   "resources": [
+    "Temperature data loggers",
+    "Monitoring dashboard"
+   ],
+   "actors": [
+    "Duty Supervisor",
+    "Quality Manager"
+   ],
+   "beliefs": [
+    "Loggers record every five minutes"
+   ],
+   "constraints": [
+    "Goods with an unresolved excursion cannot be released"
+   ]
+  }
+ ],
+ "contribution_values": [
+  {
+   "element": "Quarantine affected goods pending a release decision",
+   "goal": "G2",
+   "value": "Make (++)"
+  }
+ ],
+ "rational_statements": [
+  {
+   "goal_id": "G2",
+   "text": "A release decision by the Quality Manager is the control that turns a detected excursion into a safe outcome."
+  }
+ ],
+ "conflicts_and_resolutions": [
+  {
+   "goals": [
+    "G2"
+   ],
+   "conflict": "automatic release would speed dispatch but bypass quality review",
+   "resolution": "automatic release only for excursions under 15 minutes and 2 degrees; all others need the Quality Manager"
+  }
+ ],
+ "validation": {
+  "validated_by": "synthetic (authors)",
+  "date": "2026-10-16"
+ }
+}

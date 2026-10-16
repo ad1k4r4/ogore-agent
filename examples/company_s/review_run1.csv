@@ -1,0 +1,169 @@
+﻿query,n,element_type,text,source_pattern_id,rule_status,decision,reason or new text
+S-G02,1,Task,Capture the hospital purchase order in the order portal with automatic validation of each line against the hospital contract price list and contract catalogue,SKB-01/G2,passed,accept,
+S-G02,2,Task,"Send the order confirmation to the hospital buyer automatically at order submission, before batch, lot and expiry checks are performed at picking",SKB-01/G2,passed,accept,
+S-G02,3,Task,Require a named Sales Administrator or Hospital Buyer to review and accept every order line drafted by the LLM ordering assistant before the order is submitted,SKB-05/G3,passed,reject,"belongs to G07 (AI governance), where the same control was proposed"
+S-G02,4,Task,"Maintain a change register of model, prompt and catalogue-retrieval changes to the ordering assistant and approve each change before release",SKB-05/G3,passed,reject,"belongs to G07 (AI governance), where the same control was proposed"
+S-G02,5,Task,Route any change to a confirmed order through a recorded change request and re-issue a new confirmation to the hospital buyer,SKB-01/G2,passed,accept,
+S-G02,6,Task,Flag order lines for restricted or regulated medicines at entry for release by the Responsible Pharmacist without blocking the confirmation of the remaining lines,SKB-07/G2,passed,reject,release of regulated medicines is handled in G03 and G04
+S-G02,7,Task,Log the submission and confirmation timestamp of every order and report monthly on confirmation delay and line-matching deviations,SKB-01/G2,passed,accept,
+S-G02,8,Resource,Hospital contract price list and contract catalogue,SKB-01/G2,passed,accept,
+S-G02,9,Resource,Order management module with hospital ordering portal,SKB-01/G2,passed,accept,
+S-G02,10,Resource,LLM ordering assistant with retrieval restricted to the approved hospital contract catalogue,SKB-05/G3,passed,accept,
+S-G02,11,Resource,Model and prompt change register for the ordering assistant,SKB-05/G3,passed,reject,"belongs to G07 (AI governance), where the same control was proposed"
+S-G02,12,Resource,Order confirmation and change-request log,SKB-01/G2,passed,accept,
+S-G02,13,Actor,Hospital Buyer,SKB-01/G2,passed,accept,
+S-G02,14,Actor,Sales Administrator,SKB-01/G2,passed,accept,
+S-G02,15,Actor,AI Product Owner,SKB-05/G3,passed,reject,"belongs to G07 (AI governance), where the same control was proposed"
+S-G02,16,Actor,Responsible Pharmacist,SKB-07/G2,passed,reject,the pharmacist takes no part in order entry
+S-G02,17,Actor,Quality Assurance Officer,SKB-01/G3,passed,reject,quality assurance takes no part in order entry
+S-G02,18,Actor,Data Protection Officer,SKB-05/G3,passed,reject,belongs to G06 (privacy)
+S-G02,19,Belief,"Each hospital has a contract price list, so order lines must be priced and validated per hospital",SKB-01/G2,passed,accept,
+S-G02,20,Belief,"Hospital buyers order through the portal or the LLM assistant, so both channels must produce the same recorded and confirmable order",SKB-05/G3,passed,accept,
+S-G02,21,Belief,Regulation requires a traceable record for every medicine order line,SKB-07/G2,passed,reject,duplicates a belief of G03
+S-G02,22,Constraint,A confirmed order cannot be changed without a recorded change request,SKB-01/G2,passed,accept,
+S-G02,23,Constraint,An order line that is not on the hospital contract catalogue cannot be confirmed,SKB-01/G3,passed,modify,An order line that is not on the hospital contract catalogue is held for the Sales Administrator instead of being confirmed
+S-G02,24,Constraint,Model or prompt changes to the ordering assistant are recorded and approved before release,SKB-05/G3,passed,reject,"belongs to G07 (AI governance), where the same control was proposed"
+S-G02,25,Constraint,Hospital and patient-identifiable data are not sent to the model provider beyond the session,SKB-05/G3,passed,reject,duplicates constraints of G06 and G07
+S-G03,1,Goal,Batch number and expiry date captured on every receipt and every shipped line,SKB-07/G2,passed,reject,the decomposition adds no element; the tasks attach to G03 directly
+S-G03,2,Goal,Hospitals that received a given batch identifiable on demand,SKB-01/G3,passed,reject,as for element 1
+S-G03,3,Task,Scan and record batch number and expiry date at goods receipt of each pharmaceutical pack,SKB-07/G2,passed,accept,
+S-G03,4,Task,"Record batch number and expiry date on each picked order line at picking, after order confirmation",SKB-01/G3,passed,accept,
+S-G03,5,Task,Suggest picking by earliest expiry (FEFO) and block confirmation of a shipped line that has no batch number or expiry date,SKB-07/G2,passed,accept,
+S-G03,6,Task,Report batches expiring within 90 days and remove expired stock from sellable inventory,SKB-07/G2,passed,accept,
+S-G03,7,Task,"Run a recall trace report that lists every hospital, delivery note and quantity for a given batch number",SKB-01/G3,passed,accept,
+S-G03,8,Task,Quarantine stock of a recalled or suspect batch and notify the affected Hospital Buyers pending the release decision,SKB-02/G2,passed,accept,
+S-G03,9,Task,Validate every batch or expiry statement produced by the LLM ordering assistant against the stock module record before it is shown to a Hospital Buyer,UNGROUNDED,flagged,reject,"belongs to G07 (AI governance), where the same control was proposed"
+S-G03,10,Actor,Responsible Pharmacist,SKB-07/G2,passed,accept,
+S-G03,11,Actor,Quality Assurance Officer,SKB-01/G3,passed,accept,
+S-G03,12,Actor,Sales Administrator,SKB-01/G2,passed,accept,
+S-G03,13,Actor,Hospital Buyer,SKB-01/G2,passed,accept,
+S-G03,14,Actor,AI Product Owner,UNGROUNDED,flagged,reject,"belongs to G07 (AI governance), where the same control was proposed"
+S-G03,15,Resource,Barcode/datamatrix scanners reading batch number and expiry at receipt and picking,SKB-01/G3,passed,accept,
+S-G03,16,Resource,"Batch and expiry master data (batch, expiry, supplier, quantity per pack)",SKB-01/G3,passed,accept,
+S-G03,17,Resource,Pharmaceutical stock module with FEFO picking and expiry alerts,SKB-07/G2,passed,accept,
+S-G03,18,Resource,Recall trace query linking batch number to hospital deliveries,SKB-01/G3,passed,accept,
+S-G03,19,Belief,Good distribution practice requires batch records for every medicine,SKB-07/G2,passed,accept,
+S-G03,20,Belief,Suppliers print a readable batch number and expiry date on every pharmaceutical pack and carton,SKB-01/G3,passed,accept,
+S-G03,21,Belief,Every shipped line is linked to one identified hospital delivery address,SKB-01/G3,passed,accept,
+S-G03,22,Constraint,A line without batch number and expiry date cannot be shipped,SKB-01/G3,passed,accept,
+S-G03,23,Constraint,Only the Responsible Pharmacist may release quarantined or recalled batches back to sellable stock,SKB-07/G2,passed,accept,
+S-G03,24,Constraint,Batch and expiry recorded on a shipped line cannot be edited without a documented change request approved by the Quality Assurance Officer,SKB-01/G2,passed,accept,
+S-G03,25,Constraint,Recall trace outputs containing hospital and contact data may only be exported through channels approved by the Data Protection Officer and the IT Security Officer,UNGROUNDED,flagged,modify,Recall lists that contain hospital contact data are shared only through channels approved by the Data Protection Officer
+S-G04,1,Task,Stream readings from the shipment's temperature data logger to the cold-chain monitoring service continuously from pick-up to hospital hand-over,SKB-02/G2,passed,accept,
+S-G04,2,Task,"Scan each cold-chain handover (loading, transfer, hospital receipt) so the temperature log has no unmonitored gap",SKB-06/G1,passed,accept,
+S-G04,3,Task,"Record batch, expiry and cold-chain storage class (2 to 8 degrees Celsius) for every pharmaceutical item at receipt",SKB-07/G2,passed,reject,duplicates the batch capture task of G03
+S-G04,4,Task,Raise an excursion alert to the Responsible Pharmacist and the Quality Assurance Officer when a reading leaves the 2 to 8 degrees Celsius range,SKB-02/G2,passed,accept,
+S-G04,5,Task,Require explicit acknowledgement of each excursion alert and escalate to the Quality Assurance Officer's deputy if it is not acknowledged within the agreed response time,SKB-02/G2,passed,accept,
+S-G04,6,Task,Quarantine the affected batches automatically on excursion and keep them blocked until a quality decision is recorded,SKB-02/G2,passed,accept,
+S-G04,7,Task,Block dispatch and delivery-note printing in the order portal for any order line linked to a quarantined batch,SKB-01/G2,passed,accept,
+S-G04,8,Task,"Record the Quality Assurance Officer's release or rejection decision with identity, timestamp, temperature evidence and reason in an audit trail",SKB-06/G1,passed,accept,
+S-G04,9,Task,"Make the LLM-based ordering assistant display the cold-chain storage class and current quarantine status of an item, and forbid it from confirming availability or release for quarantined batches",UNGROUNDED,flagged,reject,"belongs to G07 (AI governance), where the same control was proposed"
+S-G04,10,Task,"Report to the Hospital Buyer any shipment delayed or rejected because of an excursion, with the replacement plan",SKB-01/G2,passed,accept,
+S-G04,11,Resource,Temperature data loggers in every cold-chain shipper and in the cold rooms,SKB-02/G2,passed,accept,
+S-G04,12,Resource,Cold-chain monitoring dashboard with excursion alert and acknowledgement queue,SKB-02/G2,passed,accept,
+S-G04,13,Resource,"Stock and batch module holding batch, expiry, storage class and quarantine status",SKB-07/G2,passed,accept,
+S-G04,14,Resource,"Order portal and its dispatch interface, including the LLM ordering assistant channel",SKB-01/G2,passed,reject,duplicates the order module resource of G02
+S-G04,15,Actor,Quality Assurance Officer,SKB-02/G2,passed,accept,
+S-G04,16,Actor,Responsible Pharmacist,SKB-07/G2,passed,accept,
+S-G04,17,Actor,Sales Administrator,SKB-01/G2,passed,accept,
+S-G04,18,Actor,Hospital Buyer,SKB-01/G2,passed,accept,
+S-G04,19,Actor,AI Product Owner,UNGROUNDED,flagged,reject,"belongs to G07 (AI governance), where the same control was proposed"
+S-G04,20,Belief,Vaccines and insulin must be kept between 2 and 8 degrees Celsius,UNGROUNDED,flagged,accept,
+S-G04,21,Belief,"Loggers record at a fixed short interval (every five minutes), so a missing interval counts as a gap in the log",SKB-02/G2,passed,accept,
+S-G04,22,Belief,"Regulation requires a batch record for every medicine, so temperature evidence must be retained per batch",SKB-07/G2,passed,reject,duplicates a belief of G03
+S-G04,23,Constraint,Only the Quality Assurance Officer may release goods after a temperature excursion,SKB-02/G2,passed,accept,
+S-G04,24,Constraint,"Goods with an unresolved excursion cannot be picked, dispatched or invoiced",SKB-02/G2,passed,accept,
+S-G04,25,Constraint,A cold-chain shipment may not leave the warehouse without an active logger paired to its shipment record,SKB-06/G1,passed,accept,
+S-G04,26,Constraint,The LLM ordering assistant may inform about cold-chain status but may never acknowledge an alert or authorise a release,UNGROUNDED,flagged,reject,"belongs to G07 (AI governance), where the same control was proposed"
+S-G05,1,Goal,LLM ordering assistant requests verified under the named end user's delegated identity,SKB-04/G2,passed,accept,
+S-G05,2,Task,Authenticate every request to the order portal and to the ordering assistant against the corporate identity provider,SKB-04/G2,passed,accept,
+S-G05,3,Task,"Evaluate access policy per request (role, device, context, customer contract scope) before order, stock or contract data is released",SKB-04/G2,passed,accept,
+S-G05,4,Task,Cache policy decisions for 5 minutes for non-privileged read requests while re-verifying every privileged action,SKB-04/G2,passed,accept,
+S-G05,5,Task,"Require step-up multi-factor authentication for privileged actions (contract price changes, bulk data export, quarantine release, access rights changes)",SKB-04/G2,passed,accept,
+S-G05,6,Task,"Verify the requester's identity and entitlement before releasing contract, price or personal data to a hospital buyer or an external party",SKB-03/G3,passed,reject,duplicates element 3
+S-G05,7,Task,"Review all user, service and assistant access rights per role every quarter and revoke rights that are no longer justified",SKB-03/G3,passed,accept,
+S-G05,8,Task,Record each access review and each revocation in the access review register and close it within the quarter,SKB-03/G3,passed,accept,
+S-G05,9,Task,"Issue the ordering assistant a short-lived credential bound to the named hospital buyer or sales administrator for each session, never a standing service identity",SKB-04/G2,passed,accept,
+S-G05,10,Task,"Log every verified request with user identity, assistant session, and the order, batch or contract record accessed",SKB-07/G2,passed,accept,
+S-G05,11,Resource,Identity provider with multi-factor authentication,SKB-04/G2,passed,accept,
+S-G05,12,Resource,Policy decision point for per-request authorization,SKB-04/G2,passed,accept,
+S-G05,13,Resource,Access review register,SKB-03/G3,passed,accept,
+S-G05,14,Resource,"Order management module holding order, stock and contract data",SKB-01/G2,passed,reject,duplicates the order module resource of G02
+S-G05,15,Resource,Access event log,SKB-07/G2,passed,accept,
+S-G05,16,Actor,IT Security Officer,SKB-04/G2,passed,accept,
+S-G05,17,Actor,Hospital Buyer,SKB-04/G2,passed,accept,
+S-G05,18,Actor,Sales Administrator,SKB-01/G2,passed,accept,
+S-G05,19,Actor,Data Protection Officer,SKB-03/G3,passed,reject,belongs to G06 (privacy)
+S-G05,20,Actor,Responsible Pharmacist,SKB-07/G2,passed,reject,not an access-control role
+S-G05,21,Actor,Quality Assurance Officer,SKB-07/G2,passed,reject,not an access-control role
+S-G05,22,Actor,AI Product Owner,UNGROUNDED,flagged,accept,
+S-G05,23,Belief,"No network location, including the office network, is trusted by default",SKB-04/G2,passed,accept,
+S-G05,24,Belief,"Regulated pharmaceutical distribution requires traceable evidence of who accessed order, batch and contract records",SKB-07/G2,passed,accept,
+S-G05,25,Belief,The LLM ordering assistant is a requester like any other and is never implicitly trusted,UNGROUNDED,flagged,accept,
+S-G05,26,Constraint,"Shared accounts are not permitted, for human users and for the ordering assistant",SKB-04/G2,passed,accept,
+S-G05,27,Constraint,"Identity is verified before any order, contract or personal data is released",SKB-03/G3,passed,reject,duplicates element 3
+S-G05,28,Constraint,"Only the Responsible Pharmacist may authorize release of quarantined or recalled batch records, and only after step-up multi-factor authentication",SKB-07/G2,passed,reject,belongs to G03 and G04
+S-G05,29,Constraint,"A confirmed order may only be changed through a change request raised by a re-verified, authorized user",SKB-01/G2,passed,reject,duplicates a constraint of G02
+S-G05,30,Constraint,Cached authorization decisions may not be used for privileged actions,SKB-04/G2,passed,accept,
+S-G06,1,Task,"Maintain a data inventory recording, for every personal data field of hospital staff and named patients in the order portal and the ordering assistant, its purpose, legal basis and retention period",SKB-03/G2,passed,accept,
+S-G06,2,Task,Classify each personal data field as staff contact data or patient identifier and flag fields without a documented purpose for deletion or purpose assignment,SKB-03/G2,passed,accept,
+S-G06,3,Task,"Scan portal databases, exports, reports and log files for patient names and medical record numbers outside named-patient order records and remove or relocate the findings",SKB-03/G2,passed,accept,
+S-G06,4,Task,"Mask or pseudonymise patient identifiers and staff personal data in test, training and analytics environments",SKB-03/G2,passed,accept,
+S-G06,5,Task,"Filter patient identifiers out of prompts, retrieval context and logs of the LLM-based ordering assistant before any call to the model provider",SKB-05/G3,passed,accept,
+S-G06,6,Task,Keep a model and prompt change register for the ordering assistant and review each change for personal data exposure before release,SKB-05/G3,passed,reject,"belongs to G07 (AI governance), where the same control was proposed"
+S-G06,7,Task,Register and verify the identity of each data subject request from hospital staff or patients and record its legal deadline,SKB-03/G3,passed,accept,
+S-G06,8,Task,"Export, correct or erase the requester's personal data across the portal, the assistant stores and backups, and close the request within the legal deadline",SKB-03/G3,passed,accept,
+S-G06,9,Task,Review the privacy risk assessment of the order portal and the ordering assistant with the Data Protection Officer and the IT Security Officer at planned intervals,SKB-05/G3,passed,reject,merged into the joint risk review of G07
+S-G06,10,Resource,Personal data inventory of the order portal and the ordering assistant,SKB-03/G2,passed,accept,
+S-G06,11,Resource,Masking and pseudonymisation tool for non-production data copies,SKB-03/G2,passed,accept,
+S-G06,12,Resource,Data subject request register with verification evidence and deadline tracking,SKB-03/G3,passed,accept,
+S-G06,13,Resource,Model and prompt change register of the ordering assistant,SKB-05/G3,passed,reject,"belongs to G07 (AI governance), where the same control was proposed"
+S-G06,14,Resource,Privacy and AI risk register covering the order portal and the ordering assistant,SKB-05/G3,passed,reject,"belongs to G07 (AI governance), where the same control was proposed"
+S-G06,15,Actor,Data Protection Officer,SKB-03/G2,passed,accept,
+S-G06,16,Actor,IT Security Officer,SKB-03/G2,passed,accept,
+S-G06,17,Actor,Sales Administrator,SKB-03/G3,passed,accept,
+S-G06,18,Actor,AI Product Owner,SKB-05/G3,passed,reject,"belongs to G07 (AI governance), where the same control was proposed"
+S-G06,19,Actor,Responsible Pharmacist,SKB-07/G2,passed,accept,
+S-G06,20,Actor,Quality Assurance Officer,SKB-07/G2,passed,reject,not a privacy role
+S-G06,21,Belief,Named-patient orders contain a patient name and medical record number,UNGROUNDED,flagged,accept,
+S-G06,22,Belief,Hospital customers and their patients expect personal data to be used only for fulfilling and documenting their orders,SKB-03/G2,passed,accept,
+S-G06,23,Belief,"Regulation requires traceable records of named-patient supplies, so these records cannot simply be deleted",SKB-07/G2,passed,accept,
+S-G06,24,Constraint,"Patient identifiers are not sent to the language model provider, neither in prompts nor in retrieval context or logs",SKB-05/G3,passed,accept,
+S-G06,25,Constraint,Personal data of hospital staff and patients is retained no longer than its documented purpose and legal retention period require,SKB-03/G2,passed,accept,
+S-G06,26,Constraint,The identity of the data subject is verified before any personal data is released or erased,SKB-03/G3,passed,accept,
+S-G06,27,Constraint,Patient identifiers are stored only inside named-patient order records and are accessible only to roles authorised by the Responsible Pharmacist,SKB-07/G2,passed,accept,
+S-G07,1,Goal,Assistant answers grounded in the approved pharmaceutical corpus and traceable to a cited source,SKB-05/G2,passed,accept,
+S-G07,2,Goal,Hospital-specific commercial and patient data kept confidential in assistant interactions,SKB-01/G2,passed,accept,
+S-G07,3,Goal,Model and prompt changes and AI risks governed under approval and review,SKB-05/G3,passed,accept,
+S-G07,4,Task,"Retrieve assistant answers only from the approved product, contract and regulatory corpus and attach the source citation to every answer",SKB-05/G2,passed,accept,
+S-G07,5,Task,"Escalate out-of-scope, clinical or product-quality questions to the Responsible Pharmacist or Sales Administrator instead of answering",SKB-05/G2,passed,accept,
+S-G07,6,Task,Run a monthly evaluation of the assistant on a fixed test set of hospital ordering questions and record the correctness rating of each answer,SKB-05/G2,passed,accept,
+S-G07,7,Task,Hold or block assistant answers that fail the source-citation check and route them for human review before they reach the hospital buyer,SKB-08/G1,passed,accept,
+S-G07,8,Task,"Keep a register of every model version and prompt change with requester, approver and release date",SKB-05/G3,passed,accept,
+S-G07,9,Task,Approve each model or prompt change in the register before release and re-run the evaluation test set after release,SKB-05/G3,passed,accept,
+S-G07,10,Task,"Review the AI risk assessment of the ordering assistant with the Quality Assurance Officer, the IT Security Officer and the Data Protection Officer on a fixed periodic basis",SKB-05/G3,passed,accept,
+S-G07,11,Task,Filter retrieval and answer generation by the buyer's hospital entitlement so that only that hospital's contract prices and order history can be used,SKB-01/G2,passed,accept,
+S-G07,12,Task,Audit the monthly sample of assistant interaction logs for disclosure of another hospital's prices or contract terms,SKB-05/G3,passed,accept,
+S-G07,13,Task,Remove patient identifiers and other patient-level data from prompts and retrieved snippets before any call to the external model provider,SKB-05/G3,passed,reject,duplicates the identifier filter kept in G06
+S-G07,14,Task,Present the assistant's proposed order lines to the hospital buyer for explicit confirmation in the order portal before any order is created or changed,SKB-05/G2,passed,accept,
+S-G07,15,Resource,"Approved corpus of product data sheets, framework contracts and regulatory/ordering procedures",SKB-05/G2,passed,accept,
+S-G07,16,Resource,Fixed evaluation test set of hospital ordering questions with expected answers,SKB-05/G2,passed,accept,
+S-G07,17,Resource,Model and prompt change register,SKB-05/G3,passed,accept,
+S-G07,18,Resource,AI risk register for the ordering assistant,SKB-05/G3,passed,accept,
+S-G07,19,Resource,Hospital-specific contract price list with entitlement rules,SKB-01/G2,passed,reject,duplicates the price list resource of G02
+S-G07,20,Resource,"Assistant interaction log holding question, retrieved sources, cited answer and buyer identity",SKB-05/G3,passed,accept,
+S-G07,21,Actor,AI Product Owner,SKB-05/G3,passed,accept,
+S-G07,22,Actor,Quality Assurance Officer,SKB-05/G3,passed,accept,
+S-G07,23,Actor,IT Security Officer,SKB-05/G3,passed,accept,
+S-G07,24,Actor,Data Protection Officer,SKB-05/G3,passed,accept,
+S-G07,25,Actor,Responsible Pharmacist,SKB-05/G2,passed,accept,
+S-G07,26,Actor,Sales Administrator,SKB-01/G2,passed,accept,
+S-G07,27,Actor,Hospital Buyer,SKB-01/G2,passed,accept,
+S-G07,28,Belief,The ordering assistant runs on an external model provider outside the organization's infrastructure,UNGROUNDED,flagged,accept,
+S-G07,29,Belief,Hospital buyers act on the assistant's answers when placing orders for medicines,SKB-05/G2,passed,accept,
+S-G07,30,Belief,Prices and contract terms are hospital specific,SKB-01/G2,passed,reject,duplicates a belief of G02
+S-G07,31,Constraint,The assistant cannot place or change an order without the hospital buyer's explicit confirmation,SKB-05/G2,passed,accept,
+S-G07,32,Constraint,Patient identifiers are never sent to the language model provider,SKB-05/G3,passed,reject,duplicates a constraint of G06
+S-G07,33,Constraint,Only approved and currently valid documents may enter the retrieval corpus; drafts and expired contracts are excluded,SKB-05/G2,passed,accept,
+S-G07,34,Constraint,A model or prompt change cannot be released without approval by a second approver recorded in the change register,SKB-08/G1,passed,accept,
+S-G07,35,Constraint,An answer without a citation from the approved corpus cannot be shown to the hospital buyer,SKB-05/G3,passed,accept,

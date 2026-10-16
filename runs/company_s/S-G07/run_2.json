@@ -1,0 +1,684 @@
+{
+ "pipeline_version": "1.0.0",
+ "settings": {
+  "model": "claude-opus-5",
+  "effort": "high",
+  "max_tokens": 32000,
+  "embed_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "embed_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "top_k": 4
+ },
+ "kb_sha256": "f1fac045967a3996a6198e0a43fd5a0fc73237a243d0952fad861289bad5d423",
+ "query": {
+  "query_id": "S-G07",
+  "goal": {
+   "id": "G07",
+   "text": "Ordering assistant governed as an AI system"
+  },
+  "parent": {
+   "id": "G01",
+   "text": "Regulated order-to-delivery controlled and secure"
+  },
+  "domain": "pharmaceutical distribution to hospitals",
+  "organization_type": "medium-sized distributor with an order portal and an LLM-based ordering assistant",
+  "kpis": [
+   {
+    "id": "G07-K1",
+    "text": "Assistant answers that cite an approved source (100%)"
+   },
+   {
+    "id": "G07-K2",
+    "text": "Hospital-specific prices disclosed to another hospital in the monthly audit (0)"
+   },
+   {
+    "id": "G07-K3",
+    "text": "Answers rated correct in the monthly evaluation (>= 95%)"
+   },
+   {
+    "id": "G07-K4",
+    "text": "Model and prompt changes approved before release (100%)"
+   }
+  ],
+  "actors_in_scope": [
+   "Hospital Buyer",
+   "Sales Administrator",
+   "Responsible Pharmacist",
+   "Quality Assurance Officer",
+   "IT Security Officer",
+   "Data Protection Officer",
+   "AI Product Owner"
+  ],
+  "beliefs": [
+   "The assistant runs on an external model provider"
+  ],
+  "constraints": [
+   "The assistant cannot place or change an order without the buyer's confirmation",
+   "Patient identifiers are not sent to the language model provider"
+  ]
+ },
+ "retrieved": [
+  {
+   "chunk_id": "SKB-05/G3",
+   "score": 0.5823
+  },
+  {
+   "chunk_id": "SKB-05/G2",
+   "score": 0.5265
+  },
+  {
+   "chunk_id": "SKB-01/G2",
+   "score": 0.4841
+  },
+  {
+   "chunk_id": "SKB-08/G1",
+   "score": 0.4314
+  }
+ ],
+ "recording": "d5d22a601dd590f01ad6",
+ "response_id": "msg_011Cg662sfySmhWbsSwtgCFj",
+ "model_served": "claude-opus-5",
+ "usage": {
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "inference_geo": "global",
+  "input_tokens": 2659,
+  "output_tokens": 6251,
+  "output_tokens_details": {
+   "thinking_tokens": 1404
+  },
+  "service_tier": "standard",
+  "speed": "standard"
+ },
+ "output": {
+  "ranked_patterns": [
+   {
+    "pattern_id": "SKB-05/G3",
+    "relevance": "Most relevant: SKB-05/G3 is an AI-governance goal for an LLM assistant with retrieval and directly supplies the change register, pre-release approval of model/prompt changes, periodic AI risk review, and the 'no personal data to the model provider' constraint. These map one-to-one onto G07-K4 and onto the query belief about an external model provider and the constraint on patient identifiers."
+   },
+   {
+    "pattern_id": "SKB-05/G2",
+    "relevance": "Second: SKB-05/G2 covers grounded and traceable assistant answers (retrieval restricted to an approved corpus, escalation of out-of-scope questions, monthly evaluation on a fixed test set), which is the direct source for G07-K1 (citing an approved source) and G07-K3 (monthly correctness evaluation), and for the constraint that the assistant must not commit the company financially."
+   },
+   {
+    "pattern_id": "SKB-01/G2",
+    "relevance": "Third: SKB-01/G2 handles customer-specific price lists and validated order capture with confirmation before an order becomes binding. It is adapted here for G07-K2 (no cross-hospital price disclosure) and for the query constraint that the assistant cannot place or change an order without the buyer's confirmation."
+   },
+   {
+    "pattern_id": "SKB-08/G1",
+    "relevance": "Fourth and weakest: SKB-08/G1 is about invoice matching, but its control pattern — holding items for review and requiring a second approver before an irreversible action — is reusable as the release-approval control for model and prompt changes behind G07-K4."
+   }
+  ],
+  "elements": [
+   {
+    "element_type": "Task",
+    "text": "Restrict the ordering assistant's retrieval to the approved product, formulary and contract-pricing corpus, and make every answer cite the source document it used",
+    "linked_to": "G07-K1",
+    "source_pattern_id": "SKB-05/G2",
+    "justification": "Direct adaptation of 'Retrieve answers only from the approved policy corpus'; grounding in an approved corpus is what makes the 100% citation target measurable for a pharmaceutical catalogue."
+   },
+   {
+    "element_type": "Task",
+    "text": "Escalate questions outside the approved corpus (clinical, regulatory or contract exceptions) to the Sales Administrator or the Responsible Pharmacist instead of generating an answer",
+    "linked_to": "G07-K1",
+    "source_pattern_id": "SKB-05/G2",
+    "justification": "Adapted from 'Escalate out-of-scope questions to a human agent'; it closes the coverage gap created by limiting the corpus, so citation coverage can stay at 100%."
+   },
+   {
+    "element_type": "Task",
+    "text": "Run a monthly evaluation of the assistant on a fixed test set of hospital ordering questions and record the correctness rating of each answer",
+    "linked_to": "G07-K3",
+    "source_pattern_id": "SKB-05/G2",
+    "justification": "Adapted from 'Run a monthly evaluation on a fixed test set'; it is the measurement procedure that produces the >= 95% correctness figure."
+   },
+   {
+    "element_type": "Task",
+    "text": "Review evaluation failures with the Responsible Pharmacist and the Quality Assurance Officer and correct the corpus or prompt before the next evaluation cycle",
+    "linked_to": "G07-K3",
+    "source_pattern_id": "SKB-05/G3",
+    "justification": "Adapted from the risk-committee review task; in a pharmaceutical distributor the pharmacist and QA roles own answer correctness, and corrective review is what keeps the monthly rating above target."
+   },
+   {
+    "element_type": "Task",
+    "text": "Apply a hospital-scoped access filter at retrieval time so the assistant can only read the contract prices and order history of the hospital the requesting buyer belongs to",
+    "linked_to": "G07-K2",
+    "source_pattern_id": "SKB-01/G2",
+    "justification": "Adapted from 'Capture customer purchase order with price list validation' and the customer-specific price list belief; scoping retrieval is the preventive control that keeps cross-hospital price disclosure at zero."
+   },
+   {
+    "element_type": "Task",
+    "text": "Audit the assistant interaction log monthly for disclosure of hospital-specific prices or patient identifiers and report findings to the Data Protection Officer",
+    "linked_to": "G07-K2",
+    "source_pattern_id": "SKB-05/G3",
+    "justification": "Adapted from the AI risk review task; the monthly audit named in G07-K2 needs an explicit detective control over logged answers."
+   },
+   {
+    "element_type": "Task",
+    "text": "Maintain a model and prompt change register recording the version, author, test evidence and approval date of every assistant change",
+    "linked_to": "G07-K4",
+    "source_pattern_id": "SKB-05/G3",
+    "justification": "Direct adaptation of 'Keep a model and prompt change register'; without attributable change records the 100% pre-release approval target cannot be evidenced."
+   },
+   {
+    "element_type": "Task",
+    "text": "Hold every model or prompt change in a pre-release state until the AI Product Owner and the IT Security Officer have both approved it",
+    "linked_to": "G07-K4",
+    "source_pattern_id": "SKB-08/G1",
+    "justification": "Adapted from 'Hold mismatched invoices for review' plus the second-approver control; it enforces approval before release rather than detecting it afterwards."
+   },
+   {
+    "element_type": "Task",
+    "text": "Review the AI risk assessment of the ordering assistant with the Quality Assurance Officer and the Data Protection Officer every six months, covering the external model provider dependency",
+    "linked_to": "G07",
+    "source_pattern_id": "SKB-05/G3",
+    "justification": "Adapted from 'Review the AI risk assessment with the risk committee'; it keeps governance of the assistant periodic and documented, which is the substance of the goal."
+   },
+   {
+    "element_type": "Task",
+    "text": "Strip patient identifiers and free-text clinical details from prompts and attachments before any request is sent to the external model provider",
+    "linked_to": "G07",
+    "source_pattern_id": "SKB-05/G3",
+    "justification": "Operationalises the pattern constraint that personal data is not sent to the model provider, aligned with the query constraint on patient identifiers and the belief about the external provider."
+   },
+   {
+    "element_type": "Task",
+    "text": "Present every assistant-prepared order line to the Hospital Buyer for explicit confirmation in the portal before it is submitted or changed",
+    "linked_to": "G07",
+    "source_pattern_id": "SKB-01/G2",
+    "justification": "Adapted from 'Confirm order to customer' and the rule that a confirmed order cannot be edited without a change request; it implements the query constraint that the assistant cannot act without buyer confirmation."
+   },
+   {
+    "element_type": "Resource",
+    "text": "Approved product, formulary and contract-pricing corpus for the assistant",
+    "linked_to": "G07-K1",
+    "source_pattern_id": "SKB-05/G2",
+    "justification": "Adaptation of 'Approved policy corpus'; it is the only source the assistant may cite, so it underpins the citation KPI."
+   },
+   {
+    "element_type": "Resource",
+    "text": "Fixed evaluation test set of hospital ordering questions with expected answers",
+    "linked_to": "G07-K3",
+    "source_pattern_id": "SKB-05/G2",
+    "justification": "Adaptation of 'Evaluation test set'; it makes the monthly correctness measurement repeatable."
+   },
+   {
+    "element_type": "Resource",
+    "text": "Model and prompt change register",
+    "linked_to": "G07-K4",
+    "source_pattern_id": "SKB-05/G3",
+    "justification": "Taken from the pattern resource 'Change register'; it is the evidence base for the pre-release approval KPI."
+   },
+   {
+    "element_type": "Resource",
+    "text": "AI risk register for the ordering assistant, including external model provider risks",
+    "linked_to": "G07",
+    "source_pattern_id": "SKB-05/G3",
+    "justification": "Taken from the pattern resource 'AI risk register'; required to carry the periodic risk review and respect the external-provider belief."
+   },
+   {
+    "element_type": "Resource",
+    "text": "Hospital contract price list per customer account",
+    "linked_to": "G07-K2",
+    "source_pattern_id": "SKB-01/G2",
+    "justification": "Adaptation of 'Customer price list'; the scoped price data is what the retrieval filter and the disclosure audit are applied to."
+   },
+   {
+    "element_type": "Resource",
+    "text": "Assistant interaction log with prompt, cited sources, answer and requesting hospital account",
+    "linked_to": "G07-K2",
+    "source_pattern_id": "UNGROUNDED",
+    "justification": "Not present in the retrieved patterns but required to make the monthly disclosure audit and the citation check verifiable."
+   },
+   {
+    "element_type": "Actor",
+    "text": "AI Product Owner",
+    "linked_to": "G07",
+    "source_pattern_id": "SKB-05/G3",
+    "justification": "Pattern actor reused unchanged; owns the assistant, the change register and the release approval."
+   },
+   {
+    "element_type": "Actor",
+    "text": "Quality Assurance Officer",
+    "linked_to": "G07-K3",
+    "source_pattern_id": "SKB-05/G3",
+    "justification": "Adapted from the pattern's Risk Officer to the pharmaceutical distributor's QA role, which signs off evaluation results and the risk review."
+   },
+   {
+    "element_type": "Actor",
+    "text": "Data Protection Officer",
+    "linked_to": "G07-K2",
+    "source_pattern_id": "SKB-05/G3",
+    "justification": "Adapted from the Risk Officer role to the data-protection side implied by the pattern constraint on personal data; receives the monthly disclosure audit findings."
+   },
+   {
+    "element_type": "Actor",
+    "text": "IT Security Officer",
+    "linked_to": "G07-K4",
+    "source_pattern_id": "SKB-08/G1",
+    "justification": "Adapted from the 'second approver' control on payment runs; provides the independent approval of model and prompt releases."
+   },
+   {
+    "element_type": "Actor",
+    "text": "Sales Administrator",
+    "linked_to": "G07-K1",
+    "source_pattern_id": "SKB-05/G2",
+    "justification": "Adapted from 'Customer Service Agent'; receives escalations of commercial questions outside the approved corpus."
+   },
+   {
+    "element_type": "Actor",
+    "text": "Responsible Pharmacist",
+    "linked_to": "G07-K3",
+    "source_pattern_id": "SKB-05/G2",
+    "justification": "Adapted from the human-agent escalation role to the regulated pharmaceutical setting; validates clinically sensitive answers and evaluation failures."
+   },
+   {
+    "element_type": "Actor",
+    "text": "Hospital Buyer",
+    "linked_to": "G07",
+    "source_pattern_id": "SKB-01/G2",
+    "justification": "Adapted from the pattern actor 'Customer'; the buyer is the party whose confirmation is required before any order action."
+   },
+   {
+    "element_type": "Belief",
+    "text": "The ordering assistant runs on an external model provider, so prompt content leaves the distributor's infrastructure",
+    "linked_to": "G07",
+    "source_pattern_id": "UNGROUNDED",
+    "justification": "Stated in the query; no retrieved pattern makes the external provider dependency explicit, and it motivates the redaction task and the risk review."
+   },
+   {
+    "element_type": "Belief",
+    "text": "Hospital buyers act on the assistant's answers when ordering medicines",
+    "linked_to": "G07-K3",
+    "source_pattern_id": "SKB-05/G2",
+    "justification": "Adaptation of 'Customers act on the assistant's answers'; it justifies the high correctness target in a patient-safety-sensitive supply chain."
+   },
+   {
+    "element_type": "Belief",
+    "text": "Prices and contract terms are hospital specific",
+    "linked_to": "G07-K2",
+    "source_pattern_id": "SKB-01/G2",
+    "justification": "Adaptation of 'Price lists are customer specific'; this is why cross-hospital disclosure is a measured risk at all."
+   },
+   {
+    "element_type": "Constraint",
+    "text": "The assistant cannot place, modify or cancel an order without the Hospital Buyer's explicit confirmation",
+    "linked_to": "G07",
+    "source_pattern_id": "UNGROUNDED",
+    "justification": "Given in the query; the closest pattern rule (SKB-01/G2 change request) does not cover autonomous AI action, so it is recorded as ungrounded."
+   },
+   {
+    "element_type": "Constraint",
+    "text": "Patient identifiers are never included in prompts, attachments or logs sent to the external model provider",
+    "linked_to": "G07",
+    "source_pattern_id": "SKB-05/G3",
+    "justification": "Adaptation of the pattern constraint limiting customer personal data sent to the model provider, tightened to the pharmaceutical context."
+   },
+   {
+    "element_type": "Constraint",
+    "text": "The assistant does not quote prices, discounts or availability commitments outside the approved corpus and the requesting hospital's own contract",
+    "linked_to": "G07-K1",
+    "source_pattern_id": "SKB-05/G2",
+    "justification": "Adaptation of 'the assistant does not give answers that commit the company financially', combined with the hospital-scoping needed for G07-K2."
+   },
+   {
+    "element_type": "Constraint",
+    "text": "No model or prompt version reaches production without a recorded second approval distinct from its author",
+    "linked_to": "G07-K4",
+    "source_pattern_id": "SKB-08/G1",
+    "justification": "Adaptation of 'Payment runs need a second approver' to AI release management, making the 100% approval target enforceable."
+   }
+  ],
+  "rational_statement": "G07 makes the LLM-based ordering assistant a governed component of the regulated order-to-delivery chain rather than an uncontrolled channel: answers are grounded in an approved product, formulary and contract-pricing corpus and must cite it (G07-K1), out-of-scope questions are escalated to the Sales Administrator or Responsible Pharmacist instead of being improvised, correctness is measured monthly against a fixed test set (G07-K3), retrieval is scoped to the requesting hospital so contract prices cannot leak across customers (G07-K2), and every model or prompt change is registered and approved by a second role before release (G07-K4). Because the assistant runs on an external model provider, patient identifiers are redacted before any call and the AI risk register is reviewed every six months, while the buyer's explicit confirmation remains mandatory before any order is placed or changed. The pattern conflict between answer coverage and control is resolved the same way as in SKB-05/G2: the corpus stays narrow and approved, and coverage gaps are handled by human escalation rather than by relaxing grounding. Together these elements supply the parent goal G01 with assistant interactions that are traceable, confidentiality-preserving and human-confirmed, so AI-assisted ordering does not weaken the control and security of the regulated order-to-delivery process."
+ },
+ "validation": [
+  {
+   "n": 1,
+   "element_type": "Task",
+   "text": "Restrict the ordering assistant's retrieval to the approved product, formulary and contract-pricing corpus, and make every answer cite the source document it used",
+   "linked_to": "G07-K1",
+   "source_pattern_id": "SKB-05/G2",
+   "justification": "Direct adaptation of 'Retrieve answers only from the approved policy corpus'; grounding in an approved corpus is what makes the 100% citation target measurable for a pharmaceutical catalogue.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 2,
+   "element_type": "Task",
+   "text": "Escalate questions outside the approved corpus (clinical, regulatory or contract exceptions) to the Sales Administrator or the Responsible Pharmacist instead of generating an answer",
+   "linked_to": "G07-K1",
+   "source_pattern_id": "SKB-05/G2",
+   "justification": "Adapted from 'Escalate out-of-scope questions to a human agent'; it closes the coverage gap created by limiting the corpus, so citation coverage can stay at 100%.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 3,
+   "element_type": "Task",
+   "text": "Run a monthly evaluation of the assistant on a fixed test set of hospital ordering questions and record the correctness rating of each answer",
+   "linked_to": "G07-K3",
+   "source_pattern_id": "SKB-05/G2",
+   "justification": "Adapted from 'Run a monthly evaluation on a fixed test set'; it is the measurement procedure that produces the >= 95% correctness figure.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 4,
+   "element_type": "Task",
+   "text": "Review evaluation failures with the Responsible Pharmacist and the Quality Assurance Officer and correct the corpus or prompt before the next evaluation cycle",
+   "linked_to": "G07-K3",
+   "source_pattern_id": "SKB-05/G3",
+   "justification": "Adapted from the risk-committee review task; in a pharmaceutical distributor the pharmacist and QA roles own answer correctness, and corrective review is what keeps the monthly rating above target.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 5,
+   "element_type": "Task",
+   "text": "Apply a hospital-scoped access filter at retrieval time so the assistant can only read the contract prices and order history of the hospital the requesting buyer belongs to",
+   "linked_to": "G07-K2",
+   "source_pattern_id": "SKB-01/G2",
+   "justification": "Adapted from 'Capture customer purchase order with price list validation' and the customer-specific price list belief; scoping retrieval is the preventive control that keeps cross-hospital price disclosure at zero.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 6,
+   "element_type": "Task",
+   "text": "Audit the assistant interaction log monthly for disclosure of hospital-specific prices or patient identifiers and report findings to the Data Protection Officer",
+   "linked_to": "G07-K2",
+   "source_pattern_id": "SKB-05/G3",
+   "justification": "Adapted from the AI risk review task; the monthly audit named in G07-K2 needs an explicit detective control over logged answers.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 7,
+   "element_type": "Task",
+   "text": "Maintain a model and prompt change register recording the version, author, test evidence and approval date of every assistant change",
+   "linked_to": "G07-K4",
+   "source_pattern_id": "SKB-05/G3",
+   "justification": "Direct adaptation of 'Keep a model and prompt change register'; without attributable change records the 100% pre-release approval target cannot be evidenced.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 8,
+   "element_type": "Task",
+   "text": "Hold every model or prompt change in a pre-release state until the AI Product Owner and the IT Security Officer have both approved it",
+   "linked_to": "G07-K4",
+   "source_pattern_id": "SKB-08/G1",
+   "justification": "Adapted from 'Hold mismatched invoices for review' plus the second-approver control; it enforces approval before release rather than detecting it afterwards.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 9,
+   "element_type": "Task",
+   "text": "Review the AI risk assessment of the ordering assistant with the Quality Assurance Officer and the Data Protection Officer every six months, covering the external model provider dependency",
+   "linked_to": "G07",
+   "source_pattern_id": "SKB-05/G3",
+   "justification": "Adapted from 'Review the AI risk assessment with the risk committee'; it keeps governance of the assistant periodic and documented, which is the substance of the goal.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 10,
+   "element_type": "Task",
+   "text": "Strip patient identifiers and free-text clinical details from prompts and attachments before any request is sent to the external model provider",
+   "linked_to": "G07",
+   "source_pattern_id": "SKB-05/G3",
+   "justification": "Operationalises the pattern constraint that personal data is not sent to the model provider, aligned with the query constraint on patient identifiers and the belief about the external provider.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 11,
+   "element_type": "Task",
+   "text": "Present every assistant-prepared order line to the Hospital Buyer for explicit confirmation in the portal before it is submitted or changed",
+   "linked_to": "G07",
+   "source_pattern_id": "SKB-01/G2",
+   "justification": "Adapted from 'Confirm order to customer' and the rule that a confirmed order cannot be edited without a change request; it implements the query constraint that the assistant cannot act without buyer confirmation.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 12,
+   "element_type": "Resource",
+   "text": "Approved product, formulary and contract-pricing corpus for the assistant",
+   "linked_to": "G07-K1",
+   "source_pattern_id": "SKB-05/G2",
+   "justification": "Adaptation of 'Approved policy corpus'; it is the only source the assistant may cite, so it underpins the citation KPI.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 13,
+   "element_type": "Resource",
+   "text": "Fixed evaluation test set of hospital ordering questions with expected answers",
+   "linked_to": "G07-K3",
+   "source_pattern_id": "SKB-05/G2",
+   "justification": "Adaptation of 'Evaluation test set'; it makes the monthly correctness measurement repeatable.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 14,
+   "element_type": "Resource",
+   "text": "Model and prompt change register",
+   "linked_to": "G07-K4",
+   "source_pattern_id": "SKB-05/G3",
+   "justification": "Taken from the pattern resource 'Change register'; it is the evidence base for the pre-release approval KPI.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 15,
+   "element_type": "Resource",
+   "text": "AI risk register for the ordering assistant, including external model provider risks",
+   "linked_to": "G07",
+   "source_pattern_id": "SKB-05/G3",
+   "justification": "Taken from the pattern resource 'AI risk register'; required to carry the periodic risk review and respect the external-provider belief.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 16,
+   "element_type": "Resource",
+   "text": "Hospital contract price list per customer account",
+   "linked_to": "G07-K2",
+   "source_pattern_id": "SKB-01/G2",
+   "justification": "Adaptation of 'Customer price list'; the scoped price data is what the retrieval filter and the disclosure audit are applied to.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 17,
+   "element_type": "Resource",
+   "text": "Assistant interaction log with prompt, cited sources, answer and requesting hospital account",
+   "linked_to": "G07-K2",
+   "source_pattern_id": "UNGROUNDED",
+   "justification": "Not present in the retrieved patterns but required to make the monthly disclosure audit and the citation check verifiable.",
+   "status": "flagged",
+   "issues": "",
+   "flags": "UNGROUNDED"
+  },
+  {
+   "n": 18,
+   "element_type": "Actor",
+   "text": "AI Product Owner",
+   "linked_to": "G07",
+   "source_pattern_id": "SKB-05/G3",
+   "justification": "Pattern actor reused unchanged; owns the assistant, the change register and the release approval.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 19,
+   "element_type": "Actor",
+   "text": "Quality Assurance Officer",
+   "linked_to": "G07-K3",
+   "source_pattern_id": "SKB-05/G3",
+   "justification": "Adapted from the pattern's Risk Officer to the pharmaceutical distributor's QA role, which signs off evaluation results and the risk review.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 20,
+   "element_type": "Actor",
+   "text": "Data Protection Officer",
+   "linked_to": "G07-K2",
+   "source_pattern_id": "SKB-05/G3",
+   "justification": "Adapted from the Risk Officer role to the data-protection side implied by the pattern constraint on personal data; receives the monthly disclosure audit findings.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 21,
+   "element_type": "Actor",
+   "text": "IT Security Officer",
+   "linked_to": "G07-K4",
+   "source_pattern_id": "SKB-08/G1",
+   "justification": "Adapted from the 'second approver' control on payment runs; provides the independent approval of model and prompt releases.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 22,
+   "element_type": "Actor",
+   "text": "Sales Administrator",
+   "linked_to": "G07-K1",
+   "source_pattern_id": "SKB-05/G2",
+   "justification": "Adapted from 'Customer Service Agent'; receives escalations of commercial questions outside the approved corpus.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 23,
+   "element_type": "Actor",
+   "text": "Responsible Pharmacist",
+   "linked_to": "G07-K3",
+   "source_pattern_id": "SKB-05/G2",
+   "justification": "Adapted from the human-agent escalation role to the regulated pharmaceutical setting; validates clinically sensitive answers and evaluation failures.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 24,
+   "element_type": "Actor",
+   "text": "Hospital Buyer",
+   "linked_to": "G07",
+   "source_pattern_id": "SKB-01/G2",
+   "justification": "Adapted from the pattern actor 'Customer'; the buyer is the party whose confirmation is required before any order action.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 25,
+   "element_type": "Belief",
+   "text": "The ordering assistant runs on an external model provider, so prompt content leaves the distributor's infrastructure",
+   "linked_to": "G07",
+   "source_pattern_id": "UNGROUNDED",
+   "justification": "Stated in the query; no retrieved pattern makes the external provider dependency explicit, and it motivates the redaction task and the risk review.",
+   "status": "flagged",
+   "issues": "",
+   "flags": "UNGROUNDED"
+  },
+  {
+   "n": 26,
+   "element_type": "Belief",
+   "text": "Hospital buyers act on the assistant's answers when ordering medicines",
+   "linked_to": "G07-K3",
+   "source_pattern_id": "SKB-05/G2",
+   "justification": "Adaptation of 'Customers act on the assistant's answers'; it justifies the high correctness target in a patient-safety-sensitive supply chain.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 27,
+   "element_type": "Belief",
+   "text": "Prices and contract terms are hospital specific",
+   "linked_to": "G07-K2",
+   "source_pattern_id": "SKB-01/G2",
+   "justification": "Adaptation of 'Price lists are customer specific'; this is why cross-hospital disclosure is a measured risk at all.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 28,
+   "element_type": "Constraint",
+   "text": "The assistant cannot place, modify or cancel an order without the Hospital Buyer's explicit confirmation",
+   "linked_to": "G07",
+   "source_pattern_id": "UNGROUNDED",
+   "justification": "Given in the query; the closest pattern rule (SKB-01/G2 change request) does not cover autonomous AI action, so it is recorded as ungrounded.",
+   "status": "flagged",
+   "issues": "",
+   "flags": "UNGROUNDED"
+  },
+  {
+   "n": 29,
+   "element_type": "Constraint",
+   "text": "Patient identifiers are never included in prompts, attachments or logs sent to the external model provider",
+   "linked_to": "G07",
+   "source_pattern_id": "SKB-05/G3",
+   "justification": "Adaptation of the pattern constraint limiting customer personal data sent to the model provider, tightened to the pharmaceutical context.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 30,
+   "element_type": "Constraint",
+   "text": "The assistant does not quote prices, discounts or availability commitments outside the approved corpus and the requesting hospital's own contract",
+   "linked_to": "G07-K1",
+   "source_pattern_id": "SKB-05/G2",
+   "justification": "Adaptation of 'the assistant does not give answers that commit the company financially', combined with the hospital-scoping needed for G07-K2.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 31,
+   "element_type": "Constraint",
+   "text": "No model or prompt version reaches production without a recorded second approval distinct from its author",
+   "linked_to": "G07-K4",
+   "source_pattern_id": "SKB-08/G1",
+   "justification": "Adaptation of 'Payment runs need a second approver' to AI release management, making the 100% approval target enforceable.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  }
+ ],
+ "summary": {
+  "passed": 28,
+  "flagged": 3,
+  "rejected": 0
+ }
+}

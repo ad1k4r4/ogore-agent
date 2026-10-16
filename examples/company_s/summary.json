@@ -1,0 +1,109 @@
+{
+ "per_goal": {
+  "G02": {
+   "proposed": 25,
+   "accepted": 13,
+   "modified": 1,
+   "rejected": 11,
+   "ungrounded_accepted": 0
+  },
+  "G03": {
+   "proposed": 25,
+   "accepted": 20,
+   "modified": 1,
+   "rejected": 4,
+   "ungrounded_accepted": 1
+  },
+  "G04": {
+   "proposed": 26,
+   "accepted": 20,
+   "modified": 0,
+   "rejected": 6,
+   "ungrounded_accepted": 1
+  },
+  "G05": {
+   "proposed": 30,
+   "accepted": 22,
+   "modified": 0,
+   "rejected": 8,
+   "ungrounded_accepted": 2
+  },
+  "G06": {
+   "proposed": 27,
+   "accepted": 21,
+   "modified": 0,
+   "rejected": 6,
+   "ungrounded_accepted": 1
+  },
+  "G07": {
+   "proposed": 35,
+   "accepted": 31,
+   "modified": 0,
+   "rejected": 4,
+   "ungrounded_accepted": 1
+  }
+ },
+ "totals": {
+  "proposed": 168,
+  "accepted": 127,
+  "modified": 2,
+  "rejected": 39,
+  "ungrounded_accepted": 6
+ },
+ "kpis": 17,
+ "conflicts": [
+  {
+   "id": "C1",
+   "type": "soft",
+   "goals": [
+    "G05",
+    "G02"
+   ],
+   "variance_by_round": [
+    0.0222
+   ],
+   "negotiation_rounds": 0
+  },
+  {
+   "id": "C2",
+   "type": "soft",
+   "goals": [
+    "G07",
+    "G02"
+   ],
+   "variance_by_round": [
+    0.0447,
+    0.0089
+   ],
+   "negotiation_rounds": 1
+  },
+  {
+   "id": "C3",
+   "type": "soft",
+   "goals": [
+    "G03",
+    "G06"
+   ],
+   "variance_by_round": [
+    0.0414,
+    0.0181
+   ],
+   "negotiation_rounds": 1
+  },
+  {
+   "id": "C4",
+   "type": "hard",
+   "goals": [
+    "G04",
+    "G02"
+   ],
+   "variance_by_round": [
+    0.0714,
+    0.0189
+   ],
+   "negotiation_rounds": 1
+  }
+ ],
+ "use_cases": 18,
+ "goals_without_use_case": []
+}

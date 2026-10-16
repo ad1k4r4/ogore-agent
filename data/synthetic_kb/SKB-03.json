@@ -1,0 +1,110 @@
+{
+ "pattern_id": "SKB-03",
+ "organization_type": "online retailer (synthetic)",
+ "business_domain": "e-commerce; customer personal data protection",
+ "organization_goal": "earn customer trust by protecting personal data",
+ "it_goals": [
+  {
+   "goal_id": "G1",
+   "text": "Personal data processed lawfully",
+   "parent_id": null,
+   "decomposition": "AND",
+   "kpis": [
+    {
+     "id": "G1-K1",
+     "text": "Personal data fields with a recorded legal basis",
+     "target": "100%"
+    }
+   ],
+   "tasks": [],
+   "resources": [],
+   "actors": [],
+   "beliefs": [],
+   "constraints": []
+  },
+  {
+   "goal_id": "G2",
+   "text": "Personal data minimized and classified",
+   "parent_id": "G1",
+   "decomposition": "AND",
+   "kpis": [
+    {
+     "id": "G2-K1",
+     "text": "Personal data fields classified",
+     "target": "100%"
+    },
+    {
+     "id": "G2-K2",
+     "text": "Fields without a documented purpose",
+     "target": "0"
+    }
+   ],
+   "tasks": [
+    "Maintain a data inventory with purpose and retention per field",
+    "Mask personal data in non-production systems"
+   ],
+   "resources": [
+    "Data inventory",
+    "Masking tool"
+   ],
+   "actors": [
+    "Data Protection Officer",
+    "System Owner"
+   ],
+   "beliefs": [
+    "Customers expect data to be used only for their orders"
+   ],
+   "constraints": [
+    "Personal data is retained no longer than its purpose requires"
+   ]
+  },
+  {
+   "goal_id": "G3",
+   "text": "Data subject requests fulfilled",
+   "parent_id": "G1",
+   "decomposition": "AND",
+   "kpis": [
+    {
+     "id": "G3-K1",
+     "text": "Requests closed",
+     "target": "within 30 days"
+    }
+   ],
+   "tasks": [
+    "Register and verify each data subject request",
+    "Export or erase the customer's data"
+   ],
+   "resources": [
+    "Request register"
+   ],
+   "actors": [
+    "Data Protection Officer",
+    "Customer Service Agent"
+   ],
+   "beliefs": [],
+   "constraints": [
+    "Identity is verified before any data is released"
+   ]
+  }
+ ],
+ "contribution_values": [],
+ "rational_statements": [
+  {
+   "goal_id": "G2",
+   "text": "Classification is the precondition for every other privacy control, so it is measured at 100%."
+  }
+ ],
+ "conflicts_and_resolutions": [
+  {
+   "goals": [
+    "G2"
+   ],
+   "conflict": "marketing wanted to keep full purchase histories indefinitely",
+   "resolution": "keep aggregated histories; delete personal identifiers after 24 months"
+  }
+ ],
+ "validation": {
+  "validated_by": "synthetic (authors)",
+  "date": "2026-10-16"
+ }
+}

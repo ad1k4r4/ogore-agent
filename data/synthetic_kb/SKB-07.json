@@ -1,0 +1,74 @@
+{
+ "pattern_id": "SKB-07",
+ "organization_type": "hospital pharmacy (synthetic)",
+ "business_domain": "medicine handling; expiry and dispensing control",
+ "organization_goal": "dispense safe medicines without waste from expiry",
+ "it_goals": [
+  {
+   "goal_id": "G1",
+   "text": "Medicines dispensed safely",
+   "parent_id": null,
+   "decomposition": "AND",
+   "kpis": [
+    {
+     "id": "G1-K1",
+     "text": "Dispensing errors",
+     "target": "0 per month"
+    }
+   ],
+   "tasks": [],
+   "resources": [],
+   "actors": [],
+   "beliefs": [],
+   "constraints": []
+  },
+  {
+   "goal_id": "G2",
+   "text": "Expiry dates controlled",
+   "parent_id": "G1",
+   "decomposition": "AND",
+   "kpis": [
+    {
+     "id": "G2-K1",
+     "text": "Items picked first-expiry-first-out",
+     "target": "100%"
+    },
+    {
+     "id": "G2-K2",
+     "text": "Expired items removed from stock",
+     "target": "within 1 day of expiry"
+    }
+   ],
+   "tasks": [
+    "Record batch and expiry at receipt",
+    "Suggest picking by earliest expiry",
+    "Report items expiring within 90 days"
+   ],
+   "resources": [
+    "Pharmacy stock module"
+   ],
+   "actors": [
+    "Pharmacist in Charge",
+    "Pharmacy Technician"
+   ],
+   "beliefs": [
+    "Regulation requires batch records for every medicine"
+   ],
+   "constraints": [
+    "Only a pharmacist may release quarantined medicines"
+   ]
+  }
+ ],
+ "contribution_values": [],
+ "rational_statements": [
+  {
+   "goal_id": "G2",
+   "text": "Batch and expiry captured at receipt make both FEFO picking and recalls possible."
+  }
+ ],
+ "conflicts_and_resolutions": [],
+ "validation": {
+  "validated_by": "synthetic (authors)",
+  "date": "2026-10-16"
+ }
+}

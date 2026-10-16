@@ -1,0 +1,39 @@
+{
+ "query_id": "S-G02",
+ "goal": {
+  "id": "G02",
+  "text": "Hospital orders recorded accurately and confirmed promptly"
+ },
+ "parent": {
+  "id": "G01",
+  "text": "Regulated order-to-delivery controlled and secure"
+ },
+ "domain": "pharmaceutical distribution to hospitals",
+ "organization_type": "medium-sized distributor with an order portal and an LLM-based ordering assistant",
+ "kpis": [
+  {
+   "id": "G02-K1",
+   "text": "Order lines matching the hospital purchase order (>= 99.5% per month)"
+  },
+  {
+   "id": "G02-K2",
+   "text": "Order confirmation sent after submission (within 15 minutes)"
+  }
+ ],
+ "actors_in_scope": [
+  "Hospital Buyer",
+  "Sales Administrator",
+  "Responsible Pharmacist",
+  "Quality Assurance Officer",
+  "IT Security Officer",
+  "Data Protection Officer",
+  "AI Product Owner"
+ ],
+ "beliefs": [
+  "Each hospital has a contract price list",
+  "Hospital buyers order through the portal or the assistant"
+ ],
+ "constraints": [
+  "A confirmed order cannot be changed without a change request"
+ ]
+}

@@ -1,0 +1,126 @@
+{
+ "pattern_id": "SKB-01",
+ "organization_type": "medium-sized food and beverage distributor (synthetic)",
+ "business_domain": "wholesale distribution; order-to-cash and lot traceability",
+ "organization_goal": "deliver complete and traceable orders to retail customers",
+ "it_goals": [
+  {
+   "goal_id": "G1",
+   "text": "Controlled order-to-delivery",
+   "parent_id": null,
+   "decomposition": "AND",
+   "kpis": [
+    {
+     "id": "G1-K1",
+     "text": "Order lines delivered as ordered",
+     "target": "99.5%"
+    }
+   ],
+   "tasks": [],
+   "resources": [],
+   "actors": [],
+   "beliefs": [],
+   "constraints": []
+  },
+  {
+   "goal_id": "G2",
+   "text": "Customer orders recorded accurately",
+   "parent_id": "G1",
+   "decomposition": "AND",
+   "kpis": [
+    {
+     "id": "G2-K1",
+     "text": "Order lines matching the customer purchase order",
+     "target": "99.5%"
+    },
+    {
+     "id": "G2-K2",
+     "text": "Order confirmation sent after entry",
+     "target": "within 30 minutes"
+    }
+   ],
+   "tasks": [
+    "Capture customer purchase order with price list validation",
+    "Confirm order to customer"
+   ],
+   "resources": [
+    "Customer price list",
+    "Order management module"
+   ],
+   "actors": [
+    "Sales Administrator",
+    "Customer"
+   ],
+   "beliefs": [
+    "Price lists are customer specific"
+   ],
+   "constraints": [
+    "A confirmed order cannot be edited without a change request"
+   ]
+  },
+  {
+   "goal_id": "G3",
+   "text": "Lot numbers traceable from receipt to customer",
+   "parent_id": "G1",
+   "decomposition": "AND",
+   "kpis": [
+    {
+     "id": "G3-K1",
+     "text": "Shipped lines with lot number recorded",
+     "target": "100%"
+    },
+    {
+     "id": "G3-K2",
+     "text": "Time to list all customers of a recalled lot",
+     "target": "under 4 hours"
+    }
+   ],
+   "tasks": [
+    "Scan lot number at goods receipt",
+    "Record lot number on each picked line",
+    "Run recall trace report"
+   ],
+   "resources": [
+    "Barcode scanners",
+    "Lot master data"
+   ],
+   "actors": [
+    "Warehouse Clerk",
+    "Quality Officer"
+   ],
+   "beliefs": [
+    "Suppliers print lot numbers on every carton"
+   ],
+   "constraints": [
+    "A line without a lot number cannot be shipped"
+   ]
+  }
+ ],
+ "contribution_values": [
+  {
+   "element": "Run recall trace report",
+   "goal": "G3",
+   "value": "Make (++)"
+  }
+ ],
+ "rational_statements": [
+  {
+   "goal_id": "G3",
+   "text": "Lot capture at receipt and picking makes a recall trace a query instead of a manual search, which is what the 4-hour KPI requires."
+  }
+ ],
+ "conflicts_and_resolutions": [
+  {
+   "goals": [
+    "G2",
+    "G3"
+   ],
+   "conflict": "lot scanning slows picking and delays confirmation",
+   "resolution": "confirm the order at entry and scan lots at picking, so confirmation time is unaffected"
+  }
+ ],
+ "validation": {
+  "validated_by": "synthetic (authors)",
+  "date": "2026-10-16"
+ }
+}

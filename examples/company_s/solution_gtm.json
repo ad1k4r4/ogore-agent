@@ -1,0 +1,960 @@
+{
+ "root": {
+  "id": "G01",
+  "text": "Regulated order-to-delivery controlled and secure",
+  "maps_to": "OG1"
+ },
+ "sub_goals": [
+  {
+   "id": "G02",
+   "text": "Hospital orders recorded accurately and confirmed promptly",
+   "kpis": [
+    [
+     "Order lines matching the hospital purchase order",
+     ">= 99.5% per month"
+    ],
+    [
+     "Order confirmation sent after submission",
+     "within 15 minutes"
+    ]
+   ],
+   "beliefs": [
+    "Each hospital has a contract price list",
+    "Hospital buyers order through the portal or the assistant"
+   ],
+   "constraints": [
+    "A confirmed order cannot be changed without a change request"
+   ],
+   "elements": [
+    {
+     "type": "Task",
+     "text": "Capture the hospital purchase order in the order portal with automatic validation of each line against the hospital contract price list and contract catalogue",
+     "linked_to": "G02-K1",
+     "source": "SKB-01/G2"
+    },
+    {
+     "type": "Task",
+     "text": "Send the order confirmation to the hospital buyer automatically at order submission, before batch, lot and expiry checks are performed at picking",
+     "linked_to": "G02-K2",
+     "source": "SKB-01/G2"
+    },
+    {
+     "type": "Task",
+     "text": "Route any change to a confirmed order through a recorded change request and re-issue a new confirmation to the hospital buyer",
+     "linked_to": "G02",
+     "source": "SKB-01/G2"
+    },
+    {
+     "type": "Task",
+     "text": "Log the submission and confirmation timestamp of every order and report monthly on confirmation delay and line-matching deviations",
+     "linked_to": "G02-K2",
+     "source": "SKB-01/G2"
+    },
+    {
+     "type": "Resource",
+     "text": "Hospital contract price list and contract catalogue",
+     "linked_to": "G02-K1",
+     "source": "SKB-01/G2"
+    },
+    {
+     "type": "Resource",
+     "text": "Order management module with hospital ordering portal",
+     "linked_to": "G02",
+     "source": "SKB-01/G2"
+    },
+    {
+     "type": "Resource",
+     "text": "LLM ordering assistant with retrieval restricted to the approved hospital contract catalogue",
+     "linked_to": "G02-K1",
+     "source": "SKB-05/G3"
+    },
+    {
+     "type": "Resource",
+     "text": "Order confirmation and change-request log",
+     "linked_to": "G02-K2",
+     "source": "SKB-01/G2"
+    },
+    {
+     "type": "Actor",
+     "text": "Hospital Buyer",
+     "linked_to": "G02-K1",
+     "source": "SKB-01/G2"
+    },
+    {
+     "type": "Actor",
+     "text": "Sales Administrator",
+     "linked_to": "G02-K1",
+     "source": "SKB-01/G2"
+    },
+    {
+     "type": "Belief",
+     "text": "Each hospital has a contract price list, so order lines must be priced and validated per hospital",
+     "linked_to": "G02-K1",
+     "source": "SKB-01/G2"
+    },
+    {
+     "type": "Belief",
+     "text": "Hospital buyers order through the portal or the LLM assistant, so both channels must produce the same recorded and confirmable order",
+     "linked_to": "G02",
+     "source": "SKB-05/G3"
+    },
+    {
+     "type": "Constraint",
+     "text": "A confirmed order cannot be changed without a recorded change request",
+     "linked_to": "G02",
+     "source": "SKB-01/G2"
+    },
+    {
+     "type": "Constraint",
+     "text": "An order line that is not on the hospital contract catalogue is held for the Sales Administrator instead of being confirmed",
+     "linked_to": "G02-K1",
+     "source": "SKB-01/G3"
+    }
+   ],
+   "resolved_conflicts": [
+    "C1",
+    "C2",
+    "C4"
+   ]
+  },
+  {
+   "id": "G03",
+   "text": "Batch and expiry traceable to each hospital",
+   "kpis": [
+    [
+     "Shipped lines with batch number and expiry date recorded",
+     "100%"
+    ],
+    [
+     "Time to list every hospital that received a recalled batch",
+     "under 2 hours"
+    ]
+   ],
+   "beliefs": [
+    "Good distribution practice requires batch records for every medicine"
+   ],
+   "constraints": [
+    "A line without batch and expiry cannot be shipped"
+   ],
+   "elements": [
+    {
+     "type": "Task",
+     "text": "Scan and record batch number and expiry date at goods receipt of each pharmaceutical pack",
+     "linked_to": "G03-K1",
+     "source": "SKB-07/G2"
+    },
+    {
+     "type": "Task",
+     "text": "Record batch number and expiry date on each picked order line at picking, after order confirmation",
+     "linked_to": "G03-K1",
+     "source": "SKB-01/G3"
+    },
+    {
+     "type": "Task",
+     "text": "Suggest picking by earliest expiry (FEFO) and block confirmation of a shipped line that has no batch number or expiry date",
+     "linked_to": "G03-K1",
+     "source": "SKB-07/G2"
+    },
+    {
+     "type": "Task",
+     "text": "Report batches expiring within 90 days and remove expired stock from sellable inventory",
+     "linked_to": "G03-K1",
+     "source": "SKB-07/G2"
+    },
+    {
+     "type": "Task",
+     "text": "Run a recall trace report that lists every hospital, delivery note and quantity for a given batch number",
+     "linked_to": "G03-K2",
+     "source": "SKB-01/G3"
+    },
+    {
+     "type": "Task",
+     "text": "Quarantine stock of a recalled or suspect batch and notify the affected Hospital Buyers pending the release decision",
+     "linked_to": "G03-K2",
+     "source": "SKB-02/G2"
+    },
+    {
+     "type": "Actor",
+     "text": "Responsible Pharmacist",
+     "linked_to": "G03",
+     "source": "SKB-07/G2"
+    },
+    {
+     "type": "Actor",
+     "text": "Quality Assurance Officer",
+     "linked_to": "G03-K2",
+     "source": "SKB-01/G3"
+    },
+    {
+     "type": "Actor",
+     "text": "Sales Administrator",
+     "linked_to": "G03-K1",
+     "source": "SKB-01/G2"
+    },
+    {
+     "type": "Actor",
+     "text": "Hospital Buyer",
+     "linked_to": "G03-K2",
+     "source": "SKB-01/G2"
+    },
+    {
+     "type": "Resource",
+     "text": "Barcode/datamatrix scanners reading batch number and expiry at receipt and picking",
+     "linked_to": "G03-K1",
+     "source": "SKB-01/G3"
+    },
+    {
+     "type": "Resource",
+     "text": "Batch and expiry master data (batch, expiry, supplier, quantity per pack)",
+     "linked_to": "G03-K1",
+     "source": "SKB-01/G3"
+    },
+    {
+     "type": "Resource",
+     "text": "Pharmaceutical stock module with FEFO picking and expiry alerts",
+     "linked_to": "G03-K1",
+     "source": "SKB-07/G2"
+    },
+    {
+     "type": "Resource",
+     "text": "Recall trace query linking batch number to hospital deliveries",
+     "linked_to": "G03-K2",
+     "source": "SKB-01/G3"
+    },
+    {
+     "type": "Belief",
+     "text": "Good distribution practice requires batch records for every medicine",
+     "linked_to": "G03",
+     "source": "SKB-07/G2"
+    },
+    {
+     "type": "Belief",
+     "text": "Suppliers print a readable batch number and expiry date on every pharmaceutical pack and carton",
+     "linked_to": "G03-K1",
+     "source": "SKB-01/G3"
+    },
+    {
+     "type": "Belief",
+     "text": "Every shipped line is linked to one identified hospital delivery address",
+     "linked_to": "G03-K2",
+     "source": "SKB-01/G3"
+    },
+    {
+     "type": "Constraint",
+     "text": "A line without batch number and expiry date cannot be shipped",
+     "linked_to": "G03-K1",
+     "source": "SKB-01/G3"
+    },
+    {
+     "type": "Constraint",
+     "text": "Only the Responsible Pharmacist may release quarantined or recalled batches back to sellable stock",
+     "linked_to": "G03-K2",
+     "source": "SKB-07/G2"
+    },
+    {
+     "type": "Constraint",
+     "text": "Batch and expiry recorded on a shipped line cannot be edited without a documented change request approved by the Quality Assurance Officer",
+     "linked_to": "G03-K1",
+     "source": "SKB-01/G2"
+    },
+    {
+     "type": "Constraint",
+     "text": "Recall lists that contain hospital contact data are shared only through channels approved by the Data Protection Officer",
+     "linked_to": "G03-K2",
+     "source": "UNGROUNDED"
+    }
+   ],
+   "resolved_conflicts": [
+    "C3"
+   ]
+  },
+  {
+   "id": "G04",
+   "text": "Cold-chain products kept within their temperature range",
+   "kpis": [
+    [
+     "Cold-chain shipments with a continuous temperature log",
+     "100%"
+    ],
+    [
+     "Temperature excursion alerts acknowledged",
+     "within 30 minutes"
+    ],
+    [
+     "Goods with an excursion released without a quality decision",
+     "0"
+    ]
+   ],
+   "beliefs": [
+    "Vaccines and insulin need 2 to 8 degrees Celsius"
+   ],
+   "constraints": [
+    "Only the Quality Assurance Officer may release goods after an excursion"
+   ],
+   "elements": [
+    {
+     "type": "Task",
+     "text": "Stream readings from the shipment's temperature data logger to the cold-chain monitoring service continuously from pick-up to hospital hand-over",
+     "linked_to": "G04-K1",
+     "source": "SKB-02/G2"
+    },
+    {
+     "type": "Task",
+     "text": "Scan each cold-chain handover (loading, transfer, hospital receipt) so the temperature log has no unmonitored gap",
+     "linked_to": "G04-K1",
+     "source": "SKB-06/G1"
+    },
+    {
+     "type": "Task",
+     "text": "Raise an excursion alert to the Responsible Pharmacist and the Quality Assurance Officer when a reading leaves the 2 to 8 degrees Celsius range",
+     "linked_to": "G04-K2",
+     "source": "SKB-02/G2"
+    },
+    {
+     "type": "Task",
+     "text": "Require explicit acknowledgement of each excursion alert and escalate to the Quality Assurance Officer's deputy if it is not acknowledged within the agreed response time",
+     "linked_to": "G04-K2",
+     "source": "SKB-02/G2"
+    },
+    {
+     "type": "Task",
+     "text": "Quarantine the affected batches automatically on excursion and keep them blocked until a quality decision is recorded",
+     "linked_to": "G04-K3",
+     "source": "SKB-02/G2"
+    },
+    {
+     "type": "Task",
+     "text": "Block dispatch and delivery-note printing in the order portal for any order line linked to a quarantined batch",
+     "linked_to": "G04-K3",
+     "source": "SKB-01/G2"
+    },
+    {
+     "type": "Task",
+     "text": "Record the Quality Assurance Officer's release or rejection decision with identity, timestamp, temperature evidence and reason in an audit trail",
+     "linked_to": "G04-K3",
+     "source": "SKB-06/G1"
+    },
+    {
+     "type": "Task",
+     "text": "Report to the Hospital Buyer any shipment delayed or rejected because of an excursion, with the replacement plan",
+     "linked_to": "G04",
+     "source": "SKB-01/G2"
+    },
+    {
+     "type": "Resource",
+     "text": "Temperature data loggers in every cold-chain shipper and in the cold rooms",
+     "linked_to": "G04-K1",
+     "source": "SKB-02/G2"
+    },
+    {
+     "type": "Resource",
+     "text": "Cold-chain monitoring dashboard with excursion alert and acknowledgement queue",
+     "linked_to": "G04-K2",
+     "source": "SKB-02/G2"
+    },
+    {
+     "type": "Resource",
+     "text": "Stock and batch module holding batch, expiry, storage class and quarantine status",
+     "linked_to": "G04-K3",
+     "source": "SKB-07/G2"
+    },
+    {
+     "type": "Actor",
+     "text": "Quality Assurance Officer",
+     "linked_to": "G04-K3",
+     "source": "SKB-02/G2"
+    },
+    {
+     "type": "Actor",
+     "text": "Responsible Pharmacist",
+     "linked_to": "G04-K2",
+     "source": "SKB-07/G2"
+    },
+    {
+     "type": "Actor",
+     "text": "Sales Administrator",
+     "linked_to": "G04",
+     "source": "SKB-01/G2"
+    },
+    {
+     "type": "Actor",
+     "text": "Hospital Buyer",
+     "linked_to": "G04",
+     "source": "SKB-01/G2"
+    },
+    {
+     "type": "Belief",
+     "text": "Vaccines and insulin must be kept between 2 and 8 degrees Celsius",
+     "linked_to": "G04",
+     "source": "UNGROUNDED"
+    },
+    {
+     "type": "Belief",
+     "text": "Loggers record at a fixed short interval (every five minutes), so a missing interval counts as a gap in the log",
+     "linked_to": "G04-K1",
+     "source": "SKB-02/G2"
+    },
+    {
+     "type": "Constraint",
+     "text": "Only the Quality Assurance Officer may release goods after a temperature excursion",
+     "linked_to": "G04-K3",
+     "source": "SKB-02/G2"
+    },
+    {
+     "type": "Constraint",
+     "text": "Goods with an unresolved excursion cannot be picked, dispatched or invoiced",
+     "linked_to": "G04-K3",
+     "source": "SKB-02/G2"
+    },
+    {
+     "type": "Constraint",
+     "text": "A cold-chain shipment may not leave the warehouse without an active logger paired to its shipment record",
+     "linked_to": "G04-K1",
+     "source": "SKB-06/G1"
+    }
+   ],
+   "resolved_conflicts": [
+    "C4"
+   ]
+  },
+  {
+   "id": "G05",
+   "text": "Access to order, stock, and contract data verified for every request (zero trust)",
+   "kpis": [
+    [
+     "Requests authenticated and authorized per request",
+     "100%"
+    ],
+    [
+     "Privileged actions protected by multi-factor authentication",
+     "100%"
+    ],
+    [
+     "Quarterly access reviews completed",
+     "100%"
+    ]
+   ],
+   "beliefs": [
+    "No network location, including the office network, is trusted by default"
+   ],
+   "constraints": [
+    "Shared accounts are not permitted"
+   ],
+   "excluded_terms": [
+    "shared account"
+   ],
+   "elements": [
+    {
+     "type": "Goal",
+     "text": "LLM ordering assistant requests verified under the named end user's delegated identity",
+     "linked_to": "G05",
+     "source": "SKB-04/G2"
+    },
+    {
+     "type": "Task",
+     "text": "Authenticate every request to the order portal and to the ordering assistant against the corporate identity provider",
+     "linked_to": "G05-K1",
+     "source": "SKB-04/G2"
+    },
+    {
+     "type": "Task",
+     "text": "Evaluate access policy per request (role, device, context, customer contract scope) before order, stock or contract data is released",
+     "linked_to": "G05-K1",
+     "source": "SKB-04/G2"
+    },
+    {
+     "type": "Task",
+     "text": "Cache policy decisions for 5 minutes for non-privileged read requests while re-verifying every privileged action",
+     "linked_to": "G05-K1",
+     "source": "SKB-04/G2"
+    },
+    {
+     "type": "Task",
+     "text": "Require step-up multi-factor authentication for privileged actions (contract price changes, bulk data export, quarantine release, access rights changes)",
+     "linked_to": "G05-K2",
+     "source": "SKB-04/G2"
+    },
+    {
+     "type": "Task",
+     "text": "Review all user, service and assistant access rights per role every quarter and revoke rights that are no longer justified",
+     "linked_to": "G05-K3",
+     "source": "SKB-03/G3"
+    },
+    {
+     "type": "Task",
+     "text": "Record each access review and each revocation in the access review register and close it within the quarter",
+     "linked_to": "G05-K3",
+     "source": "SKB-03/G3"
+    },
+    {
+     "type": "Task",
+     "text": "Issue the ordering assistant a short-lived credential bound to the named hospital buyer or sales administrator for each session, never a standing service identity",
+     "linked_to": "G05-K1",
+     "source": "SKB-04/G2"
+    },
+    {
+     "type": "Task",
+     "text": "Log every verified request with user identity, assistant session, and the order, batch or contract record accessed",
+     "linked_to": "G05",
+     "source": "SKB-07/G2"
+    },
+    {
+     "type": "Resource",
+     "text": "Identity provider with multi-factor authentication",
+     "linked_to": "G05-K1",
+     "source": "SKB-04/G2"
+    },
+    {
+     "type": "Resource",
+     "text": "Policy decision point for per-request authorization",
+     "linked_to": "G05-K1",
+     "source": "SKB-04/G2"
+    },
+    {
+     "type": "Resource",
+     "text": "Access review register",
+     "linked_to": "G05-K3",
+     "source": "SKB-03/G3"
+    },
+    {
+     "type": "Resource",
+     "text": "Access event log",
+     "linked_to": "G05",
+     "source": "SKB-07/G2"
+    },
+    {
+     "type": "Actor",
+     "text": "IT Security Officer",
+     "linked_to": "G05",
+     "source": "SKB-04/G2"
+    },
+    {
+     "type": "Actor",
+     "text": "Hospital Buyer",
+     "linked_to": "G05-K1",
+     "source": "SKB-04/G2"
+    },
+    {
+     "type": "Actor",
+     "text": "Sales Administrator",
+     "linked_to": "G05-K1",
+     "source": "SKB-01/G2"
+    },
+    {
+     "type": "Actor",
+     "text": "AI Product Owner",
+     "linked_to": "G05",
+     "source": "UNGROUNDED"
+    },
+    {
+     "type": "Belief",
+     "text": "No network location, including the office network, is trusted by default",
+     "linked_to": "G05",
+     "source": "SKB-04/G2"
+    },
+    {
+     "type": "Belief",
+     "text": "Regulated pharmaceutical distribution requires traceable evidence of who accessed order, batch and contract records",
+     "linked_to": "G05",
+     "source": "SKB-07/G2"
+    },
+    {
+     "type": "Belief",
+     "text": "The LLM ordering assistant is a requester like any other and is never implicitly trusted",
+     "linked_to": "G05",
+     "source": "UNGROUNDED"
+    },
+    {
+     "type": "Constraint",
+     "text": "Shared accounts are not permitted, for human users and for the ordering assistant",
+     "linked_to": "G05",
+     "source": "SKB-04/G2"
+    },
+    {
+     "type": "Constraint",
+     "text": "Cached authorization decisions may not be used for privileged actions",
+     "linked_to": "G05-K2",
+     "source": "SKB-04/G2"
+    }
+   ],
+   "resolved_conflicts": [
+    "C1"
+   ]
+  },
+  {
+   "id": "G06",
+   "text": "Personal data of hospital staff and named patients protected",
+   "kpis": [
+    [
+     "Personal data fields classified with a documented purpose",
+     "100%"
+    ],
+    [
+     "Patient identifiers stored outside named-patient order records",
+     "0"
+    ],
+    [
+     "Data subject requests closed",
+     "within the legal deadline"
+    ]
+   ],
+   "beliefs": [
+    "Named-patient orders contain a patient name and medical record number"
+   ],
+   "constraints": [
+    "Patient identifiers are not sent to the language model provider"
+   ],
+   "elements": [
+    {
+     "type": "Task",
+     "text": "Maintain a data inventory recording, for every personal data field of hospital staff and named patients in the order portal and the ordering assistant, its purpose, legal basis and retention period",
+     "linked_to": "G06-K1",
+     "source": "SKB-03/G2"
+    },
+    {
+     "type": "Task",
+     "text": "Classify each personal data field as staff contact data or patient identifier and flag fields without a documented purpose for deletion or purpose assignment",
+     "linked_to": "G06-K1",
+     "source": "SKB-03/G2"
+    },
+    {
+     "type": "Task",
+     "text": "Scan portal databases, exports, reports and log files for patient names and medical record numbers outside named-patient order records and remove or relocate the findings",
+     "linked_to": "G06-K2",
+     "source": "SKB-03/G2"
+    },
+    {
+     "type": "Task",
+     "text": "Mask or pseudonymise patient identifiers and staff personal data in test, training and analytics environments",
+     "linked_to": "G06-K2",
+     "source": "SKB-03/G2"
+    },
+    {
+     "type": "Task",
+     "text": "Filter patient identifiers out of prompts, retrieval context and logs of the LLM-based ordering assistant before any call to the model provider",
+     "linked_to": "G06-K2",
+     "source": "SKB-05/G3"
+    },
+    {
+     "type": "Task",
+     "text": "Register and verify the identity of each data subject request from hospital staff or patients and record its legal deadline",
+     "linked_to": "G06-K3",
+     "source": "SKB-03/G3"
+    },
+    {
+     "type": "Task",
+     "text": "Export, correct or erase the requester's personal data across the portal, the assistant stores and backups, and close the request within the legal deadline",
+     "linked_to": "G06-K3",
+     "source": "SKB-03/G3"
+    },
+    {
+     "type": "Resource",
+     "text": "Personal data inventory of the order portal and the ordering assistant",
+     "linked_to": "G06-K1",
+     "source": "SKB-03/G2"
+    },
+    {
+     "type": "Resource",
+     "text": "Masking and pseudonymisation tool for non-production data copies",
+     "linked_to": "G06-K2",
+     "source": "SKB-03/G2"
+    },
+    {
+     "type": "Resource",
+     "text": "Data subject request register with verification evidence and deadline tracking",
+     "linked_to": "G06-K3",
+     "source": "SKB-03/G3"
+    },
+    {
+     "type": "Actor",
+     "text": "Data Protection Officer",
+     "linked_to": "G06",
+     "source": "SKB-03/G2"
+    },
+    {
+     "type": "Actor",
+     "text": "IT Security Officer",
+     "linked_to": "G06-K2",
+     "source": "SKB-03/G2"
+    },
+    {
+     "type": "Actor",
+     "text": "Sales Administrator",
+     "linked_to": "G06-K3",
+     "source": "SKB-03/G3"
+    },
+    {
+     "type": "Actor",
+     "text": "Responsible Pharmacist",
+     "linked_to": "G06-K2",
+     "source": "SKB-07/G2"
+    },
+    {
+     "type": "Belief",
+     "text": "Named-patient orders contain a patient name and medical record number",
+     "linked_to": "G06-K2",
+     "source": "UNGROUNDED"
+    },
+    {
+     "type": "Belief",
+     "text": "Hospital customers and their patients expect personal data to be used only for fulfilling and documenting their orders",
+     "linked_to": "G06-K1",
+     "source": "SKB-03/G2"
+    },
+    {
+     "type": "Belief",
+     "text": "Regulation requires traceable records of named-patient supplies, so these records cannot simply be deleted",
+     "linked_to": "G06-K3",
+     "source": "SKB-07/G2"
+    },
+    {
+     "type": "Constraint",
+     "text": "Patient identifiers are not sent to the language model provider, neither in prompts nor in retrieval context or logs",
+     "linked_to": "G06-K2",
+     "source": "SKB-05/G3"
+    },
+    {
+     "type": "Constraint",
+     "text": "Personal data of hospital staff and patients is retained no longer than its documented purpose and legal retention period require",
+     "linked_to": "G06-K1",
+     "source": "SKB-03/G2"
+    },
+    {
+     "type": "Constraint",
+     "text": "The identity of the data subject is verified before any personal data is released or erased",
+     "linked_to": "G06-K3",
+     "source": "SKB-03/G3"
+    },
+    {
+     "type": "Constraint",
+     "text": "Patient identifiers are stored only inside named-patient order records and are accessible only to roles authorised by the Responsible Pharmacist",
+     "linked_to": "G06-K2",
+     "source": "SKB-07/G2"
+    }
+   ],
+   "resolved_conflicts": [
+    "C3"
+   ]
+  },
+  {
+   "id": "G07",
+   "text": "Ordering assistant governed as an AI system",
+   "kpis": [
+    [
+     "Assistant answers that cite an approved source",
+     "100%"
+    ],
+    [
+     "Hospital-specific prices disclosed to another hospital in the monthly audit",
+     "0"
+    ],
+    [
+     "Answers rated correct in the monthly evaluation",
+     ">= 95%"
+    ],
+    [
+     "Model and prompt changes approved before release",
+     "100%"
+    ]
+   ],
+   "beliefs": [
+    "The assistant runs on an external model provider"
+   ],
+   "constraints": [
+    "The assistant cannot place or change an order without the buyer's confirmation",
+    "Patient identifiers are not sent to the language model provider"
+   ],
+   "elements": [
+    {
+     "type": "Goal",
+     "text": "Assistant answers grounded in the approved pharmaceutical corpus and traceable to a cited source",
+     "linked_to": "G07",
+     "source": "SKB-05/G2"
+    },
+    {
+     "type": "Goal",
+     "text": "Hospital-specific commercial and patient data kept confidential in assistant interactions",
+     "linked_to": "G07",
+     "source": "SKB-01/G2"
+    },
+    {
+     "type": "Goal",
+     "text": "Model and prompt changes and AI risks governed under approval and review",
+     "linked_to": "G07",
+     "source": "SKB-05/G3"
+    },
+    {
+     "type": "Task",
+     "text": "Retrieve assistant answers only from the approved product, contract and regulatory corpus and attach the source citation to every answer",
+     "linked_to": "G07-K1",
+     "source": "SKB-05/G2"
+    },
+    {
+     "type": "Task",
+     "text": "Escalate out-of-scope, clinical or product-quality questions to the Responsible Pharmacist or Sales Administrator instead of answering",
+     "linked_to": "G07-K1",
+     "source": "SKB-05/G2"
+    },
+    {
+     "type": "Task",
+     "text": "Run a monthly evaluation of the assistant on a fixed test set of hospital ordering questions and record the correctness rating of each answer",
+     "linked_to": "G07-K3",
+     "source": "SKB-05/G2"
+    },
+    {
+     "type": "Task",
+     "text": "Hold or block assistant answers that fail the source-citation check and route them for human review before they reach the hospital buyer",
+     "linked_to": "G07-K1",
+     "source": "SKB-08/G1"
+    },
+    {
+     "type": "Task",
+     "text": "Keep a register of every model version and prompt change with requester, approver and release date",
+     "linked_to": "G07-K4",
+     "source": "SKB-05/G3"
+    },
+    {
+     "type": "Task",
+     "text": "Approve each model or prompt change in the register before release and re-run the evaluation test set after release",
+     "linked_to": "G07-K4",
+     "source": "SKB-05/G3"
+    },
+    {
+     "type": "Task",
+     "text": "Review the AI risk assessment of the ordering assistant with the Quality Assurance Officer, the IT Security Officer and the Data Protection Officer on a fixed periodic basis",
+     "linked_to": "G07",
+     "source": "SKB-05/G3"
+    },
+    {
+     "type": "Task",
+     "text": "Filter retrieval and answer generation by the buyer's hospital entitlement so that only that hospital's contract prices and order history can be used",
+     "linked_to": "G07-K2",
+     "source": "SKB-01/G2"
+    },
+    {
+     "type": "Task",
+     "text": "Audit the monthly sample of assistant interaction logs for disclosure of another hospital's prices or contract terms",
+     "linked_to": "G07-K2",
+     "source": "SKB-05/G3"
+    },
+    {
+     "type": "Task",
+     "text": "Present the assistant's proposed order lines to the hospital buyer for explicit confirmation in the order portal before any order is created or changed",
+     "linked_to": "G07",
+     "source": "SKB-05/G2"
+    },
+    {
+     "type": "Resource",
+     "text": "Approved corpus of product data sheets, framework contracts and regulatory/ordering procedures",
+     "linked_to": "G07-K1",
+     "source": "SKB-05/G2"
+    },
+    {
+     "type": "Resource",
+     "text": "Fixed evaluation test set of hospital ordering questions with expected answers",
+     "linked_to": "G07-K3",
+     "source": "SKB-05/G2"
+    },
+    {
+     "type": "Resource",
+     "text": "Model and prompt change register",
+     "linked_to": "G07-K4",
+     "source": "SKB-05/G3"
+    },
+    {
+     "type": "Resource",
+     "text": "AI risk register for the ordering assistant",
+     "linked_to": "G07",
+     "source": "SKB-05/G3"
+    },
+    {
+     "type": "Resource",
+     "text": "Assistant interaction log holding question, retrieved sources, cited answer and buyer identity",
+     "linked_to": "G07-K2",
+     "source": "SKB-05/G3"
+    },
+    {
+     "type": "Actor",
+     "text": "AI Product Owner",
+     "linked_to": "G07-K4",
+     "source": "SKB-05/G3"
+    },
+    {
+     "type": "Actor",
+     "text": "Quality Assurance Officer",
+     "linked_to": "G07-K3",
+     "source": "SKB-05/G3"
+    },
+    {
+     "type": "Actor",
+     "text": "IT Security Officer",
+     "linked_to": "G07-K2",
+     "source": "SKB-05/G3"
+    },
+    {
+     "type": "Actor",
+     "text": "Data Protection Officer",
+     "linked_to": "G07",
+     "source": "SKB-05/G3"
+    },
+    {
+     "type": "Actor",
+     "text": "Responsible Pharmacist",
+     "linked_to": "G07-K1",
+     "source": "SKB-05/G2"
+    },
+    {
+     "type": "Actor",
+     "text": "Sales Administrator",
+     "linked_to": "G07-K1",
+     "source": "SKB-01/G2"
+    },
+    {
+     "type": "Actor",
+     "text": "Hospital Buyer",
+     "linked_to": "G07",
+     "source": "SKB-01/G2"
+    },
+    {
+     "type": "Belief",
+     "text": "The ordering assistant runs on an external model provider outside the organization's infrastructure",
+     "linked_to": "G07",
+     "source": "UNGROUNDED"
+    },
+    {
+     "type": "Belief",
+     "text": "Hospital buyers act on the assistant's answers when placing orders for medicines",
+     "linked_to": "G07-K3",
+     "source": "SKB-05/G2"
+    },
+    {
+     "type": "Constraint",
+     "text": "The assistant cannot place or change an order without the hospital buyer's explicit confirmation",
+     "linked_to": "G07",
+     "source": "SKB-05/G2"
+    },
+    {
+     "type": "Constraint",
+     "text": "Only approved and currently valid documents may enter the retrieval corpus; drafts and expired contracts are excluded",
+     "linked_to": "G07-K1",
+     "source": "SKB-05/G2"
+    },
+    {
+     "type": "Constraint",
+     "text": "A model or prompt change cannot be released without approval by a second approver recorded in the change register",
+     "linked_to": "G07-K4",
+     "source": "SKB-08/G1"
+    },
+    {
+     "type": "Constraint",
+     "text": "An answer without a citation from the approved corpus cannot be shown to the hospital buyer",
+     "linked_to": "G07-K1",
+     "source": "SKB-05/G3"
+    }
+   ],
+   "resolved_conflicts": [
+    "C2"
+   ]
+  }
+ ]
+}

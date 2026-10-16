@@ -1,0 +1,42 @@
+{
+ "query_id": "S-G04",
+ "goal": {
+  "id": "G04",
+  "text": "Cold-chain products kept within their temperature range"
+ },
+ "parent": {
+  "id": "G01",
+  "text": "Regulated order-to-delivery controlled and secure"
+ },
+ "domain": "pharmaceutical distribution to hospitals",
+ "organization_type": "medium-sized distributor with an order portal and an LLM-based ordering assistant",
+ "kpis": [
+  {
+   "id": "G04-K1",
+   "text": "Cold-chain shipments with a continuous temperature log (100%)"
+  },
+  {
+   "id": "G04-K2",
+   "text": "Temperature excursion alerts acknowledged (within 30 minutes)"
+  },
+  {
+   "id": "G04-K3",
+   "text": "Goods with an excursion released without a quality decision (0)"
+  }
+ ],
+ "actors_in_scope": [
+  "Hospital Buyer",
+  "Sales Administrator",
+  "Responsible Pharmacist",
+  "Quality Assurance Officer",
+  "IT Security Officer",
+  "Data Protection Officer",
+  "AI Product Owner"
+ ],
+ "beliefs": [
+  "Vaccines and insulin need 2 to 8 degrees Celsius"
+ ],
+ "constraints": [
+  "Only the Quality Assurance Officer may release goods after an excursion"
+ ]
+}

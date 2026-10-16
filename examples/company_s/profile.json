@@ -1,0 +1,32 @@
+{
+ "organization": "Company S (synthetic)",
+ "description": "Pharmaceutical distributor supplying about 300 hospitals and clinics from three regional warehouses, 400 employees. It replaces e-mail and telephone ordering with an order portal and adds an ordering assistant (a language model with retrieval over product and contract data) for hospital buyers. Distribution must follow good distribution practice for medicines, including batch records and cold-chain control.",
+ "vision": "To be the most trusted distributor of medicines to hospitals in the region.",
+ "mission": "Deliver the right medicine, in the right condition, on time, with records that regulators and customers can rely on.",
+ "organization_goals": [
+  {
+   "id": "OG1",
+   "text": "Supply hospitals reliably and in compliance with distribution regulation",
+   "priority": 1
+  },
+  {
+   "id": "OG2",
+   "text": "Grow the hospital customer base",
+   "priority": 2
+  },
+  {
+   "id": "OG3",
+   "text": "Reduce distribution cost per order line",
+   "priority": 3
+  }
+ ],
+ "actors": [
+  "Hospital Buyer",
+  "Sales Administrator",
+  "Responsible Pharmacist",
+  "Quality Assurance Officer",
+  "IT Security Officer",
+  "Data Protection Officer",
+  "AI Product Owner"
+ ]
+}

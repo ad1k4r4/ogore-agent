@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "ogore-agent: reference implementation of the OGORE Activity 2.1 agent"
+version: 1.0.0
+date-released: 2026-10-17
+license: MIT
+authors:
+  - family-names: Adikara
+    given-names: Fransiskus
+    affiliation: Universitas Esa Unggul
+  - family-names: Sandfreni
+    given-names: Sandfreni
+    affiliation: Universitas Esa Unggul
+  - family-names: Bernanda
+    given-names: Devi Yurisca
+    affiliation: Universitas Bunda Mulia
+  - family-names: Jawawi
+    given-names: Dayang N. A.
+    affiliation: Universiti Teknologi Malaysia

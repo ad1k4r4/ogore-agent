@@ -1,0 +1,628 @@
+{
+ "pipeline_version": "1.0.0",
+ "settings": {
+  "model": "claude-opus-5",
+  "effort": "high",
+  "max_tokens": 32000,
+  "embed_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "embed_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "top_k": 4
+ },
+ "kb_sha256": "f1fac045967a3996a6198e0a43fd5a0fc73237a243d0952fad861289bad5d423",
+ "query": {
+  "query_id": "S-G05",
+  "goal": {
+   "id": "G05",
+   "text": "Access to order, stock, and contract data verified for every request (zero trust)"
+  },
+  "parent": {
+   "id": "G01",
+   "text": "Regulated order-to-delivery controlled and secure"
+  },
+  "domain": "pharmaceutical distribution to hospitals",
+  "organization_type": "medium-sized distributor with an order portal and an LLM-based ordering assistant",
+  "kpis": [
+   {
+    "id": "G05-K1",
+    "text": "Requests authenticated and authorized per request (100%)"
+   },
+   {
+    "id": "G05-K2",
+    "text": "Privileged actions protected by multi-factor authentication (100%)"
+   },
+   {
+    "id": "G05-K3",
+    "text": "Quarterly access reviews completed (100%)"
+   }
+  ],
+  "actors_in_scope": [
+   "Hospital Buyer",
+   "Sales Administrator",
+   "Responsible Pharmacist",
+   "Quality Assurance Officer",
+   "IT Security Officer",
+   "Data Protection Officer",
+   "AI Product Owner"
+  ],
+  "beliefs": [
+   "No network location, including the office network, is trusted by default"
+  ],
+  "constraints": [
+   "Shared accounts are not permitted"
+  ],
+  "excluded_terms": [
+   "shared account"
+  ]
+ },
+ "retrieved": [
+  {
+   "chunk_id": "SKB-04/G2",
+   "score": 0.5308
+  },
+  {
+   "chunk_id": "SKB-03/G3",
+   "score": 0.5206
+  },
+  {
+   "chunk_id": "SKB-01/G2",
+   "score": 0.4802
+  },
+  {
+   "chunk_id": "SKB-07/G2",
+   "score": 0.4757
+  }
+ ],
+ "recording": "c170c513c952e5efa1a1",
+ "response_id": "msg_011Cg65aKK5n6erZLhrcozAq",
+ "model_served": "claude-opus-5",
+ "usage": {
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "inference_geo": "global",
+  "input_tokens": 2593,
+  "output_tokens": 5958,
+  "output_tokens_details": {
+   "thinking_tokens": 1358
+  },
+  "service_tier": "standard",
+  "speed": "standard"
+ },
+ "output": {
+  "ranked_patterns": [
+   {
+    "pattern_id": "SKB-04/G2",
+    "relevance": "Highest relevance: SKB-04/G2 is itself a zero-trust per-request verification goal with the same two leading KPIs (per-request authentication/authorization at 100% and MFA for privileged sessions at 100%), the same belief that no network location is trusted by default, and the same no-shared-accounts constraint. Its tasks (authenticate against the identity provider, evaluate access policy per request, step-up authentication), resources (identity provider, policy decision point) and its conflict resolution (cache non-privileged read decisions for 5 minutes, always re-verify privileged actions) transfer almost directly to G05 for the order portal of a pharmaceutical distributor."
+   },
+   {
+    "pattern_id": "SKB-03/G3",
+    "relevance": "Second: SKB-03/G3 contributes the identity-verification-before-data-release constraint and the Data Protection Officer actor, which are needed because G05 governs access to customer, contract and order data that includes personal data of hospital buyers. Its 'request register' resource pattern is adaptable into the access review register required by G05-K3."
+   },
+   {
+    "pattern_id": "SKB-01/G2",
+    "relevance": "Third: SKB-01/G2 is the same order-to-cash context (distributor, customer purchase orders, price lists, order management module) and supplies the order portal/order management resource, the Sales Administrator and Customer (here Hospital Buyer) actors, and the constraint that a confirmed order cannot be edited without a change request, which defines an order-data action that G05 must treat as privileged."
+   },
+   {
+    "pattern_id": "SKB-07/G2",
+    "relevance": "Fourth: SKB-07/G2 is relevant for the regulated pharmaceutical dimension. Its constraint that only a pharmacist may release quarantined medicines and its belief about regulatory batch records justify treating pharmaceutical release actions as privileged (G05-K2) and keeping auditable access records for review (G05-K3), even though its expiry-control tasks themselves do not apply."
+   }
+  ],
+  "elements": [
+   {
+    "element_type": "Goal",
+    "text": "Non-human identities, including the LLM ordering assistant, are verified and authorized on every request like human identities",
+    "linked_to": "G05",
+    "source_pattern_id": "SKB-04/G2",
+    "justification": "SKB-04/G2 verifies every access request without implicit trust; the query organization adds an LLM-based ordering assistant that issues requests to order, stock and contract data, so the goal needs one sub-goal extending per-request verification to machine identities."
+   },
+   {
+    "element_type": "Task",
+    "text": "Authenticate every request to the order portal, stock and contract services against the corporate identity provider",
+    "linked_to": "G05-K1",
+    "source_pattern_id": "SKB-04/G2",
+    "justification": "Direct adaptation of the pattern task 'Authenticate each request against the identity provider' to the distributor's portal and data domains, which is what G05-K1 measures."
+   },
+   {
+    "element_type": "Task",
+    "text": "Evaluate the access policy per request using role, device, context and data domain (order, stock, contract)",
+    "linked_to": "G05-K1",
+    "source_pattern_id": "SKB-04/G2",
+    "justification": "Adapts 'Evaluate access policy per request (role, device, context)' and extends it with the three data domains named in G05."
+   },
+   {
+    "element_type": "Task",
+    "text": "Require step-up multi-factor authentication for privileged actions such as contract price changes, credit limit changes and release of quarantined stock",
+    "linked_to": "G05-K2",
+    "source_pattern_id": "SKB-04/G2",
+    "justification": "Adapts 'Require step-up authentication for privileged actions'; the privileged action list is specialized with the pharmaceutical release action taken from SKB-07/G2 so that G05-K2 is fully covered."
+   },
+   {
+    "element_type": "Task",
+    "text": "Cache policy decisions for non-privileged read requests for a short period while always re-verifying privileged actions",
+    "linked_to": "G05-K1",
+    "source_pattern_id": "SKB-04/G2",
+    "justification": "Reuses the conflict resolution of SKB-04/G2 (latency on operational screens versus per-request checks) so that portal and assistant response times stay acceptable without weakening verification of privileged actions."
+   },
+   {
+    "element_type": "Task",
+    "text": "Issue a dedicated service identity to the LLM ordering assistant and restrict each assistant request to the entitlements of the authenticated end user on whose behalf it acts",
+    "linked_to": "G05-K1",
+    "source_pattern_id": "SKB-04/G2",
+    "justification": "Extension of per-request verification to the LLM assistant; required because shared accounts are not permitted, so the assistant may not run under a generic or shared credential."
+   },
+   {
+    "element_type": "Task",
+    "text": "Verify the identity of the requester before releasing order, contract or personal data to a hospital buyer or an external party",
+    "linked_to": "G05-K1",
+    "source_pattern_id": "SKB-03/G3",
+    "justification": "Adapts the SKB-03/G3 practice of verifying identity before any data release, applied here to portal and assistant data disclosure."
+   },
+   {
+    "element_type": "Task",
+    "text": "Perform a quarterly review and recertification of all user and service account entitlements and record the outcome",
+    "linked_to": "G05-K3",
+    "source_pattern_id": "UNGROUNDED",
+    "justification": "No retrieved pattern covers periodic recertification, but G05-K3 explicitly requires quarterly access reviews at 100%."
+   },
+   {
+    "element_type": "Task",
+    "text": "Log every access decision (allow or deny) with the identity, data domain and timestamp, and use the log as evidence for the quarterly review",
+    "linked_to": "G05-K3",
+    "source_pattern_id": "SKB-07/G2",
+    "justification": "Adapted from the SKB-07/G2 practice of recording regulated data at the point of the transaction so that later control and traceability are possible; here decisions are recorded so reviews can be evidenced."
+   },
+   {
+    "element_type": "Resource",
+    "text": "Identity provider (single source of user and service identities for the portal, back office and assistant)",
+    "linked_to": "G05-K1",
+    "source_pattern_id": "SKB-04/G2",
+    "justification": "Reuse of the pattern resource 'Identity provider', extended to cover the assistant's service identity."
+   },
+   {
+    "element_type": "Resource",
+    "text": "Policy decision point",
+    "linked_to": "G05-K1",
+    "source_pattern_id": "SKB-04/G2",
+    "justification": "Reuse of the pattern resource 'Policy decision point', which performs the per-request authorization measured by G05-K1."
+   },
+   {
+    "element_type": "Resource",
+    "text": "Multi-factor and step-up authentication service",
+    "linked_to": "G05-K2",
+    "source_pattern_id": "SKB-04/G2",
+    "justification": "Implied by the pattern's step-up authentication task and its MFA KPI; made explicit as the resource that enables G05-K2."
+   },
+   {
+    "element_type": "Resource",
+    "text": "Access review register recording entitlements, reviewers and decisions per quarter",
+    "linked_to": "G05-K3",
+    "source_pattern_id": "SKB-03/G3",
+    "justification": "Adapted from the SKB-03/G3 'Request register' resource, repurposed as the register that evidences completion of quarterly access reviews."
+   },
+   {
+    "element_type": "Resource",
+    "text": "Order portal and order management module as the protected systems holding order, stock and contract data",
+    "linked_to": "G05",
+    "source_pattern_id": "SKB-01/G2",
+    "justification": "Adapted from the SKB-01/G2 'Order management module' and 'Customer price list' resources, which in this organization hold the contract and order data that G05 protects."
+   },
+   {
+    "element_type": "Actor",
+    "text": "IT Security Officer (owner of access policy, identity provider and the verification controls)",
+    "linked_to": "G05",
+    "source_pattern_id": "SKB-04/G2",
+    "justification": "Same accountable actor as in the zero-trust pattern and listed in the query scope."
+   },
+   {
+    "element_type": "Actor",
+    "text": "Sales Administrator (internal user of order and contract data, subject to per-request verification)",
+    "linked_to": "G05-K1",
+    "source_pattern_id": "SKB-01/G2",
+    "justification": "Adapted from the SKB-01/G2 Sales Administrator and from the pattern's internal staff role verified on each request."
+   },
+   {
+    "element_type": "Actor",
+    "text": "Hospital Buyer (external portal user whose requests are authenticated and authorized individually)",
+    "linked_to": "G05-K1",
+    "source_pattern_id": "SKB-01/G2",
+    "justification": "Adapted from the SKB-01/G2 'Customer' actor and the SKB-04/G2 verified end user, applied to the hospital customer of this distributor."
+   },
+   {
+    "element_type": "Actor",
+    "text": "Responsible Pharmacist (approver of privileged pharmaceutical actions requiring step-up authentication)",
+    "linked_to": "G05-K2",
+    "source_pattern_id": "SKB-07/G2",
+    "justification": "Adapted from the SKB-07/G2 'Pharmacist in Charge' who alone may release quarantined medicines; such releases are privileged actions under G05-K2."
+   },
+   {
+    "element_type": "Actor",
+    "text": "Data Protection Officer (verifies that identity checks and data access rules protect personal data)",
+    "linked_to": "G05-K1",
+    "source_pattern_id": "SKB-03/G3",
+    "justification": "Taken from SKB-03/G3 where the DPO owns identity verification before data release."
+   },
+   {
+    "element_type": "Actor",
+    "text": "Quality Assurance Officer (reviewer of access rights to regulated order and batch-related data in the quarterly review)",
+    "linked_to": "G05-K3",
+    "source_pattern_id": "SKB-07/G2",
+    "justification": "Adapted from the regulated-control role in SKB-07/G2; in the query scope QA owns regulatory evidence, which fits the quarterly review KPI."
+   },
+   {
+    "element_type": "Actor",
+    "text": "AI Product Owner (accountable for the LLM assistant's service identity and its scoped entitlements)",
+    "linked_to": "G05-K1",
+    "source_pattern_id": "UNGROUNDED",
+    "justification": "No retrieved pattern includes an AI component; the actor is in the query scope and is needed to own the assistant's identity and entitlements."
+   },
+   {
+    "element_type": "Belief",
+    "text": "No network location, including the office network, is trusted by default",
+    "linked_to": "G05",
+    "source_pattern_id": "SKB-04/G2",
+    "justification": "The pattern belief 'No network location is trusted by default' matches the query belief and justifies per-request verification."
+   },
+   {
+    "element_type": "Belief",
+    "text": "The LLM ordering assistant holds no entitlements of its own; it only acts within the rights of the authenticated user it serves",
+    "linked_to": "G05-K1",
+    "source_pattern_id": "UNGROUNDED",
+    "justification": "Needed to apply zero-trust reasoning to the assistant; not present in any retrieved pattern but consistent with the no-shared-accounts constraint."
+   },
+   {
+    "element_type": "Belief",
+    "text": "Regulation requires traceable records of who accessed and changed regulated order, batch and contract data",
+    "linked_to": "G05-K3",
+    "source_pattern_id": "SKB-07/G2",
+    "justification": "Adapted from the SKB-07/G2 belief that regulation requires batch records, extended to access traceability that underpins quarterly reviews."
+   },
+   {
+    "element_type": "Constraint",
+    "text": "Shared accounts are not permitted for users, administrators or the LLM assistant",
+    "linked_to": "G05",
+    "source_pattern_id": "SKB-04/G2",
+    "justification": "Query constraint identical to the pattern constraint, extended to the machine identity so every request is attributable."
+   },
+   {
+    "element_type": "Constraint",
+    "text": "Identity is verified before any order, contract or personal data is released",
+    "linked_to": "G05-K1",
+    "source_pattern_id": "SKB-03/G3",
+    "justification": "Direct reuse of the SKB-03/G3 constraint, which supports the per-request authorization KPI."
+   },
+   {
+    "element_type": "Constraint",
+    "text": "Only the Responsible Pharmacist may authorize release of quarantined medicines, and only after step-up multi-factor authentication",
+    "linked_to": "G05-K2",
+    "source_pattern_id": "SKB-07/G2",
+    "justification": "Combines the SKB-07/G2 release constraint with the SKB-04/G2 step-up requirement so that the regulated action is covered by G05-K2."
+   },
+   {
+    "element_type": "Constraint",
+    "text": "A confirmed order cannot be edited without a change request, and such edits are treated as privileged actions",
+    "linked_to": "G05-K2",
+    "source_pattern_id": "SKB-01/G2",
+    "justification": "Reuses the SKB-01/G2 constraint and classifies post-confirmation edits as privileged, which brings them under the MFA KPI."
+   }
+  ],
+  "rational_statement": "Parent goal G01 requires the regulated order-to-delivery chain to be both controlled and secure, which only holds if every request for order, stock or contract data is attributable and authorized, whether it comes from a hospital buyer in the portal, a sales administrator in the back office, or the LLM ordering assistant. G05 therefore removes implicit trust in the network: authenticating each request at the identity provider and evaluating policy per request at the policy decision point delivers G05-K1; step-up multi-factor authentication on privileged actions such as contract price changes, post-confirmation order edits and release of quarantined stock delivers G05-K2; and quarterly entitlement recertification supported by the access review register and the access decision log delivers G05-K3 and the regulatory evidence QA and the DPO need. Caching decisions only for non-privileged reads while always re-verifying privileged actions keeps portal and assistant response times acceptable without weakening control, and the no-shared-accounts constraint plus a dedicated, user-scoped service identity for the assistant ensure that every action affecting a regulated delivery can be traced to one accountable identity."
+ },
+ "validation": [
+  {
+   "n": 1,
+   "element_type": "Goal",
+   "text": "Non-human identities, including the LLM ordering assistant, are verified and authorized on every request like human identities",
+   "linked_to": "G05",
+   "source_pattern_id": "SKB-04/G2",
+   "justification": "SKB-04/G2 verifies every access request without implicit trust; the query organization adds an LLM-based ordering assistant that issues requests to order, stock and contract data, so the goal needs one sub-goal extending per-request verification to machine identities.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 2,
+   "element_type": "Task",
+   "text": "Authenticate every request to the order portal, stock and contract services against the corporate identity provider",
+   "linked_to": "G05-K1",
+   "source_pattern_id": "SKB-04/G2",
+   "justification": "Direct adaptation of the pattern task 'Authenticate each request against the identity provider' to the distributor's portal and data domains, which is what G05-K1 measures.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 3,
+   "element_type": "Task",
+   "text": "Evaluate the access policy per request using role, device, context and data domain (order, stock, contract)",
+   "linked_to": "G05-K1",
+   "source_pattern_id": "SKB-04/G2",
+   "justification": "Adapts 'Evaluate access policy per request (role, device, context)' and extends it with the three data domains named in G05.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 4,
+   "element_type": "Task",
+   "text": "Require step-up multi-factor authentication for privileged actions such as contract price changes, credit limit changes and release of quarantined stock",
+   "linked_to": "G05-K2",
+   "source_pattern_id": "SKB-04/G2",
+   "justification": "Adapts 'Require step-up authentication for privileged actions'; the privileged action list is specialized with the pharmaceutical release action taken from SKB-07/G2 so that G05-K2 is fully covered.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 5,
+   "element_type": "Task",
+   "text": "Cache policy decisions for non-privileged read requests for a short period while always re-verifying privileged actions",
+   "linked_to": "G05-K1",
+   "source_pattern_id": "SKB-04/G2",
+   "justification": "Reuses the conflict resolution of SKB-04/G2 (latency on operational screens versus per-request checks) so that portal and assistant response times stay acceptable without weakening verification of privileged actions.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 6,
+   "element_type": "Task",
+   "text": "Issue a dedicated service identity to the LLM ordering assistant and restrict each assistant request to the entitlements of the authenticated end user on whose behalf it acts",
+   "linked_to": "G05-K1",
+   "source_pattern_id": "SKB-04/G2",
+   "justification": "Extension of per-request verification to the LLM assistant; required because shared accounts are not permitted, so the assistant may not run under a generic or shared credential.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 7,
+   "element_type": "Task",
+   "text": "Verify the identity of the requester before releasing order, contract or personal data to a hospital buyer or an external party",
+   "linked_to": "G05-K1",
+   "source_pattern_id": "SKB-03/G3",
+   "justification": "Adapts the SKB-03/G3 practice of verifying identity before any data release, applied here to portal and assistant data disclosure.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 8,
+   "element_type": "Task",
+   "text": "Perform a quarterly review and recertification of all user and service account entitlements and record the outcome",
+   "linked_to": "G05-K3",
+   "source_pattern_id": "UNGROUNDED",
+   "justification": "No retrieved pattern covers periodic recertification, but G05-K3 explicitly requires quarterly access reviews at 100%.",
+   "status": "flagged",
+   "issues": "",
+   "flags": "UNGROUNDED"
+  },
+  {
+   "n": 9,
+   "element_type": "Task",
+   "text": "Log every access decision (allow or deny) with the identity, data domain and timestamp, and use the log as evidence for the quarterly review",
+   "linked_to": "G05-K3",
+   "source_pattern_id": "SKB-07/G2",
+   "justification": "Adapted from the SKB-07/G2 practice of recording regulated data at the point of the transaction so that later control and traceability are possible; here decisions are recorded so reviews can be evidenced.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 10,
+   "element_type": "Resource",
+   "text": "Identity provider (single source of user and service identities for the portal, back office and assistant)",
+   "linked_to": "G05-K1",
+   "source_pattern_id": "SKB-04/G2",
+   "justification": "Reuse of the pattern resource 'Identity provider', extended to cover the assistant's service identity.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 11,
+   "element_type": "Resource",
+   "text": "Policy decision point",
+   "linked_to": "G05-K1",
+   "source_pattern_id": "SKB-04/G2",
+   "justification": "Reuse of the pattern resource 'Policy decision point', which performs the per-request authorization measured by G05-K1.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 12,
+   "element_type": "Resource",
+   "text": "Multi-factor and step-up authentication service",
+   "linked_to": "G05-K2",
+   "source_pattern_id": "SKB-04/G2",
+   "justification": "Implied by the pattern's step-up authentication task and its MFA KPI; made explicit as the resource that enables G05-K2.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 13,
+   "element_type": "Resource",
+   "text": "Access review register recording entitlements, reviewers and decisions per quarter",
+   "linked_to": "G05-K3",
+   "source_pattern_id": "SKB-03/G3",
+   "justification": "Adapted from the SKB-03/G3 'Request register' resource, repurposed as the register that evidences completion of quarterly access reviews.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 14,
+   "element_type": "Resource",
+   "text": "Order portal and order management module as the protected systems holding order, stock and contract data",
+   "linked_to": "G05",
+   "source_pattern_id": "SKB-01/G2",
+   "justification": "Adapted from the SKB-01/G2 'Order management module' and 'Customer price list' resources, which in this organization hold the contract and order data that G05 protects.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 15,
+   "element_type": "Actor",
+   "text": "IT Security Officer (owner of access policy, identity provider and the verification controls)",
+   "linked_to": "G05",
+   "source_pattern_id": "SKB-04/G2",
+   "justification": "Same accountable actor as in the zero-trust pattern and listed in the query scope.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 16,
+   "element_type": "Actor",
+   "text": "Sales Administrator (internal user of order and contract data, subject to per-request verification)",
+   "linked_to": "G05-K1",
+   "source_pattern_id": "SKB-01/G2",
+   "justification": "Adapted from the SKB-01/G2 Sales Administrator and from the pattern's internal staff role verified on each request.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 17,
+   "element_type": "Actor",
+   "text": "Hospital Buyer (external portal user whose requests are authenticated and authorized individually)",
+   "linked_to": "G05-K1",
+   "source_pattern_id": "SKB-01/G2",
+   "justification": "Adapted from the SKB-01/G2 'Customer' actor and the SKB-04/G2 verified end user, applied to the hospital customer of this distributor.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 18,
+   "element_type": "Actor",
+   "text": "Responsible Pharmacist (approver of privileged pharmaceutical actions requiring step-up authentication)",
+   "linked_to": "G05-K2",
+   "source_pattern_id": "SKB-07/G2",
+   "justification": "Adapted from the SKB-07/G2 'Pharmacist in Charge' who alone may release quarantined medicines; such releases are privileged actions under G05-K2.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 19,
+   "element_type": "Actor",
+   "text": "Data Protection Officer (verifies that identity checks and data access rules protect personal data)",
+   "linked_to": "G05-K1",
+   "source_pattern_id": "SKB-03/G3",
+   "justification": "Taken from SKB-03/G3 where the DPO owns identity verification before data release.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 20,
+   "element_type": "Actor",
+   "text": "Quality Assurance Officer (reviewer of access rights to regulated order and batch-related data in the quarterly review)",
+   "linked_to": "G05-K3",
+   "source_pattern_id": "SKB-07/G2",
+   "justification": "Adapted from the regulated-control role in SKB-07/G2; in the query scope QA owns regulatory evidence, which fits the quarterly review KPI.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 21,
+   "element_type": "Actor",
+   "text": "AI Product Owner (accountable for the LLM assistant's service identity and its scoped entitlements)",
+   "linked_to": "G05-K1",
+   "source_pattern_id": "UNGROUNDED",
+   "justification": "No retrieved pattern includes an AI component; the actor is in the query scope and is needed to own the assistant's identity and entitlements.",
+   "status": "flagged",
+   "issues": "",
+   "flags": "UNGROUNDED"
+  },
+  {
+   "n": 22,
+   "element_type": "Belief",
+   "text": "No network location, including the office network, is trusted by default",
+   "linked_to": "G05",
+   "source_pattern_id": "SKB-04/G2",
+   "justification": "The pattern belief 'No network location is trusted by default' matches the query belief and justifies per-request verification.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 23,
+   "element_type": "Belief",
+   "text": "The LLM ordering assistant holds no entitlements of its own; it only acts within the rights of the authenticated user it serves",
+   "linked_to": "G05-K1",
+   "source_pattern_id": "UNGROUNDED",
+   "justification": "Needed to apply zero-trust reasoning to the assistant; not present in any retrieved pattern but consistent with the no-shared-accounts constraint.",
+   "status": "flagged",
+   "issues": "",
+   "flags": "UNGROUNDED"
+  },
+  {
+   "n": 24,
+   "element_type": "Belief",
+   "text": "Regulation requires traceable records of who accessed and changed regulated order, batch and contract data",
+   "linked_to": "G05-K3",
+   "source_pattern_id": "SKB-07/G2",
+   "justification": "Adapted from the SKB-07/G2 belief that regulation requires batch records, extended to access traceability that underpins quarterly reviews.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 25,
+   "element_type": "Constraint",
+   "text": "Shared accounts are not permitted for users, administrators or the LLM assistant",
+   "linked_to": "G05",
+   "source_pattern_id": "SKB-04/G2",
+   "justification": "Query constraint identical to the pattern constraint, extended to the machine identity so every request is attributable.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 26,
+   "element_type": "Constraint",
+   "text": "Identity is verified before any order, contract or personal data is released",
+   "linked_to": "G05-K1",
+   "source_pattern_id": "SKB-03/G3",
+   "justification": "Direct reuse of the SKB-03/G3 constraint, which supports the per-request authorization KPI.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 27,
+   "element_type": "Constraint",
+   "text": "Only the Responsible Pharmacist may authorize release of quarantined medicines, and only after step-up multi-factor authentication",
+   "linked_to": "G05-K2",
+   "source_pattern_id": "SKB-07/G2",
+   "justification": "Combines the SKB-07/G2 release constraint with the SKB-04/G2 step-up requirement so that the regulated action is covered by G05-K2.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 28,
+   "element_type": "Constraint",
+   "text": "A confirmed order cannot be edited without a change request, and such edits are treated as privileged actions",
+   "linked_to": "G05-K2",
+   "source_pattern_id": "SKB-01/G2",
+   "justification": "Reuses the SKB-01/G2 constraint and classifies post-confirmation edits as privileged, which brings them under the MFA KPI.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  }
+ ],
+ "summary": {
+  "passed": 25,
+  "flagged": 3,
+  "rejected": 0
+ }
+}

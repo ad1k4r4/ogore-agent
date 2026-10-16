@@ -1,0 +1,74 @@
+{
+ "S-G02": {
+  "runs": 3,
+  "elements_per_run": [
+   25,
+   27,
+   24
+  ],
+  "mean_pairwise_matched_f1": 0.723,
+  "mean_pairwise_cited_pattern_jaccard": 1.0,
+  "ungrounded_share": 0.013,
+  "rejected_by_rules": 0
+ },
+ "S-G03": {
+  "runs": 3,
+  "elements_per_run": [
+   25,
+   29,
+   27
+  ],
+  "mean_pairwise_matched_f1": 0.422,
+  "mean_pairwise_cited_pattern_jaccard": 0.583,
+  "ungrounded_share": 0.16,
+  "rejected_by_rules": 0
+ },
+ "S-G04": {
+  "runs": 3,
+  "elements_per_run": [
+   26,
+   29,
+   25
+  ],
+  "mean_pairwise_matched_f1": 0.411,
+  "mean_pairwise_cited_pattern_jaccard": 1.0,
+  "ungrounded_share": 0.113,
+  "rejected_by_rules": 0
+ },
+ "S-G05": {
+  "runs": 3,
+  "elements_per_run": [
+   30,
+   29,
+   28
+  ],
+  "mean_pairwise_matched_f1": 0.413,
+  "mean_pairwise_cited_pattern_jaccard": 1.0,
+  "ungrounded_share": 0.138,
+  "rejected_by_rules": 0
+ },
+ "S-G06": {
+  "runs": 3,
+  "elements_per_run": [
+   27,
+   27,
+   27
+  ],
+  "mean_pairwise_matched_f1": 0.654,
+  "mean_pairwise_cited_pattern_jaccard": 1.0,
+  "ungrounded_share": 0.049,
+  "rejected_by_rules": 0
+ },
+ "S-G07": {
+  "runs": 3,
+  "elements_per_run": [
+   35,
+   31,
+   30
+  ],
+  "mean_pairwise_matched_f1": 0.605,
+  "mean_pairwise_cited_pattern_jaccard": 1.0,
+  "ungrounded_share": 0.052,
+  "rejected_by_rules": 0
+ }
+}

@@ -1,0 +1,43 @@
+{
+ "pattern_id": "SKB-06",
+ "organization_type": "automotive spare-parts wholesaler (synthetic)",
+ "business_domain": "inventory control",
+ "organization_goal": "keep stock records equal to physical stock",
+ "it_goals": [
+  {
+   "goal_id": "G1",
+   "text": "Stock records accurate",
+   "parent_id": null,
+   "decomposition": "AND",
+   "kpis": [
+    {
+     "id": "G1-K1",
+     "text": "Items whose system stock equals the physical count",
+     "target": "99%"
+    }
+   ],
+   "tasks": [
+    "Post every goods movement on scan",
+    "Run cyclic stock counts"
+   ],
+   "resources": [
+    "Warehouse management system"
+   ],
+   "actors": [
+    "Warehouse Clerk",
+    "Inventory Controller"
+   ],
+   "beliefs": [],
+   "constraints": [
+    "Stock adjustments need the Inventory Controller's approval"
+   ]
+  }
+ ],
+ "contribution_values": [],
+ "rational_statements": [],
+ "conflicts_and_resolutions": [],
+ "validation": {
+  "validated_by": "synthetic (authors)",
+  "date": "2026-10-16"
+ }
+}

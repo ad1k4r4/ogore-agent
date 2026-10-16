@@ -1,0 +1,45 @@
+{
+ "query_id": "S-G05",
+ "goal": {
+  "id": "G05",
+  "text": "Access to order, stock, and contract data verified for every request (zero trust)"
+ },
+ "parent": {
+  "id": "G01",
+  "text": "Regulated order-to-delivery controlled and secure"
+ },
+ "domain": "pharmaceutical distribution to hospitals",
+ "organization_type": "medium-sized distributor with an order portal and an LLM-based ordering assistant",
+ "kpis": [
+  {
+   "id": "G05-K1",
+   "text": "Requests authenticated and authorized per request (100%)"
+  },
+  {
+   "id": "G05-K2",
+   "text": "Privileged actions protected by multi-factor authentication (100%)"
+  },
+  {
+   "id": "G05-K3",
+   "text": "Quarterly access reviews completed (100%)"
+  }
+ ],
+ "actors_in_scope": [
+  "Hospital Buyer",
+  "Sales Administrator",
+  "Responsible Pharmacist",
+  "Quality Assurance Officer",
+  "IT Security Officer",
+  "Data Protection Officer",
+  "AI Product Owner"
+ ],
+ "beliefs": [
+  "No network location, including the office network, is trusted by default"
+ ],
+ "constraints": [
+  "Shared accounts are not permitted"
+ ],
+ "excluded_terms": [
+  "shared account"
+ ]
+}

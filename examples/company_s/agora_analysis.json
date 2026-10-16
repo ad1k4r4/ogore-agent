@@ -1,0 +1,150 @@
+[
+ {
+  "id": "C1",
+  "type": "soft",
+  "goals": [
+   "G05",
+   "G02"
+  ],
+  "issue": "per-request verification and step-up authentication add latency to order entry, against the 15-minute confirmation KPI",
+  "contribution": "Evaluate access policy per request: Make (++) to G05-K1, Hurt (-) to G02-K2",
+  "resolution": "verify every request; cache policy decisions for 5 minutes for non-privileged reads; order submission is non-privileged, price changes and bulk exports are privileged and need step-up authentication",
+  "rational_statement": "Order submission stays fast because only privileged actions are re-verified with a second factor; no request is trusted without verification.",
+  "rounds": [
+   {
+    "weights": {
+     "Sales Administrator": 0.4,
+     "Quality Assurance Officer": 0.6,
+     "Responsible Pharmacist": 0.6,
+     "IT Security Officer": 0.9,
+     "Data Protection Officer": 0.7,
+     "AI Product Owner": 0.6
+    },
+    "mean": 0.633,
+    "variance": 0.0222
+   }
+  ],
+  "negotiation_rounds": 0,
+  "threshold": 0.03
+ },
+ {
+  "id": "C2",
+  "type": "soft",
+  "goals": [
+   "G07",
+   "G02"
+  ],
+  "issue": "sales asked the assistant to answer availability and price questions without a citation to save time, against the 100% citation and zero-disclosure KPIs",
+  "contribution": "Attach a source citation to every answer: Make (++) to G07-K1, Hurt (-) to G02-K2",
+  "resolution": "every answer cites its source; availability is answered from the live stock record, which is itself the cited source, so no answer waits for a manual check",
+  "rational_statement": "An uncited answer cannot be audited for disclosure or correctness, so citation is kept; using the stock record as the source removes the delay that motivated the request.",
+  "rounds": [
+   {
+    "weights": {
+     "Sales Administrator": 0.3,
+     "Quality Assurance Officer": 0.8,
+     "Responsible Pharmacist": 0.8,
+     "IT Security Officer": 0.8,
+     "Data Protection Officer": 0.9,
+     "AI Product Owner": 0.5
+    },
+    "mean": 0.683,
+    "variance": 0.0447
+   },
+   {
+    "weights": {
+     "Sales Administrator": 0.6,
+     "Quality Assurance Officer": 0.8,
+     "Responsible Pharmacist": 0.8,
+     "IT Security Officer": 0.8,
+     "Data Protection Officer": 0.9,
+     "AI Product Owner": 0.7
+    },
+    "mean": 0.767,
+    "variance": 0.0089
+   }
+  ],
+  "negotiation_rounds": 1,
+  "threshold": 0.03
+ },
+ {
+  "id": "C3",
+  "type": "soft",
+  "goals": [
+   "G03",
+   "G06"
+  ],
+  "issue": "a recall of a named-patient medicine needs to reach the patient within 2 hours, but patient identifiers may exist only in named-patient order records",
+  "contribution": "List patients in the recall trace: Help (+) to G03-K2, Break (--) to G06-K2",
+  "resolution": "the recall trace lists hospitals and named-patient order numbers, not patient names; the hospital pharmacist resolves the patient; recall lists leave the system only through channels approved by the Data Protection Officer",
+  "rational_statement": "The hospital already holds the patient relationship, so routing the recall through the order number meets the 2-hour KPI without copying identifiers out of the order record.",
+  "rounds": [
+   {
+    "weights": {
+     "Sales Administrator": 0.7,
+     "Quality Assurance Officer": 0.9,
+     "Responsible Pharmacist": 0.8,
+     "IT Security Officer": 0.5,
+     "Data Protection Officer": 0.3,
+     "AI Product Owner": 0.5
+    },
+    "mean": 0.617,
+    "variance": 0.0414
+   },
+   {
+    "weights": {
+     "Sales Administrator": 0.7,
+     "Quality Assurance Officer": 0.9,
+     "Responsible Pharmacist": 0.8,
+     "IT Security Officer": 0.6,
+     "Data Protection Officer": 0.6,
+     "AI Product Owner": 0.5
+    },
+    "mean": 0.683,
+    "variance": 0.0181
+   }
+  ],
+  "negotiation_rounds": 1,
+  "threshold": 0.03
+ },
+ {
+  "id": "C4",
+  "type": "hard",
+  "goals": [
+   "G04",
+   "G02"
+  ],
+  "issue": "sales proposed automatic release of goods after short temperature excursions, as in a retrieved pattern, to keep delivery promises; the constraint allows release only by the Quality Assurance Officer",
+  "contribution": "Automatic release of minor excursions: Help (+) to G02, Break (--) to G04-K3",
+  "resolution": "no automatic release; the Quality Assurance Officer is on call, acknowledges excursion alerts within 30 minutes, and records a decision within 2 hours; affected hospitals are informed of the delay",
+  "rational_statement": "A release decision by quality assurance is a regulatory control; the on-call arrangement addresses the delivery concern that motivated automatic release.",
+  "rounds": [
+   {
+    "weights": {
+     "Sales Administrator": 0.2,
+     "Quality Assurance Officer": 1.0,
+     "Responsible Pharmacist": 0.9,
+     "IT Security Officer": 0.6,
+     "Data Protection Officer": 0.5,
+     "AI Product Owner": 0.5
+    },
+    "mean": 0.617,
+    "variance": 0.0714
+   },
+   {
+    "weights": {
+     "Sales Administrator": 0.7,
+     "Quality Assurance Officer": 1.0,
+     "Responsible Pharmacist": 0.9,
+     "IT Security Officer": 0.7,
+     "Data Protection Officer": 0.6,
+     "AI Product Owner": 0.7
+    },
+    "mean": 0.767,
+    "variance": 0.0189
+   }
+  ],
+  "negotiation_rounds": 1,
+  "threshold": 0.03
+ }
+]

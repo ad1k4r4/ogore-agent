@@ -1,0 +1,42 @@
+{
+ "query_id": "S-G06",
+ "goal": {
+  "id": "G06",
+  "text": "Personal data of hospital staff and named patients protected"
+ },
+ "parent": {
+  "id": "G01",
+  "text": "Regulated order-to-delivery controlled and secure"
+ },
+ "domain": "pharmaceutical distribution to hospitals",
+ "organization_type": "medium-sized distributor with an order portal and an LLM-based ordering assistant",
+ "kpis": [
+  {
+   "id": "G06-K1",
+   "text": "Personal data fields classified with a documented purpose (100%)"
+  },
+  {
+   "id": "G06-K2",
+   "text": "Patient identifiers stored outside named-patient order records (0)"
+  },
+  {
+   "id": "G06-K3",
+   "text": "Data subject requests closed (within the legal deadline)"
+  }
+ ],
+ "actors_in_scope": [
+  "Hospital Buyer",
+  "Sales Administrator",
+  "Responsible Pharmacist",
+  "Quality Assurance Officer",
+  "IT Security Officer",
+  "Data Protection Officer",
+  "AI Product Owner"
+ ],
+ "beliefs": [
+  "Named-patient orders contain a patient name and medical record number"
+ ],
+ "constraints": [
+  "Patient identifiers are not sent to the language model provider"
+ ]
+}

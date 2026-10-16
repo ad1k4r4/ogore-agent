@@ -1,0 +1,123 @@
+{
+ "pattern_id": "SKB-05",
+ "organization_type": "insurance company (synthetic)",
+ "business_domain": "customer service; governance of an LLM-based assistant with retrieval",
+ "organization_goal": "offer fast, correct, and accountable answers to customers",
+ "it_goals": [
+  {
+   "goal_id": "G1",
+   "text": "AI assistant answers are correct and accountable",
+   "parent_id": null,
+   "decomposition": "AND",
+   "kpis": [
+    {
+     "id": "G1-K1",
+     "text": "Answers rated correct in the monthly evaluation",
+     "target": "95%"
+    }
+   ],
+   "tasks": [],
+   "resources": [],
+   "actors": [],
+   "beliefs": [],
+   "constraints": []
+  },
+  {
+   "goal_id": "G2",
+   "text": "Assistant answers grounded and traceable",
+   "parent_id": "G1",
+   "decomposition": "AND",
+   "kpis": [
+    {
+     "id": "G2-K1",
+     "text": "Answers citing an approved source document",
+     "target": "100%"
+    },
+    {
+     "id": "G2-K2",
+     "text": "Answers on topics outside the approved corpus that are escalated to a human agent",
+     "target": "100%"
+    }
+   ],
+   "tasks": [
+    "Retrieve answers only from the approved policy corpus",
+    "Escalate out-of-scope questions to a human agent",
+    "Run a monthly evaluation on a fixed test set"
+   ],
+   "resources": [
+    "Approved policy corpus",
+    "Evaluation test set"
+   ],
+   "actors": [
+    "AI Product Owner",
+    "Customer Service Agent"
+   ],
+   "beliefs": [
+    "Customers act on the assistant's answers"
+   ],
+   "constraints": [
+    "The assistant does not give answers that commit the company financially"
+   ]
+  },
+  {
+   "goal_id": "G3",
+   "text": "AI risks governed",
+   "parent_id": "G1",
+   "decomposition": "AND",
+   "kpis": [
+    {
+     "id": "G3-K1",
+     "text": "Model or prompt changes recorded and approved before release",
+     "target": "100%"
+    },
+    {
+     "id": "G3-K2",
+     "text": "Risk assessment of the assistant reviewed",
+     "target": "every 6 months"
+    }
+   ],
+   "tasks": [
+    "Keep a model and prompt change register",
+    "Review the AI risk assessment with the risk committee"
+   ],
+   "resources": [
+    "Change register",
+    "AI risk register"
+   ],
+   "actors": [
+    "AI Product Owner",
+    "Risk Officer"
+   ],
+   "beliefs": [],
+   "constraints": [
+    "Customer personal data is not sent to the model provider beyond the session"
+   ]
+  }
+ ],
+ "contribution_values": [
+  {
+   "element": "Escalate out-of-scope questions to a human agent",
+   "goal": "G2",
+   "value": "Help (+)"
+  }
+ ],
+ "rational_statements": [
+  {
+   "goal_id": "G3",
+   "text": "A change register makes every model or prompt change attributable, which the evaluation KPI depends on."
+  }
+ ],
+ "conflicts_and_resolutions": [
+  {
+   "goals": [
+    "G2"
+   ],
+   "conflict": "broader corpus would answer more questions but include unapproved drafts",
+   "resolution": "only approved documents enter the corpus; coverage gaps are filled by escalation"
+  }
+ ],
+ "validation": {
+  "validated_by": "synthetic (authors)",
+  "date": "2026-10-16"
+ }
+}

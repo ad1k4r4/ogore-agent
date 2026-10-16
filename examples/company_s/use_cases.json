@@ -1,0 +1,226 @@
+[
+ {
+  "id": "UC01",
+  "name": "Submit hospital order in the portal",
+  "goals": [
+   "G02"
+  ],
+  "kpis": [
+   "G02-K1",
+   "G02-K2"
+  ]
+ },
+ {
+  "id": "UC02",
+  "name": "Draft order with the ordering assistant and confirm it",
+  "goals": [
+   "G02",
+   "G07"
+  ],
+  "kpis": [
+   "G02-K1",
+   "G02-K2",
+   "G07-K1",
+   "G07-K2",
+   "G07-K3",
+   "G07-K4"
+  ]
+ },
+ {
+  "id": "UC03",
+  "name": "Confirm order and notify the hospital buyer",
+  "goals": [
+   "G02"
+  ],
+  "kpis": [
+   "G02-K1",
+   "G02-K2"
+  ]
+ },
+ {
+  "id": "UC04",
+  "name": "Raise a change request for a confirmed order",
+  "goals": [
+   "G02"
+  ],
+  "kpis": [
+   "G02-K1",
+   "G02-K2"
+  ]
+ },
+ {
+  "id": "UC05",
+  "name": "Receive goods with batch and expiry capture",
+  "goals": [
+   "G03"
+  ],
+  "kpis": [
+   "G03-K1",
+   "G03-K2"
+  ]
+ },
+ {
+  "id": "UC06",
+  "name": "Pick order lines by earliest expiry with batch capture",
+  "goals": [
+   "G03"
+  ],
+  "kpis": [
+   "G03-K1",
+   "G03-K2"
+  ]
+ },
+ {
+  "id": "UC07",
+  "name": "Run a recall trace",
+  "goals": [
+   "G03",
+   "G06"
+  ],
+  "kpis": [
+   "G03-K1",
+   "G03-K2",
+   "G06-K1",
+   "G06-K2",
+   "G06-K3"
+  ]
+ },
+ {
+  "id": "UC08",
+  "name": "Quarantine and release a batch",
+  "goals": [
+   "G03",
+   "G04"
+  ],
+  "kpis": [
+   "G03-K1",
+   "G03-K2",
+   "G04-K1",
+   "G04-K2",
+   "G04-K3"
+  ]
+ },
+ {
+  "id": "UC09",
+  "name": "Monitor cold-chain temperature and acknowledge an excursion",
+  "goals": [
+   "G04"
+  ],
+  "kpis": [
+   "G04-K1",
+   "G04-K2",
+   "G04-K3"
+  ]
+ },
+ {
+  "id": "UC10",
+  "name": "Record a quality decision after an excursion",
+  "goals": [
+   "G04"
+  ],
+  "kpis": [
+   "G04-K1",
+   "G04-K2",
+   "G04-K3"
+  ]
+ },
+ {
+  "id": "UC11",
+  "name": "Authenticate and authorize a request",
+  "goals": [
+   "G05"
+  ],
+  "kpis": [
+   "G05-K1",
+   "G05-K2",
+   "G05-K3"
+  ]
+ },
+ {
+  "id": "UC12",
+  "name": "Step up authentication for a privileged action",
+  "goals": [
+   "G05"
+  ],
+  "kpis": [
+   "G05-K1",
+   "G05-K2",
+   "G05-K3"
+  ]
+ },
+ {
+  "id": "UC13",
+  "name": "Run the quarterly access review",
+  "goals": [
+   "G05"
+  ],
+  "kpis": [
+   "G05-K1",
+   "G05-K2",
+   "G05-K3"
+  ]
+ },
+ {
+  "id": "UC14",
+  "name": "Maintain the personal data inventory",
+  "goals": [
+   "G06"
+  ],
+  "kpis": [
+   "G06-K1",
+   "G06-K2",
+   "G06-K3"
+  ]
+ },
+ {
+  "id": "UC15",
+  "name": "Handle a data subject request",
+  "goals": [
+   "G06"
+  ],
+  "kpis": [
+   "G06-K1",
+   "G06-K2",
+   "G06-K3"
+  ]
+ },
+ {
+  "id": "UC16",
+  "name": "Answer a buyer question with cited sources",
+  "goals": [
+   "G07"
+  ],
+  "kpis": [
+   "G07-K1",
+   "G07-K2",
+   "G07-K3",
+   "G07-K4"
+  ]
+ },
+ {
+  "id": "UC17",
+  "name": "Approve a model or prompt change",
+  "goals": [
+   "G07"
+  ],
+  "kpis": [
+   "G07-K1",
+   "G07-K2",
+   "G07-K3",
+   "G07-K4"
+  ]
+ },
+ {
+  "id": "UC18",
+  "name": "Run the monthly assistant evaluation and disclosure audit",
+  "goals": [
+   "G07"
+  ],
+  "kpis": [
+   "G07-K1",
+   "G07-K2",
+   "G07-K3",
+   "G07-K4"
+  ]
+ }
+]

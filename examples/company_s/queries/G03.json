@@ -1,0 +1,38 @@
+{
+ "query_id": "S-G03",
+ "goal": {
+  "id": "G03",
+  "text": "Batch and expiry traceable to each hospital"
+ },
+ "parent": {
+  "id": "G01",
+  "text": "Regulated order-to-delivery controlled and secure"
+ },
+ "domain": "pharmaceutical distribution to hospitals",
+ "organization_type": "medium-sized distributor with an order portal and an LLM-based ordering assistant",
+ "kpis": [
+  {
+   "id": "G03-K1",
+   "text": "Shipped lines with batch number and expiry date recorded (100%)"
+  },
+  {
+   "id": "G03-K2",
+   "text": "Time to list every hospital that received a recalled batch (under 2 hours)"
+  }
+ ],
+ "actors_in_scope": [
+  "Hospital Buyer",
+  "Sales Administrator",
+  "Responsible Pharmacist",
+  "Quality Assurance Officer",
+  "IT Security Officer",
+  "Data Protection Officer",
+  "AI Product Owner"
+ ],
+ "beliefs": [
+  "Good distribution practice requires batch records for every medicine"
+ ],
+ "constraints": [
+  "A line without batch and expiry cannot be shipped"
+ ]
+}

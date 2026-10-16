@@ -1,0 +1,568 @@
+{
+ "pipeline_version": "1.0.0",
+ "settings": {
+  "model": "claude-opus-5",
+  "effort": "high",
+  "max_tokens": 32000,
+  "embed_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "embed_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "top_k": 4
+ },
+ "kb_sha256": "f1fac045967a3996a6198e0a43fd5a0fc73237a243d0952fad861289bad5d423",
+ "query": {
+  "query_id": "S-G02",
+  "goal": {
+   "id": "G02",
+   "text": "Hospital orders recorded accurately and confirmed promptly"
+  },
+  "parent": {
+   "id": "G01",
+   "text": "Regulated order-to-delivery controlled and secure"
+  },
+  "domain": "pharmaceutical distribution to hospitals",
+  "organization_type": "medium-sized distributor with an order portal and an LLM-based ordering assistant",
+  "kpis": [
+   {
+    "id": "G02-K1",
+    "text": "Order lines matching the hospital purchase order (>= 99.5% per month)"
+   },
+   {
+    "id": "G02-K2",
+    "text": "Order confirmation sent after submission (within 15 minutes)"
+   }
+  ],
+  "actors_in_scope": [
+   "Hospital Buyer",
+   "Sales Administrator",
+   "Responsible Pharmacist",
+   "Quality Assurance Officer",
+   "IT Security Officer",
+   "Data Protection Officer",
+   "AI Product Owner"
+  ],
+  "beliefs": [
+   "Each hospital has a contract price list",
+   "Hospital buyers order through the portal or the assistant"
+  ],
+  "constraints": [
+   "A confirmed order cannot be changed without a change request"
+  ]
+ },
+ "retrieved": [
+  {
+   "chunk_id": "SKB-01/G2",
+   "score": 0.5677
+  },
+  {
+   "chunk_id": "SKB-07/G2",
+   "score": 0.5332
+  },
+  {
+   "chunk_id": "SKB-01/G3",
+   "score": 0.4656
+  },
+  {
+   "chunk_id": "SKB-05/G3",
+   "score": 0.4489
+  }
+ ],
+ "recording": "5b2c0e099e311058a7d3",
+ "response_id": "msg_011Cg64aT7m7AZRKDvWZBJTJ",
+ "model_served": "claude-opus-5",
+ "usage": {
+  "cache_creation": {
+   "ephemeral_1h_input_tokens": 0,
+   "ephemeral_5m_input_tokens": 0
+  },
+  "cache_creation_input_tokens": 0,
+  "cache_read_input_tokens": 0,
+  "inference_geo": "global",
+  "input_tokens": 2728,
+  "output_tokens": 5451,
+  "output_tokens_details": {
+   "thinking_tokens": 1296
+  },
+  "service_tier": "standard",
+  "speed": "standard"
+ },
+ "output": {
+  "ranked_patterns": [
+   {
+    "pattern_id": "SKB-01/G2",
+    "relevance": "Highest relevance: SKB-01/G2 is the same IT goal type (customer orders recorded accurately) in a distribution organization, with near-identical KPIs (order lines matching the purchase order at 99.5%; confirmation sent after entry within a time limit), the same price-list belief, and the same 'a confirmed order cannot be edited without a change request' constraint. Its conflict resolution (confirm at entry, scan lots later at picking) directly supports the tighter 15-minute confirmation KPI G02-K2."
+   },
+   {
+    "pattern_id": "SKB-05/G3",
+    "relevance": "Second: SKB-05/G3 governs an LLM-based assistant with retrieval in a regulated service setting, which matches the query organization's LLM-based ordering assistant and the AI Product Owner / Data Protection Officer actors. Its change register, approval-before-release and 'no personal data beyond the session' controls are adapted here so that assistant-drafted order lines remain accurate and attributable for G02-K1."
+   },
+   {
+    "pattern_id": "SKB-01/G3",
+    "relevance": "Third: SKB-01/G3 (lot traceability from receipt to customer) belongs to the same source pattern and parent organization goal of traceable order fulfilment, matching the query parent goal G01 'Regulated order-to-delivery controlled and secure'. It contributes the blocking-validation style constraint ('a line without X cannot be shipped/confirmed') and confirms that lot/batch capture belongs at receipt and picking, not at order confirmation, protecting G02-K2."
+   },
+   {
+    "pattern_id": "SKB-07/G2",
+    "relevance": "Fourth: SKB-07/G2 is a pharmaceutical-handling pattern (hospital pharmacy, expiry and dispensing control) that supplies the regulated-domain context of the query: the Pharmacist-in-Charge role (adapted to Responsible Pharmacist), the belief that regulation requires batch/traceable records for every medicine, and pharmacist-only release of restricted items. It is less relevant to order recording accuracy itself, so its contribution is limited to regulated-product validation at order entry."
+   }
+  ],
+  "elements": [
+   {
+    "element_type": "Task",
+    "text": "Capture the hospital purchase order in the order portal with automatic validation of each line against the hospital contract price list and contract catalogue",
+    "linked_to": "G02-K1",
+    "source_pattern_id": "SKB-01/G2",
+    "justification": "Direct adaptation of 'Capture customer purchase order with price list validation'; validating at entry is what drives the 99.5% line-matching KPI and respects the belief that each hospital has a contract price list."
+   },
+   {
+    "element_type": "Task",
+    "text": "Send the order confirmation to the hospital buyer automatically at order submission, before batch, lot and expiry checks are performed at picking",
+    "linked_to": "G02-K2",
+    "source_pattern_id": "SKB-01/G2",
+    "justification": "Adapts 'Confirm order to customer' together with the pattern's resolved conflict (confirm at entry, scan lots at picking) so the stricter 15-minute confirmation target is not delayed by traceability work."
+   },
+   {
+    "element_type": "Task",
+    "text": "Require a named Sales Administrator or Hospital Buyer to review and accept every order line drafted by the LLM ordering assistant before the order is submitted",
+    "linked_to": "G02-K1",
+    "source_pattern_id": "SKB-05/G3",
+    "justification": "Adapts the AI governance controls of SKB-05/G3 to the ordering channel: human acceptance keeps assistant-drafted lines accountable and protects line-matching accuracy, while respecting the belief that buyers order through the portal or the assistant."
+   },
+   {
+    "element_type": "Task",
+    "text": "Maintain a change register of model, prompt and catalogue-retrieval changes to the ordering assistant and approve each change before release",
+    "linked_to": "G02-K1",
+    "source_pattern_id": "SKB-05/G3",
+    "justification": "Direct adaptation of 'Keep a model and prompt change register'; it makes any accuracy regression in assistant-generated order lines attributable and reversible."
+   },
+   {
+    "element_type": "Task",
+    "text": "Route any change to a confirmed order through a recorded change request and re-issue a new confirmation to the hospital buyer",
+    "linked_to": "G02",
+    "source_pattern_id": "SKB-01/G2",
+    "justification": "Operationalizes the query constraint that a confirmed order cannot be changed without a change request, which SKB-01/G2 carries as the same constraint."
+   },
+   {
+    "element_type": "Task",
+    "text": "Flag order lines for restricted or regulated medicines at entry for release by the Responsible Pharmacist without blocking the confirmation of the remaining lines",
+    "linked_to": "G02-K2",
+    "source_pattern_id": "SKB-07/G2",
+    "justification": "Adapts 'Only a pharmacist may release quarantined medicines' to order entry; splitting the pharmacist check from the confirmation flow preserves the 15-minute confirmation target."
+   },
+   {
+    "element_type": "Task",
+    "text": "Log the submission and confirmation timestamp of every order and report monthly on confirmation delay and line-matching deviations",
+    "linked_to": "G02-K2",
+    "source_pattern_id": "SKB-01/G2",
+    "justification": "Measurement task derived from the pattern KPI 'order confirmation sent after entry'; without timestamped evidence neither G02-K1 nor G02-K2 can be evaluated per month."
+   },
+   {
+    "element_type": "Resource",
+    "text": "Hospital contract price list and contract catalogue",
+    "linked_to": "G02-K1",
+    "source_pattern_id": "SKB-01/G2",
+    "justification": "Adaptation of 'Customer price list' to hospital contracts; it is the reference data the entry validation compares order lines against."
+   },
+   {
+    "element_type": "Resource",
+    "text": "Order management module with hospital ordering portal",
+    "linked_to": "G02",
+    "source_pattern_id": "SKB-01/G2",
+    "justification": "Adaptation of 'Order management module' to include the portal channel named in the query beliefs; it is the system that records orders and issues confirmations."
+   },
+   {
+    "element_type": "Resource",
+    "text": "LLM ordering assistant with retrieval restricted to the approved hospital contract catalogue",
+    "linked_to": "G02-K1",
+    "source_pattern_id": "SKB-05/G3",
+    "justification": "Adapts the governed LLM assistant of SKB-05/G3 to ordering; restricting retrieval to approved catalogue data keeps suggested lines consistent with the contract and therefore with G02-K1."
+   },
+   {
+    "element_type": "Resource",
+    "text": "Model and prompt change register for the ordering assistant",
+    "linked_to": "G02-K1",
+    "source_pattern_id": "SKB-05/G3",
+    "justification": "Direct adaptation of the pattern resource 'Change register', required by the approval-before-release control."
+   },
+   {
+    "element_type": "Resource",
+    "text": "Order confirmation and change-request log",
+    "linked_to": "G02-K2",
+    "source_pattern_id": "SKB-01/G2",
+    "justification": "Evidence resource supporting the confirmation KPI and the change-request constraint inherited from SKB-01/G2."
+   },
+   {
+    "element_type": "Actor",
+    "text": "Hospital Buyer",
+    "linked_to": "G02-K1",
+    "source_pattern_id": "SKB-01/G2",
+    "justification": "Adaptation of the pattern actor 'Customer'; the buyer submits the purchase order through the portal or assistant and accepts the confirmation."
+   },
+   {
+    "element_type": "Actor",
+    "text": "Sales Administrator",
+    "linked_to": "G02-K1",
+    "source_pattern_id": "SKB-01/G2",
+    "justification": "Same actor as in the pattern; owns accurate order capture, exception handling and change requests."
+   },
+   {
+    "element_type": "Actor",
+    "text": "AI Product Owner",
+    "linked_to": "G02-K1",
+    "source_pattern_id": "SKB-05/G3",
+    "justification": "Pattern actor responsible for the assistant's change register and approved releases, which governs the accuracy of assistant-drafted order lines."
+   },
+   {
+    "element_type": "Actor",
+    "text": "Responsible Pharmacist",
+    "linked_to": "G02",
+    "source_pattern_id": "SKB-07/G2",
+    "justification": "Adaptation of 'Pharmacist in Charge'; only this actor may release restricted medicine lines captured on a hospital order."
+   },
+   {
+    "element_type": "Actor",
+    "text": "Quality Assurance Officer",
+    "linked_to": "G02-K1",
+    "source_pattern_id": "SKB-01/G3",
+    "justification": "Adaptation of the pattern's 'Quality Officer'; reviews monthly order-accuracy deviations and the regulated-record completeness of captured orders."
+   },
+   {
+    "element_type": "Actor",
+    "text": "Data Protection Officer",
+    "linked_to": "G02",
+    "source_pattern_id": "SKB-05/G3",
+    "justification": "Derived from the pattern's personal-data constraint on the model provider; oversees that ordering data handled by the assistant stays within the permitted scope."
+   },
+   {
+    "element_type": "Belief",
+    "text": "Each hospital has a contract price list, so order lines must be priced and validated per hospital",
+    "linked_to": "G02-K1",
+    "source_pattern_id": "SKB-01/G2",
+    "justification": "Query belief that matches the pattern belief 'Price lists are customer specific'; it justifies hospital-specific validation at entry."
+   },
+   {
+    "element_type": "Belief",
+    "text": "Hospital buyers order through the portal or the LLM assistant, so both channels must produce the same recorded and confirmable order",
+    "linked_to": "G02",
+    "source_pattern_id": "SKB-05/G3",
+    "justification": "Query belief; SKB-05/G3 supplies the governed-assistant view in which an AI channel is a first-class but controlled interaction path."
+   },
+   {
+    "element_type": "Belief",
+    "text": "Regulation requires a traceable record for every medicine order line",
+    "linked_to": "G02",
+    "source_pattern_id": "SKB-07/G2",
+    "justification": "Adaptation of 'Regulation requires batch records for every medicine' to the ordering stage, supporting the regulated parent goal G01."
+   },
+   {
+    "element_type": "Constraint",
+    "text": "A confirmed order cannot be changed without a recorded change request",
+    "linked_to": "G02",
+    "source_pattern_id": "SKB-01/G2",
+    "justification": "Query constraint, identical to the pattern constraint; it keeps the confirmed order the accountable reference for accuracy measurement."
+   },
+   {
+    "element_type": "Constraint",
+    "text": "An order line that is not on the hospital contract catalogue cannot be confirmed",
+    "linked_to": "G02-K1",
+    "source_pattern_id": "SKB-01/G3",
+    "justification": "Adapts the blocking rule 'a line without a lot number cannot be shipped' to order entry, enforcing the line-matching KPI by construction and respecting the contract price list belief."
+   },
+   {
+    "element_type": "Constraint",
+    "text": "Model or prompt changes to the ordering assistant are recorded and approved before release",
+    "linked_to": "G02-K1",
+    "source_pattern_id": "SKB-05/G3",
+    "justification": "Direct adaptation of the pattern's change-approval control, preventing uncontrolled assistant behaviour from degrading order accuracy."
+   },
+   {
+    "element_type": "Constraint",
+    "text": "Hospital and patient-identifiable data are not sent to the model provider beyond the session",
+    "linked_to": "G02",
+    "source_pattern_id": "SKB-05/G3",
+    "justification": "Direct adaptation of the pattern constraint, required by the secure part of parent goal G01 and overseen by the Data Protection Officer."
+   }
+  ],
+  "rational_statement": "Validating every hospital order line against the hospital contract catalogue at the moment of capture, whether the line comes from the portal or from the human-reviewed LLM assistant, turns order accuracy into a system rule rather than a manual check, which is what the 99.5% line-matching target G02-K1 requires; separating confirmation from batch, lot, expiry and pharmacist-release checks, which are performed later at picking, keeps the confirmation path short enough for the 15-minute target G02-K2 without weakening regulated control. The change register and approval of assistant model and prompt changes, the no-personal-data-to-the-provider rule, and the change-request rule for confirmed orders make each recorded order attributable and unalterable, so the accurate, promptly confirmed and auditable order produced by G02 is the controlled and secure starting record that parent goal G01 'Regulated order-to-delivery controlled and secure' depends on for downstream traceability and delivery."
+ },
+ "validation": [
+  {
+   "n": 1,
+   "element_type": "Task",
+   "text": "Capture the hospital purchase order in the order portal with automatic validation of each line against the hospital contract price list and contract catalogue",
+   "linked_to": "G02-K1",
+   "source_pattern_id": "SKB-01/G2",
+   "justification": "Direct adaptation of 'Capture customer purchase order with price list validation'; validating at entry is what drives the 99.5% line-matching KPI and respects the belief that each hospital has a contract price list.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 2,
+   "element_type": "Task",
+   "text": "Send the order confirmation to the hospital buyer automatically at order submission, before batch, lot and expiry checks are performed at picking",
+   "linked_to": "G02-K2",
+   "source_pattern_id": "SKB-01/G2",
+   "justification": "Adapts 'Confirm order to customer' together with the pattern's resolved conflict (confirm at entry, scan lots at picking) so the stricter 15-minute confirmation target is not delayed by traceability work.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 3,
+   "element_type": "Task",
+   "text": "Require a named Sales Administrator or Hospital Buyer to review and accept every order line drafted by the LLM ordering assistant before the order is submitted",
+   "linked_to": "G02-K1",
+   "source_pattern_id": "SKB-05/G3",
+   "justification": "Adapts the AI governance controls of SKB-05/G3 to the ordering channel: human acceptance keeps assistant-drafted lines accountable and protects line-matching accuracy, while respecting the belief that buyers order through the portal or the assistant.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 4,
+   "element_type": "Task",
+   "text": "Maintain a change register of model, prompt and catalogue-retrieval changes to the ordering assistant and approve each change before release",
+   "linked_to": "G02-K1",
+   "source_pattern_id": "SKB-05/G3",
+   "justification": "Direct adaptation of 'Keep a model and prompt change register'; it makes any accuracy regression in assistant-generated order lines attributable and reversible.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 5,
+   "element_type": "Task",
+   "text": "Route any change to a confirmed order through a recorded change request and re-issue a new confirmation to the hospital buyer",
+   "linked_to": "G02",
+   "source_pattern_id": "SKB-01/G2",
+   "justification": "Operationalizes the query constraint that a confirmed order cannot be changed without a change request, which SKB-01/G2 carries as the same constraint.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 6,
+   "element_type": "Task",
+   "text": "Flag order lines for restricted or regulated medicines at entry for release by the Responsible Pharmacist without blocking the confirmation of the remaining lines",
+   "linked_to": "G02-K2",
+   "source_pattern_id": "SKB-07/G2",
+   "justification": "Adapts 'Only a pharmacist may release quarantined medicines' to order entry; splitting the pharmacist check from the confirmation flow preserves the 15-minute confirmation target.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 7,
+   "element_type": "Task",
+   "text": "Log the submission and confirmation timestamp of every order and report monthly on confirmation delay and line-matching deviations",
+   "linked_to": "G02-K2",
+   "source_pattern_id": "SKB-01/G2",
+   "justification": "Measurement task derived from the pattern KPI 'order confirmation sent after entry'; without timestamped evidence neither G02-K1 nor G02-K2 can be evaluated per month.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 8,
+   "element_type": "Resource",
+   "text": "Hospital contract price list and contract catalogue",
+   "linked_to": "G02-K1",
+   "source_pattern_id": "SKB-01/G2",
+   "justification": "Adaptation of 'Customer price list' to hospital contracts; it is the reference data the entry validation compares order lines against.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 9,
+   "element_type": "Resource",
+   "text": "Order management module with hospital ordering portal",
+   "linked_to": "G02",
+   "source_pattern_id": "SKB-01/G2",
+   "justification": "Adaptation of 'Order management module' to include the portal channel named in the query beliefs; it is the system that records orders and issues confirmations.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 10,
+   "element_type": "Resource",
+   "text": "LLM ordering assistant with retrieval restricted to the approved hospital contract catalogue",
+   "linked_to": "G02-K1",
+   "source_pattern_id": "SKB-05/G3",
+   "justification": "Adapts the governed LLM assistant of SKB-05/G3 to ordering; restricting retrieval to approved catalogue data keeps suggested lines consistent with the contract and therefore with G02-K1.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 11,
+   "element_type": "Resource",
+   "text": "Model and prompt change register for the ordering assistant",
+   "linked_to": "G02-K1",
+   "source_pattern_id": "SKB-05/G3",
+   "justification": "Direct adaptation of the pattern resource 'Change register', required by the approval-before-release control.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 12,
+   "element_type": "Resource",
+   "text": "Order confirmation and change-request log",
+   "linked_to": "G02-K2",
+   "source_pattern_id": "SKB-01/G2",
+   "justification": "Evidence resource supporting the confirmation KPI and the change-request constraint inherited from SKB-01/G2.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 13,
+   "element_type": "Actor",
+   "text": "Hospital Buyer",
+   "linked_to": "G02-K1",
+   "source_pattern_id": "SKB-01/G2",
+   "justification": "Adaptation of the pattern actor 'Customer'; the buyer submits the purchase order through the portal or assistant and accepts the confirmation.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 14,
+   "element_type": "Actor",
+   "text": "Sales Administrator",
+   "linked_to": "G02-K1",
+   "source_pattern_id": "SKB-01/G2",
+   "justification": "Same actor as in the pattern; owns accurate order capture, exception handling and change requests.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 15,
+   "element_type": "Actor",
+   "text": "AI Product Owner",
+   "linked_to": "G02-K1",
+   "source_pattern_id": "SKB-05/G3",
+   "justification": "Pattern actor responsible for the assistant's change register and approved releases, which governs the accuracy of assistant-drafted order lines.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 16,
+   "element_type": "Actor",
+   "text": "Responsible Pharmacist",
+   "linked_to": "G02",
+   "source_pattern_id": "SKB-07/G2",
+   "justification": "Adaptation of 'Pharmacist in Charge'; only this actor may release restricted medicine lines captured on a hospital order.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 17,
+   "element_type": "Actor",
+   "text": "Quality Assurance Officer",
+   "linked_to": "G02-K1",
+   "source_pattern_id": "SKB-01/G3",
+   "justification": "Adaptation of the pattern's 'Quality Officer'; reviews monthly order-accuracy deviations and the regulated-record completeness of captured orders.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 18,
+   "element_type": "Actor",
+   "text": "Data Protection Officer",
+   "linked_to": "G02",
+   "source_pattern_id": "SKB-05/G3",
+   "justification": "Derived from the pattern's personal-data constraint on the model provider; oversees that ordering data handled by the assistant stays within the permitted scope.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 19,
+   "element_type": "Belief",
+   "text": "Each hospital has a contract price list, so order lines must be priced and validated per hospital",
+   "linked_to": "G02-K1",
+   "source_pattern_id": "SKB-01/G2",
+   "justification": "Query belief that matches the pattern belief 'Price lists are customer specific'; it justifies hospital-specific validation at entry.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 20,
+   "element_type": "Belief",
+   "text": "Hospital buyers order through the portal or the LLM assistant, so both channels must produce the same recorded and confirmable order",
+   "linked_to": "G02",
+   "source_pattern_id": "SKB-05/G3",
+   "justification": "Query belief; SKB-05/G3 supplies the governed-assistant view in which an AI channel is a first-class but controlled interaction path.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 21,
+   "element_type": "Belief",
+   "text": "Regulation requires a traceable record for every medicine order line",
+   "linked_to": "G02",
+   "source_pattern_id": "SKB-07/G2",
+   "justification": "Adaptation of 'Regulation requires batch records for every medicine' to the ordering stage, supporting the regulated parent goal G01.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 22,
+   "element_type": "Constraint",
+   "text": "A confirmed order cannot be changed without a recorded change request",
+   "linked_to": "G02",
+   "source_pattern_id": "SKB-01/G2",
+   "justification": "Query constraint, identical to the pattern constraint; it keeps the confirmed order the accountable reference for accuracy measurement.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 23,
+   "element_type": "Constraint",
+   "text": "An order line that is not on the hospital contract catalogue cannot be confirmed",
+   "linked_to": "G02-K1",
+   "source_pattern_id": "SKB-01/G3",
+   "justification": "Adapts the blocking rule 'a line without a lot number cannot be shipped' to order entry, enforcing the line-matching KPI by construction and respecting the contract price list belief.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 24,
+   "element_type": "Constraint",
+   "text": "Model or prompt changes to the ordering assistant are recorded and approved before release",
+   "linked_to": "G02-K1",
+   "source_pattern_id": "SKB-05/G3",
+   "justification": "Direct adaptation of the pattern's change-approval control, preventing uncontrolled assistant behaviour from degrading order accuracy.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  },
+  {
+   "n": 25,
+   "element_type": "Constraint",
+   "text": "Hospital and patient-identifiable data are not sent to the model provider beyond the session",
+   "linked_to": "G02",
+   "source_pattern_id": "SKB-05/G3",
+   "justification": "Direct adaptation of the pattern constraint, required by the secure part of parent goal G01 and overseen by the Data Protection Officer.",
+   "status": "passed",
+   "issues": "",
+   "flags": ""
+  }
+ ],
+ "summary": {
+  "passed": 25,
+  "flagged": 0,
+  "rejected": 0
+ }
+}

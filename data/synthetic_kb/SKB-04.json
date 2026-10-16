@@ -1,0 +1,122 @@
+{
+ "pattern_id": "SKB-04",
+ "organization_type": "regional bank back office (synthetic)",
+ "business_domain": "financial services; zero-trust access to transaction systems",
+ "organization_goal": "protect customer transactions against unauthorized access and change",
+ "it_goals": [
+  {
+   "goal_id": "G1",
+   "text": "Transaction systems protected",
+   "parent_id": null,
+   "decomposition": "AND",
+   "kpis": [
+    {
+     "id": "G1-K1",
+     "text": "Security incidents with customer impact",
+     "target": "0 per year"
+    }
+   ],
+   "tasks": [],
+   "resources": [],
+   "actors": [],
+   "beliefs": [],
+   "constraints": []
+  },
+  {
+   "goal_id": "G2",
+   "text": "Every access request verified",
+   "parent_id": "G1",
+   "decomposition": "AND",
+   "kpis": [
+    {
+     "id": "G2-K1",
+     "text": "Requests authenticated and authorized per request",
+     "target": "100%"
+    },
+    {
+     "id": "G2-K2",
+     "text": "Privileged sessions with multi-factor authentication",
+     "target": "100%"
+    }
+   ],
+   "tasks": [
+    "Authenticate each request against the identity provider",
+    "Evaluate access policy per request (role, device, context)",
+    "Require step-up authentication for privileged actions"
+   ],
+   "resources": [
+    "Identity provider",
+    "Policy decision point"
+   ],
+   "actors": [
+    "IT Security Officer",
+    "Branch Staff"
+   ],
+   "beliefs": [
+    "No network location is trusted by default"
+   ],
+   "constraints": [
+    "Shared accounts are not permitted"
+   ]
+  },
+  {
+   "goal_id": "G3",
+   "text": "Changes to posted transactions controlled",
+   "parent_id": "G1",
+   "decomposition": "AND",
+   "kpis": [
+    {
+     "id": "G3-K1",
+     "text": "Changes to posted records approved by a second person",
+     "target": "100%"
+    },
+    {
+     "id": "G3-K2",
+     "text": "Changes logged with user, time, and reason",
+     "target": "100%"
+    }
+   ],
+   "tasks": [
+    "Route changes to posted records for approval",
+    "Write an immutable audit log entry for each change"
+   ],
+   "resources": [
+    "Audit log store"
+   ],
+   "actors": [
+    "Supervisor",
+    "Internal Auditor"
+   ],
+   "beliefs": [],
+   "constraints": [
+    "Audit logs cannot be edited or deleted"
+   ]
+  }
+ ],
+ "contribution_values": [
+  {
+   "element": "Require step-up authentication for privileged actions",
+   "goal": "G2",
+   "value": "Make (++)"
+  }
+ ],
+ "rational_statements": [
+  {
+   "goal_id": "G2",
+   "text": "Per-request verification removes the implicit trust that let compromised sessions move laterally."
+  }
+ ],
+ "conflicts_and_resolutions": [
+  {
+   "goals": [
+    "G2"
+   ],
+   "conflict": "per-request policy checks added latency to teller screens",
+   "resolution": "cache policy decisions for 5 minutes for non-privileged reads; privileged actions always re-verified"
+  }
+ ],
+ "validation": {
+  "validated_by": "synthetic (authors)",
+  "date": "2026-10-16"
+ }
+}
